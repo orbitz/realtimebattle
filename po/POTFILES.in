@@ -1,0 +1,33 @@
+# List of source files containing translatable strings.
+
+## Created by Anjuta - will be overwritten
+## If you don't want it to overwrite it,
+## 	Please disable it in the Anjuta project configuration
+
+# Source files
+src/RealTimeBattle.cc
+src/ArenaBase.cc
+src/ArenaController.cc
+src/ArenaRealTime.cc
+src/ArenaReplay.cc
+src/ArenaWindow.cc
+src/ControlWindow.cc
+src/Dialog.cc
+src/Extras.cc
+src/GeometricalObjects.cc
+src/Gui.cc
+src/MessageWindow.cc
+src/Options.cc
+src/Robot.cc
+src/ScoreWindow.cc
+src/Shape.cc
+src/Shot.cc
+src/StartTournamentWindow.cc
+src/StatisticsWindow.cc
+src/Structs.cc
+src/Timer.cc
+src/Various.cc
+src/Vector2D.cc
+src/OptionsWindow.cc
+
+

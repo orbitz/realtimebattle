@@ -1,0 +1,11 @@
+- take a deeper look into the old configure.in files
+- improve the quality of the building process
+- add more robots to the distribution
+- try to port the map editor and the other utilities to gcc >=3.0
+- fix the problems with the rpm packaging
+- add automatic debian and free bsd package support
+- add more arenas to the distribution
+- try to improve the old version of RTB step by step
+
+If you want to do one or even more of these points, please contact
+jonico@users.sourceforge.net

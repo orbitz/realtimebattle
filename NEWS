@@ -1,0 +1,6 @@
+This is the my first version of RTB as new maintainer.
+I tried to repair the autoconf mechanism and port some missing features, the older versions of RTB had to this new one
+that is compilable with gtk 2 and gcc >= 3.0
+If you encounter any bugs, please report them to the sourceforge bug tracker.
+
+Johannes Nicolai

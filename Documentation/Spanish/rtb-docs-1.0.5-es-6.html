@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Manual de Usuario de Real Time Battle, version 1.0.5 rev 1: Construcci&oacute;n de Arenas (Arena construction)</TITLE>
+ <LINK HREF="rtb-docs-1.0.5-es-5.html" REL=previous>
+ <LINK HREF="rtb-docs-1.0.5-es.html#toc6" REL=contents>
+</HEAD>
+<BODY>
+<IMG SRC="next.gif" ALT="Next">
+<A HREF="rtb-docs-1.0.5-es-5.html"><IMG SRC="prev.gif" ALT="Previous"></A>
+<A HREF="rtb-docs-1.0.5-es.html#toc6"><IMG SRC="toc.gif" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Arena construction"></A> <A NAME="s6">6. Construcci&oacute;n de Arenas (Arena construction)</A></H2>
+
+<P>En el RealTimeBattle, es muy sencillo construir tus propias arenas. El lenguaje consiste unicamente en 11 comandos, y hay basicamente cuatro bloques de construcci&oacute;n: lineas, circulos, circulos_internos y arcos. Esto es asi debido a una razon de rapidez, ya que es muy facil detectar las colisiones en un entorno formado por circulos y lineas. Los circulos y los circulos internos impiden a los robots entrar en un circulo o bien les impiden salir de un circulo, respectivamente. Las lineas y los arcos impiden a los robots el paso, aunque tienes que poner circulos en cada final de linea para crear objectos s&oacute;lidos. Los comandos <CODE>polygon</CODE>, <CODE>closed_polygon</CODE> y <CODE>poly_curve</CODE> pretenden simplificar este procedimiento.
+<P>Todos los angulos se dan por defecto en radianes pero pueden ser cambiados a grados mediante el comando <CODE>angle_unit degrees</CODE>.
+<P>Ten en cuenta que el RealTimeBattle no prueba si el fichero de Arena es correcto, eso se deja enteramente a tu disposici&oacute;n. De todas formas, se producir&aacute; algun error si se violan las reglas del lenguaje. 
+<P>Los ficheros de Arena deben llevar la extension  <CODE>.arena</CODE> y deben ser colocados en el directorio de Arenas para que el RTB los encuentre.
+<P>Los argumantos <CODE>coeficiente de rebote</CODE> y <CODE>dureza</CODE> determinan el material de los muros. Estos parametros toman valores entre 0 y 1. Muros mas duros supondran un mayor da&ntilde;o a los robots que choquen contra ellos y un mayor coeficiente de rebote producira un rebote mayor en las colisiones.
+<P>Es una buena idea estudiarse las Arenas incluidas y aprender de los ejemplos.
+<P>
+<P>
+<H2><A NAME="Arena_commands"></A> <A NAME="ss6.1">6.1 Comandos de Arena (Arena commands)</A>
+</H2>
+
+<P>Un comando esta compuesto por el nombre y los argumentos separados por espacios.¡¡ Asegurate que proporcionas el numero correcto de argumentos !!.
+<P>En la lista de comandos, los argumentos vinen dados entre corchetes.
+<P>
+<DL>
+<DT><B>scale [value]</B><DD><P>Este valor indica el factor escala, por el cual ser&aacute;n multiplicadas todas las coordenadas. Este es el primer valor que se debe proporcionar, si existe. Por defecto es 1.0.
+<P>
+<DT><B>angle_unit [unit]</B><DD><P>Cambia a la unidad seleccionada, que pueden ser en  <CODE>grados (degrees)</CODE> o <CODE>radianes (radians)</CODE>. Por defecto viene dado en radianes.
+<P>
+<DT><B>boundary [left] [up] [right] [down]</B><DD><P>Este comando indica los limites de la Arena en la cual estar&aacute;n los robots, las minas y las cookies. Tambien determina el area visible en 
+<A HREF="rtb-docs-1.0.5-es-2.html#Arena_window">la ventana de Arena (arena window)</A>. Este comando es requerido y puede ir precedido del comando <CODE>scale</CODE>.
+<P>
+<DT><B>inner_circle [bounce] [hardness] [center_x] [center_y] [radius]</B><DD><P>Los robots estan limitados al area interior de este circulo.
+<P>
+<DT><B>circle [bounce] [hardness] [center_x] [center_y] [radius]</B><DD><P>Un muro en forma de circulo. 
+<P>
+<DT><B>line [bounce] [hardness] [thickness] [start_x]
+[start_y] [end_x] [end_y]</B><DD><P>Crea una linea. Esta solamente impide al robot cruzarla a lo largo, asi que recuerda poner circulos en los extremos. 
+<P>
+<DT><B>arc [bnc] [hardn] [thickn] [center_x] [ctr_y]
+[inner_radius] [outer_rds] [angle1] [angle2]</B><DD><P>Un arco es un sector de un anillo entre dos angulos.Al igual que la linea, necesita un circulo en los extremos.
+<P>
+<DT><B>polygon [bounce] [hardn] [thickn] [number of vertices] ([center_x] [center_y])...</B><DD><P>Esto creara un numero de circulos conectados mediante lineas.
+<P>
+<DT><B>closed_polygon [bounce] [hardn] [thickn] [number of vertices]
+([center_x] [center_y])...</B><DD><P>Igual que <CODE>polygon</CODE>, pero tanto el primer como el ultimo v&eacute;rtice estan tambien unidos por una linea.
+<P>
+<DT><B>poly_curve [bnc] [hardn] [thickn] [start_x]
+[start_y] [dir_x] [dir_y] 
+([command args ...]) ...</B><DD><P>El comando <CODE>poly_curve</CODE> es el comando mas util de todos. Es usado para construir muros mediante lineas y arcos. En cada paso tienes una posicion y una direccion determindas, que son afectadas por los subcomandos. El ultimo subcomando debera ser <CODE>C</CODE> o <CODE>Q</CODE>.
+<P>
+<DL>
+<DT><B>L [length]</B><DD><P>Dibuja una linea con la longitud dada en la direccion actual.
+<DT><B>T [angle]</B><DD><P>Gira la direccion actual.
+<DT><B>A [angle] [radius]</B><DD><P>Dibuja un arco.
+<DT><B>C</B><DD><P>Finaliza conectando con el punto inicial.
+<DT><B>Q</B><DD><P>Salir.
+</DL>
+<P>
+<P>
+<P>
+<P>
+<P>
+<DT><B>exclusion_point [position_x] [position_y]</B><DD><P>Cuando la Arena consiste en un numero de areas separadas, tienes que excluir todas menos una insertando puntos de exclusion. Todos los puntos que dibujes en una linea recta hasta un punto de exclusi&oacute;n, sin cruzar ningun muro, seran considerados exteriores a la Arena
+<P>
+</DL>
+<HR>
+<IMG SRC="next.gif" ALT="Next">
+<A HREF="rtb-docs-1.0.5-es-5.html"><IMG SRC="prev.gif" ALT="Previous"></A>
+<A HREF="rtb-docs-1.0.5-es.html#toc6"><IMG SRC="toc.gif" ALT="Contents"></A>
+</BODY>
+</HTML>

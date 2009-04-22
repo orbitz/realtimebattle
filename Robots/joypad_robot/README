@@ -1,0 +1,5 @@
+To use this robot, you need a joystick on /dev/js0 or /dev/input/js0.
+Furthermore, the API used for this robot is only available under Linux.
+To configure the correct behavior of this robot, it is a good idea to change some parts of the source code.
+
+Johannes Nicolai

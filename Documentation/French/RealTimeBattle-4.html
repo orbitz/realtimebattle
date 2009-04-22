@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Manuel d'utilisation de RealTimeBattle, version 1.0.5 rev 1: Robot construction</TITLE>
+ <LINK HREF="RealTimeBattle-5.html" REL=next>
+ <LINK HREF="RealTimeBattle-3.html" REL=previous>
+ <LINK HREF="RealTimeBattle.html#toc4" REL=contents>
+</HEAD>
+<BODY text="#000000" lang="fr">
+
+<A HREF="RealTimeBattle-5.html"><IMG SRC="next.gif" ALT="Next"></A>
+<A HREF="RealTimeBattle-3.html"><IMG SRC="prev.gif" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc4"><IMG SRC="toc.gif" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Robot construction"></A> <A NAME="s4">4. Construction d'un robot</A></H2>
+
+<P>Ce chapitre décrit ce dont vous aurez besoin afin de construire vos propres robots. Le plus important à savoir est le langage de messages, qui est composé de 35 commandes utilisées pour communiquer avec le serveur. Il peut également être interresant d'étudier les exemples de robots livrés dans le repertoire
+<CODE>Robots/</CODE>.
+<P>
+<P>
+<H2><A NAME="Reading messages"></A> <A NAME="ss4.1">4.1 Lire un message</A>
+</H2>
+
+<P>Au début de chaque séquence, les processus des robots sont lancés par le serveur et deux 'pipes' leur sont assignés (un pour les 'Entrees' et l'autre pour les 'Sortie'). Ces deux pipes sont connectés à <CODE>stdin</CODE> et <CODE>stdout</CODE>, de telle sorte que du point de vue du robot, la communication avec le serveur s'effectue via l'entrée et la sortie standards.
+<P>Cette approche vous laisse libre du langage de programmation. Toutefois, le robot doit savoir quand il reçoit un nouveau message. Il y a (au moins) trois méthodes pour y parvenir :
+<P>
+<DL>
+<DT><B>Standard in blocks:</B><DD><P> C'est la méthode la plus simple. En lisant l'entrée standard <CODE>stdin</CODE>, le programme est bloqué jusqu'à l'arrivée d'un nouveau message. Vous pouvez donc construire votre programme comme si il y avait toujours un mesage en attente. Le point noir est que vous ne pouvez faire aucun calcul pendant que le programme attend un nouveau message.
+<P>Pour choisir cette méthode, il faut envoyer l'option suivante
+<EM>dès que le programme est lancé</EM>
+
+<PRE>
+cout &lt;&lt; "RobotOption " &lt;&lt; USE_NON_BLOCKING &lt;&lt; " " &lt;&lt; 0 &lt;&lt; endl;
+</PRE>
+
+Ceci est un code C++. Si vous n'utilisez pas le C++, il suffit d'afficher l'information (comme si vous deviez afficher quelquechose à l'écran). endl est l'équivalent de 'fin de ligne'.
+
+<P>
+<DT><B>Select:</B><DD><P>Utiliser la fonction <CODE>select</CODE> de libc permet au robot d'avoir un meilleur contrôle pour savoir quand regarder les nouveaux messages.
+Il vous permet, par exemple, de lire tous les messages, faire quelques calculs, envoyer les commandes puis d'attendre de nouveaux messages. Pour en savoir plus à propos de <CODE>select</CODE>, lisez la documentation Unix
+( e.g. man pages or emacs info ). 
+<P>Pour choisir cette méthode, envoyer l'information suivante 
+<EM>dès que le programme est lancé</EM>:
+<PRE>
+cout &lt;&lt; "RobotOption " &lt;&lt; USE_NON_BLOCKING &lt;&lt; " " &lt;&lt; 1 &lt;&lt; endl;
+</PRE>
+
+Il s'agit encore une fois d'un ligne de code C++
+<P>
+<DT><B>Signals:</B><DD><P>Si vous voulez, vous pouvez demander à RealTimeBattle d'envoyer un signal au robot quand une nouvelle serie de messages est envoyée.
+Cette méthode permet au robot d'être continuellement mis au courant des informations du serveur même lorsqu'il est occupé par des calculs. Si vous n'en savez pas assez sur les signaux, regarder la documentation Unix ou étudiez les  autres robots pour en savoir plus.
+<P>Pour utiliser cette méthoed, envoyé l'option suivante au serveur <EM> dès le lancement du programme</EM>
+<PRE>
+cout &lt;&lt; "RobotOption " &lt;&lt; USE_NON_BLOCKING &lt;&lt; " " &lt;&lt; 1 &lt;&lt; endl;
+cout &lt;&lt; "RobotOption " &lt;&lt; SIGNAL &lt;&lt; " " &lt;&lt; SIGUSR1 &lt;&lt; endl;
+</PRE>
+
+Toujours du C++.
+<P>Vous pouvez bien sûr utiliser n'importe quel signal à la place de <CODE>SIGUSR1</CODE>.
+<P>
+</DL>
+<P>Pour vous aider à implanter ces méthodes, le robot <CODE>rotate_and_fire</CODE>
+a été écrit de trois manières différentes, mais fonctionnent de la même façon.
+Vous êtes libre de l'étudier et de le copier pour votre propre robot.
+<P>
+<P>
+<P>Ce n'est pas une bonne idée de faire du 'busy wait', i.e., de regarder répetitivement les messages jusqu'à en avoir un. Cela ralentit considérablement les choses et pire, en 
+<A HREF="RealTimeBattle-2.html#Command line options">mode competition</A> le robot sera vite au delà du CPU qui lui est accordé et mourrira.
+<P>
+<P>
+<H2><A NAME="Messagetypes.h"></A> <A NAME="ss4.2">4.2 Messagetypes.h</A>
+</H2>
+
+<P>Le fichier <CODE>Messagetypes.h</CODE> est une bonne source d'information sur le langage de communication. C'est un fichier d'inclusion C/C++, mais il est facile de le réécrire dans un autre langage de programmation. Vous pourrez y trouver la liste des messages, les types d'avertissement, les objets, les options de jeu et de robot.
+
+<P>
+<H2><A NAME="Cheating"></A> <A NAME="ss4.3">4.3 Tricher</A>
+</H2>
+
+<P>Durant la progression de la bataille en temps réel, avec des processus réels, il est possible d'écrire des programme qui 'trichent' à un moment ou à un autre. Par exemple, en examinant les autres robots ou le serveur pour avoir plus d'informations, en utilisant d'importantes resources pour ralentir les autres robots et de bien d'autres façons encore. Ce n'est bien sur pas la méthode attendue pour vaincre l'adversaire, alors nous essayons de limiter ces actions autant que possible.
+<P>Dans le 
+<A HREF="RealTimeBattle-2.html#Command line options">mode competition</A> les robots ne sont pas autorisé à lancer des processus fils et l'utilisation du CPU est limitée. Ainsi, un robot ne peux pas utiliser tout le CPU.
+<P>Il n'est pas possible d'empecher toutes  les façons de tricher dans RTB. Il est par exemple possible d'écrire ou de lire des fichiers, mais souvenez vous que les organisateurs de compétitions peuvent interdir cele s'il le souhaite. Limiter les droits d'acces du robot donne des résultats satisfaisants.
+<P>Il est toujours possible de trouver des moyens de contourner ces restrictions; si vous trouver un de ces moyens, s'il vous plait, envoyer nous un
+<A HREF="RealTimeBattle-1.html#BugReports">rapport de bug</A>. Néanmoins, il est du bon plaisir de l'oganisateur du tournoi d'assurer le respect de ces règles.
+<P>
+<H2><A NAME="Messages to robots"></A> <A NAME="ss4.4">4.4 Messages vers les robots</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="Initialize"></A> <P>
+<DT><B>Initialize [first? (int)]</B><DD><P>C'est le premier message que le robot recevra. Si l'argument est 1, c'est la première sequence d'un tournoi et le robot doit se présenter en envoyant
+<A HREF="#NameAndColour">son Nom et sa Couleur</A> au serveur, sinon il devra attendre  les messages YourName et YourColour (voir plus loin). (En fait, je n'en suis pas trop sur...)
+<P>
+<A NAME="YourName"></A> <DT><B>YourName [name (string)]</B><DD><P>Le nom courant du robot, à ne pas changer sans avoir une bonne raison.
+<P>
+<A NAME="YourColour"></A> <DT><B>YourColour [colour (hex)]</B><DD><P>Couleur courante du robot, à changer si elle n'est pas à votre goût.
+<P>
+<DT><B>GameOption [optionnr (int)] [value (double)]</B><DD><P>Au début de chaque jeu, le robot recevra un certain nombre de caractéristiques qui pourraient lui être utiles. Pour obtenir une liste complète de ces messages, regardez le fichier
+<A HREF="#Messagetypes.h">Messagetypes.h</A>
+pour voir l'enumeration des <CODE>game_option_type</CODE>. 
+Dans le 
+<A HREF="RealTimeBattle-5.html#Options">chapitre des options</A> vous obtiendrez des informations plus détaillées. Le 
+<A HREF="RealTimeBattle-2.html#Debug level">niveau de debuggage</A> est aussi envoyé comme option, même s'il ne fait pas partie de la liste.
+<P>
+<DT><B>GameStarts</B><DD><P>C'est le message envoyé pour signaler le début de la bataille (surpris?)
+<P>
+<A NAME="Radar"></A> <DT><B>Radar [distance (double)] [type de l'objet observé (int)] [angle radar (double)]</B><DD><P>Ce message donne les informations venant du radar à chaque tour. Souvenez vous que l'angle du radar est relatif à l'avant du robot. Il est donné en radians.
+<P>
+<P>
+<DT><B>Info [temps (double)] [vitesse (double)] [angle cannon (double)]</B><DD><P>Le message <B>Info</B> 
+suit toujours le message <B>Radar</B>. Il donne des informations plus générales sur l'état du robot. Le temps est celui écoulé depuis le début du jeu. Ce n'est pas forcement le même que le temps réellement écoulé (à cause de
+<A HREF="RealTimeBattle-5.html#TimeScale">l'échelle de temps</A> et du 
+<A HREF="RealTimeBattle-5.html#MaxTimestep">plus petit écart de temps</A>.
+<P>
+ 
+<A NAME="Coordinates"></A><DT><B>Coordinates [x (double)] [y (double)] [angle (double)]</B><DD><P>Vous donne la position courante du robot. Il est envoyé seulement si l'option <A HREF="RealTimeBattle-4.html#SendCoordinates"> est 1 ou 2. Si elle est 1 les coordonnées sont envoyés relativement à la position de départ (Le robot ne sait pas exactement où il a commencé, mais seulement de combien il s'est déplacé).
+<P>
+
+<DT><B>RobotInfo [niveau d'energie (double)] [teammate? (int)]</B><DD><P>
+Si vous détecter un robot au radar, ce message suivra, donnant les informations sur ce robot. Le niveau d'énergie de l'adversaire sera donné de la même façon que votre propre énergie (voir plus bas). Le second argument concerne seulement le mode en équipe (qui n'est pas encore implanté), 1 signalant qu'il s'agit d'un membre de votre équipe et 0 un ennemi.
+<P>
+<A NAME="RotationReached"></A> <DT><B>RotationReached [objet qui a attend(int)]</B><DD><P>Quand l'option robot 
+<A HREF="#RobotOption">SEND_ROTATION_REACHED</A> est activée, ce message est envoyé quand une rotation (avec RotateTo ou RotateAmount) est terminée ou que la direction à changée (lors d'un balayage). 
+<P>
+<DT><B>Energy [niveau d'energie (double)]</B><DD><P>A la fin de chaque tour, le robot connaîtra son niveau d'énergie. Il ne connaîtra pas exactement son niveau exact, mais une approximation correspondant à des
+<A HREF="RealTimeBattle-5.html#EnergyLevels">niveaux d'énergie</A>.
+<P>
+<DT><B>RobotsLeft [nombre de robots (int)]</B><DD><P>Au début du jeu et quand un robot est tué, le nombre de robots restant est envoyé à tous les robots encore vivant.
+<P>
+<P>
+<DT><B>Collision [type de l'objet recontré(int)] [angle relatif au robot (double)]</B><DD><P>Quand un robot cogne (ou est cogné par) quelquechose, il reçoit ce message. Dans le fichier 
+<A HREF="#Messagetypes.h">Messagetypes.h</A> vous trouverez la liste des types d'objets. Vous recevrez aussi l'angle auquel c'est produit la collision (angle relatif au robot) et le type de l'objet qui a été cogné, mais pas l'importance du choc. Elle peut tout de même être déterminée indirectement (approximativement) par la perte d'énergie.
+<P>
+<A NAME="Warning"></A> <DT><B>Warning [type de l'avertissement (int)] [message (string)]</B><DD><P>Un message d'avertissement peut être envoyé quand un robot à fait quelquechose d'incorrecte. Pour le moment, il y a 7 messages d'avertissement différents : 
+<P><CODE>UNKNOWN_MESSAGE:</CODE> Le serveur a reçu un message qu'il n'arrive pas à reconnaitre.
+<P><CODE>PROCESS_TIME_LOW:</CODE> L'utilisation du CPU a atteind le
+<A HREF="RealTimeBattle-5.html#CPUWarningPercentage">pourcentage critique de CPU</A>. Seulement dans le 
+<A HREF="RealTimeBattle-2.html#Command line options">mode competition</A>.
+<P><CODE>MESSAGE_SENT_IN_ILLEGAL_STATE:</CODE> Le message envoyé ne correspond pas à l'état d'avancement du programme. Par exemple 
+<A HREF="#Rotate">Rotate</A> a été envoyé avant le début du jeu.
+<P><CODE>UNKNOWN_OPTION:</CODE> Le robot a envoyé une 
+<A HREF="#RobotOption">option</A> qui est soit un nom inégale, soit un argument ne correspondant pas à une option.
+<P><CODE>OBSOLETE_KEYWORD:</CODE> Le mot clef envoyé est obselete et ne doit plus être utilisée. Voir le fichier
+<CODE>ChangeLog</CODE> pour des informations pour ce qu'il faut utiliser à la place.
+<P><CODE>NAME_NOT_GIVEN:</CODE> Le robot n'a pas envoyé son nom avant le début du jeu. Ca arrive si le 
+<A HREF="RealTimeBattle-5.html#RobotStartupTime">temps de démarrage du robot</A> est trop (...) ou que le robot n'envoye pas son nom assez tôt.
+<P><CODE>COLOUR_NOT_GIVEN:</CODE> Le robot n'a pas envoyé sa couleur avant le début du jeu.
+<P>
+<DT><B>Dead</B><DD><P>Le robot est mort. Ce n'est plus la peine d'envoyer de nouveaux messages au server avant la fin du jeu, le serveur ne les lit plus.
+<P>
+<DT><B>GameFinishes</B><DD><P>Le jeu courant est terminé, préparez vous au prochain jeu!!!
+<P>
+<A NAME="ExitRobot"></A> <DT><B>ExitRobot</B><DD><P>Quitter le programme immédiatement!! Sinon on sera forcé de le tuer.
+<P>
+</DL>
+<P>
+<H2><A NAME="Messages from robots"></A> <A NAME="ss4.5">4.5 Messages venant des robots.</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="RobotOption"></A> <DT><B>RobotOption [option nr (int)] [valeur (int)]</B><DD><P>Il n'y a pour le moment que deux options possibles :
+<P><CODE>SIGNAL:</CODE> Dire au serveur d'envoyer un signal quand il y a un message qui attend. L'argument déterminera quel signal utiliser. Envoyez ce message (avec l'argument SIGUSR1 par exemple) dès que vous êtes prêt à recevoir les signaux. Par défaut, cette valeur est 0, ce qui veut dire que vous ne recevrez aucun signal.
+<P><CODE>SEND_SIGNAL:</CODE> Demande au serveur d'envoyer SIGUSR1 quand il y un message qui attend. Envoyez ce message (avec l'argument 1 (=vrai)) dès que vous être prêt à recevoir le signal. Par défaut, la valeur est fausse.
+<P><CODE>SEND_ROTATION_REACHED:</CODE> Si vous voulez que le serveur vous envoye le message 
+<A HREF="#RotationReached">RotationReached</A> 
+quand une rotation est terminée, vous devez demander cette option. Avec une valeur de 1, le message est envoyé quand un RotateTo ou un RotateAmount est terminé, avec le valeur 2, quand les changement de direction d'un sweep est aussi indiqué. Par défaut (0) aucun message ne sera envoyé.
+<P><CODE>USE_NON_BLOCKING:</CODE> Choisit comment 
+<A HREF="#Reading messages">la lecture des messages</A> s'effectue. Cette option doit être envoyée dès que le programme est lancé. Puisqu'elle doit toujours être donnée, il n'y a pas de valeur par défaut.
+<P>
+<A NAME="NameAndColour"></A> <DT><B>Name [nom (string)]</B><DD><P>Quand vous recevez le message
+<A HREF="#Initialize">Initialize</A> 
+avec l'argument 1, indiquant qu'il s'agit de le première séquence, vous devez envoyer votre nom et votre couleur.
+<P>
+<DT><B>Colour [première couleur (hex)] [couleur 'visiteur' (hex)]</B><DD><P>(Voir plus haut). Les couleurs sont comme des maillons de foot, la première couleur est utilisée si personne ne l'a déjà prise. Sinon, la couleur 'visiteur' ou en dernier recourt, une couleur choisie au hasard sera donnée au robot.
+<P>
+<A NAME="Rotate"></A> <DT><B>Rotate [objet a tourner (int)] [vitesse angulaire (double)]</B><DD><P>Selectionne la vitesse angulaire de rotation du robot, de son canon ou de son radar. L'objet doit être 1 pour le robot, 2 pour le cannon, 4 pour le radar ou la somme pour faire tourner plusieurs objets en même temps. La vitesse angulaire est donnée en radians par seconde et est limité par la
+<A HREF="RealTimeBattle-5.html#RobotMaxRotateSpeed">Vitesse maximum de rotation du Robot (cannon/radar)</A>.
+<P>
+<P>
+<DT><B>RotateTo [objet à tourner (int)] [vitesse angulaire (double)] [angle de fin (double)]</B><DD><P>Comme <B>Rotate</B>, mais s'arrêtera à un angle donné. L'angle du radar et du cannon sont relatif à l'angle du robot. Vous ne pouvez pas utiliser cette commande pour faire tourner le robot (Utilisez <B>RotateAmount</B> à la place).
+<P>
+<A NAME="RotateAmount"></A> <DT><B>RotateAmount [objet à tourner(int)] [vitesse angulaire (double)] [angle (double)]</B><DD><P>Comme <B>Rotate</B>, mais tourne par rapport à l'angle courant.
+<P>
+<P>
+<DT><B>Sweep [objet a tourner(int)] [vitesse angulaire (dbl)] [angle gauche (dbl)] 
+[angle droit(dbl)]</B><DD><P>Comme <B>rotate</B>, mais fait tourner le radar et/ou le cannon (pas disponible pour le robot lui même) dans un mode de balayage.
+<P>
+<A NAME="Accelerate"></A> <DT><B>Accelerate [valeur (double)]</B><DD><P>Définit l'accélaration du robot. La valeur est limitée pas 
+<A HREF="RealTimeBattle-5.html#RobotMaxAcceleration">l'accélération max/min du Robot</A>.
+<P>
+<A NAME="Brake"></A> <DT><B>Brake [portion (double)]</B><DD><P>ordonne un frainage. Le frein complet (portion = 1.0) signifie que la friction du robot dans le sens de déplacement est égal au
+<A HREF="RealTimeBattle-5.html#SlideFriction">frottement dû au glissement</A>.
+<P>
+<DT><B>Shoot [energie du missile (double)]</B><DD><P>Tire un missile avec l'energie donnée.
+
+<A HREF="RealTimeBattle-5.html#Shot options">Les options de tire</A> donnent plus d'informations.
+<P>
+<A NAME="Print"></A> <DT><B>Print [message (string)]</B><DD><P>Affiche un message sur la
+<A HREF="RealTimeBattle-2.html#Message window">fenêtre de messages</A>.
+<P>
+<DT><B>Debug [message (string)]</B><DD><P>Affiche un message dans la 
+<A HREF="RealTimeBattle-2.html#Message window">fenêtre des messages</A> si le
+<A HREF="RealTimeBattle-2.html#Command line options">mode debug</A> est engagé.
+<P>
+<DT><B>DebugLine [angle1 (double)] [rayon1 (double)] [angle2 (double)] [rayonn2 (double)]</B><DD><P>Dessine une ligne directement sur l'arène. Seulement disponible dans le plus haut mode de debug(5), sinon un 
+<A HREF="#Warning">message d'avertissement</A> est envoyé. Les arguments sont les points de départ et d'arrivée donnés en coordonnées polaires relativement au robot.
+<P>
+<DT><B>DebugCircle [angle centre (double)] [rayon centre (double)] [rayon cercle (double)]</B><DD><P>Identique que pour DebugLine, mais dessine un cercle. 
+Les deux premiers arguments sont l'angle et le rayon relativement au robot. Le troisième argument donne le rayon du cercle.
+<P>
+</DL>
+<P>
+<P>
+<P>
+<HR>
+<A HREF="RealTimeBattle-5.html"><IMG SRC="next.gif" ALT="Next"></A>
+<A HREF="RealTimeBattle-3.html"><IMG SRC="prev.gif" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc4"><IMG SRC="toc.gif" ALT="Contents"></A>
+
+</BODY>
+</HTML>

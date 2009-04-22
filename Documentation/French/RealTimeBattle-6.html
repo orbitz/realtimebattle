@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Manuel d'utilisation de RealTimeBattle, version 1.0.5 rev 1: Construction d'une arène</TITLE>
+ <LINK HREF="RealTimeBattle-5.html" REL=previous>
+ <LINK HREF="RealTimeBattle.html#toc6" REL=contents>
+</HEAD>
+<BODY text="#000000" lang="fr">
+
+<IMG SRC="next.gif" ALT="Suivante">
+<A HREF="RealTimeBattle-5.html"><IMG SRC="prev.gif" ALT="Précédente"></A>
+<A HREF="RealTimeBattle.html#toc6"><IMG SRC="toc.gif" ALT="Table des matières"></A>
+<HR>
+<H2><A NAME="Arena construction"></A> <A NAME="s6">6. Construction d'une arène</A></H2>
+
+<P>Dans RTB, il est très simple de construire vos propres arènes. Le language est constitué de seulement 11 commandes et il y a principalement 4 bloques de construction : line, circle, inner_circle et arc. C'est surtout pour des raisons de rapidité, car pour des cercles ou des lignes, il est facile de détecter une collision. Circle et inner_circle évitent respectivement aux robots d'entrer dans un cercle et de sortir d'un cercle. Les lignes et les arcs arrêtent les robots qui essayent de rentrer dans un mur (dans une courbe pour un arc), mais aucun test n'est fait sur les extremités de la ligne. Vous devez donc mettre un cercle a chaque fin de ligne pour en faire un objet solide. Les commandes <CODE>polygon</CODE>, <CODE>closed_polygon</CODE> et <CODE>poly_curve</CODE> sont faites pour simplifier ces procédures, donnant des objets plus 'propres'.
+<P>Tous les angles sont par défaut en radians, mais vous pouvez les changer en degrès avec la commande <CODE>angle_unit degrees</CODE>.
+<P>Il est important de noter que RTB ne vérifie pas si un fichier donne une arène correcte et c'est totalement de votre ressort. Il signalera tout de même si il y a une erreur de syntaxe.
+<P>Les fichiers d'arènes doivent être nommés avec le suffixe <CODE>.arena</CODE> et doit être stocké dans le répertoire des arènes pour que RTB puisse le trouver.
+<P>Le <CODE>coefficient de rebondissement</CODE> et <CODE>de dureté</CODE> doivent être donnés pour chaque mur créé, determinant le matériau utilisé pour le mur. Ils ont tous les deux des valeurs comprises entre 0 et 1. Les murs plus dur causeront plus de dégas sur les robots et un coefficient de rebondissement plus grand améliorera les bonds.
+<P>Vous êtes également encouragés à étudier les arènes livrées avec RTB et à apprendre à partir de ces exemples.
+<P>
+<P>
+<P>
+<H2><A NAME="Arena_commands"></A> <A NAME="ss6.1">6.1 Commandes d'arènes</A>
+</H2>
+
+<P>Une commande est composée un nom de commande et d'arguments séparés pas des espaces. Soyez sûr de donner le bon nombre d'arguments!
+<P>Dans la liste des commandes, les arguments sont donnés entre crochés.
+<P>
+<DL>
+<DT><B>scale [valeur]</B><DD><P>Cette valeur multipliée
+<A HREF="RealTimeBattle-5.html#ArenaScale">l'echelle de l'arène</A> donnera le facteur d'echelle, celui par lequel tous les coordonnées seront multiplié (Essayé et vous verrez...) Cette commande doit être, si vous voulez l'inclure, la première ligne du fichier. La valeur par défaut est 1.0.
+<P>
+<DT><B>angle_unit [unité]</B><DD><P>Bascule l'unité des angles vers le mode d'unité choisi, qui peut être les 
+<CODE>degrees</CODE>(degrès) ou <CODE>radians</CODE>(radians). La valeur par défaut est le radian.
+<P>
+<DT><B>boundary [gauche] [haut] [droite] [bas]</B><DD><P>Les limites de l'anère, dans laquel les robots, les cookies et les mines seront placés. Elles déterminent aussi l'arène visible dans la
+<A HREF="RealTimeBattle-2.html#Arena_window">fenêtre des arenes</A>. Cette commande est nécessaire est ne peut être précédée que de 
+<CODE>scale</CODE>.
+<P>
+<DT><B>inner_circle [rebondissement] [dureté] [centre_x] [centre_y] [rayon]</B><DD><P>Les robots sont limités à l'interieur de ce cercle.
+<P>
+<DT><B>circle [rebondissement] [dureté] [centre_x] [centre_y] [rayon]</B><DD><P>Murs en forme de cercle...
+<P>
+<DT><B>line [rebondissement] [dureté] [épaisseur] [début_x]
+[début_y] [fin_x] [fin_y]</B><DD><P>Crée une ligne. Elles empêchent seulement les robots de ne pas les franchir selon leur longueur, alors n'oubliez pas de placer des cercles aux extrémités.
+<P>
+<DT><B>arc [rbd] [drt] [epais] [centre_x] [ctr_y]
+[rayon_int] [rayon_ext] [angle1] [angle2]</B><DD><P>Un arc est une section d'anneau compris entre deux angles. Comme les lignes, ils ont besoins de cercles à leurs deux extrémitées.
+<P>
+<P>
+<DT><B>polygon [rbd] [drt] [ep] [nb de sommets] ([centre_x] [centre_y])...</B><DD><P>Crée un certain nombre de cercles connectés pas des lignes.
+<P>
+<P>
+<DT><B>closed_polygon [rbd] [drt] [ep] [nb de sommets]
+([centre_x] [centre_y])...</B><DD><P>Comme les <CODE>polygon</CODE>, mais le premier et le dernier sommet sont égalements connectés.
+<P>
+<DT><B>poly_curve [rbd] [drt] [ep] [debut_x]
+[debut_y] [dir_x] [dir_y] 
+([arguments ...]) ...</B><DD><P>La <CODE>poly_curve</CODE> est la commande la plus puissante des commandes. Elle est utilisée pour construire des murs avec des arcs ou des lignes. A chaque étape il y a une position et une direction qui sont affectées pas des 'sous-commandes'. La derniere sous-commande doit être <CODE>C</CODE> ou <CODE>Q</CODE>.
+<P>
+<DL>
+<DT><B>L [longueur]</B><DD><P>dessine une ligne de longueur donnée dans la direction courante.
+<DT><B>T [angle]</B><DD><P>Dévie la direction courante.
+<DT><B>A [angle] [rayon]</B><DD><P>Dessine un arc.
+<DT><B>C</B><DD><P>Termine en effectuant une connection au premier point
+<DT><B>Q</B><DD><P>Termine sans effectuer la connection
+</DL>
+<P>
+<P>
+<P>
+<P>
+<P>
+<DT><B>exclusion_point [position_x] [position_y]</B><DD><P>Quand une arène à l'interieur des limites est faite de plusieurs aires séparées, vous devez toutes les exclures sauf une en inserrant un point d'exclusion. Tous les points à partir desquels vous pouvez tracer une droite vers un point d'exclusion sans franchir un mur sont concidérés comme en dehors de l'arène.
+<P>
+</DL>
+<HR>
+<IMG SRC="next.gif" ALT="Suivant">
+<A HREF="RealTimeBattle-5.html"><IMG SRC="prev.gif" ALT="Précédent"></A>
+<A HREF="RealTimeBattle.html#toc6"><IMG SRC="toc.gif" ALT="Table des matières"></A>
+
+</BODY>
+</HTML>

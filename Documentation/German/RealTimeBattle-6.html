@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle Benutzer-Handbuch, Version 1.0.8: Arena-Konstruktion</TITLE>
+ <LINK HREF="RealTimeBattle-5.html" REL=previous>
+ <LINK HREF="RealTimeBattle.html#toc6" REL=contents>
+</HEAD>
+<BODY>
+<IMG SRC="next.png" ALT="Next">
+<A HREF="RealTimeBattle-5.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc6"><IMG SRC="toc.png" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Arena construction"></A> <A NAME="s6">6.</A> <A HREF="RealTimeBattle.html#toc6">Arena-Konstruktion</A></H2>
+
+
+<P>In ReatTimeBattle ist es sehr einfach, eine eigene Arena zu erstellen. Die
+Sprache, die daf&uuml;r verwendet wird besteht aus lediglich elf Kommandos,
+und es gibt nur vier grundlegende Bauelemente: Linie, Kreis, 'Innenkreis' und Bogen.
+Dies ist haupts&auml;chlich aus Gr&uuml;nden der Programm-Geschwindigkeit so, da man bei
+Kreisen und Linien sehr einfach pr&uuml;fen kann, ob es eine Kollision gab.
+Kreise und 'Innenkreise' hindern die Roboter daran, in einen Kreis
+hinein- oder aus einem Kreis herauszugelangen. Die Linie und der Bogen hindern Roboter daran
+an der L&auml;ngsseite (bzw.an der gekr&uuml;mmten Seite beim Bogen) hineinzugelangen, allerdings wird das an den zwei Enden der
+Linie nicht gepr&uuml;ft. Daher muss man an jedes Ende einer Linie einen Kreis
+anh&auml;ngen, um es zu einem soliden Objekt zu machen.
+Die Kommandos <CODE>polygon</CODE>, <CODE>closed_polygon</CODE> und <CODE>poly_curve</CODE> sollen diese
+Prozedur vereinfachen, und ergeben immer ein richtiges Objekt.</P>
+<P>Alle Winkel sind in der Voreinstellung im Bogenma&szlig;. Das kann jedoch durch den Befehl
+<CODE>angle_unit degrees</CODE> ge&auml;ndert werden.</P>
+<P>Man sollte beachten, dass RTB nicht &uuml;berpr&uuml;ft ob eine Arena-Datei eine
+korrekte Arena ergibt, das ist einzig und allein deine Sache. Allerdings
+wird RTB sich beschweren, wenn du die Regeln der Arena-Konstruktionssprache
+nicht beachtest.</P>
+<P>Arena-Dateien sollten mit <CODE>.arena</CODE> enden und im Arena-Verzeichnis
+untergebracht werden, so dass RealTimeBattle sie finden kann.</P>
+<P>Die <CODE>bounce coefficient</CODE>- und <CODE>hardness</CODE>-Parameter, die an alle
+Mauer-erzeugenden Kommandos &uuml;bergeben werden, legen das Material der Mauer fest.
+Beides sind Werte zwischen 0 und 1. H&auml;rtere Mauern besch&auml;digen kollidierende
+Roboter mehr, und ein h&ouml;herer Bounce-Koeffizient brigt sie dazu, besser
+abzuprallen. </P>
+<P>Du solltest dir auch mal die Arenas die mit RTB mitgeliefert werden
+ansehen und von den Beispielen lernen.</P>
+
+
+
+<H2><A NAME="Arena_commands"></A> <A NAME="ss6.1">6.1</A> <A HREF="RealTimeBattle.html#toc6.1">Arena Kommandos</A>
+</H2>
+
+<P>Ein Kommando besteht aus dem Kommandonamen und den Parametern, die durch
+Whitespaces getrennt werden. Du solltest immer sicherstellen, dass die
+richtige Anzahl der Parameter &uuml;bergeben wird.</P>
+<P>In der Kommando-Liste werden die Parameter in eckigen Klammern angegeben.</P>
+<P>
+<DL>
+<DT><B>scale [Wert]</B><DD><P>Dieser Wert multipliziert mit der 
+<A HREF="RealTimeBattle-5.html#ArenaScale">arena scale</A>
+ergibt den Skalierungsfaktor mit dem alle Koordinaten multipliziert werden.
+Dieses Kommando muss, wenn es verwendet wird, das este Kommando in der Datei
+sein, Standardwert ist 1.0.</P>
+
+<DT><B>angle_unit [unit]</B><DD><P>Schaltet zu der ausgew&auml;hlten Winkel-Einheit um.
+M&ouml;gliche Einheiten sind <CODE>degrees</CODE> (Gradma&szlig;) or <CODE>radians</CODE> (Bogenma&szlig;).
+Die Voreinstellung verwendet das Bogenma&szlig;.</P>
+
+<DT><B>boundary [links] [oben] [rechts] [unten]</B><DD><P>Diese Begrenzungen umschliessen das Gebiet, in der Roboter, Kekse und Minen
+aufgestellt werden. Ausserdem legen sie das sichtbare Gebiet im
+<A HREF="RealTimeBattle-2.html#Arena_window">Arena-Fenster</A> fest.
+Dieses Kommando wird unbedingt ben&ouml;tigt und nur <CODE>scale</CODE> darf vorher
+verwendet werden.</P>
+
+<DT><B>inner_circle [Bounce] [H&auml;rte] [Mittelpunkt_x] [Mittelpunkt_y] [Radius]</B><DD><P>Roboter sind im inneren dieses Kreises gefangen.</P>
+
+<DT><B>circle [Bounce] [H&auml;rte] [Mittelpunkt_x] [Mittelpunkt_y] [Radius]</B><DD><P>Eine Mauer in Form eines Kreises.</P>
+
+<DT><B>line [Bounce] [H&auml;rte] [Dicke] [Start_x] [Start_y] [Ende_x] [Ende_y]</B><DD><P>Erzeugt eine Linie. Sie hindert den Roboter nur daran an der L&auml;ngsseite durchzudringen,
+daher m&uuml;ssen Kreise an die Enden gesetzt werden.</P>
+
+<DT><B>arc [Bounce] [H&auml;rte] [Dicke] [Mittelpunkt_x] [Mittelpunkt_y]
+[Innenradius] [Au&szlig;enradius] [Winkel1] [Winkel2]</B><DD><P>Ein Bogen ist ein Kreissegment zwischen zwei Winkeln. Genau wie die Linie ben&ouml;tigt der Bogen
+zwei Kreise an seinen Endpunkten.</P>
+
+<DT><B>polygon [Bounce] [H&auml;rte] [Dicke] [Anzahl der Seiten] ([Mittelpunkt_x] [Mittelpunkt_y])...</B><DD><P>Dieses Kommando wird eine Menge Kreise erzeugen, die durch Linien verbunden
+sind, und dadurch ein Polygon-&auml;hnliches Gebilde schaffen.</P>
+
+<DT><B>closed_polygon [Bounce] [H&auml;rte] [Dicke] [Anzahl der Seiten] ([Mittelpunkt_x] [Mittelpunkt_y])...</B><DD><P>&Auml;hnlich wie ein Polygon, aber die erste und letzte Seite sind auch durch
+eine Linie verbunden.</P>
+
+<DT><B>poly_curve [Bounce] [H&auml;rte] [Dicke] [Start_x] [Start_y] [Richtung_x] [Richtung_y] 
+([Befehlsargumente ...]) ...</B><DD><P>Die <CODE>poly_curve</CODE> ist das m&auml;chtigste der Arena-Kommandos. 
+Sie wird genutzt im W&auml;nde aus Linien und B&ouml;gen zu bauen. 
+Nach jeden Abschnitt hatt man eine aktuelle Position und eine aktuelle Richtung, die si</P>
+<P>It is
+used to build walls with lines and arcs. At each step you have a current
+position and direction, which are affected by the subcommands. The last
+subcommand must be <CODE>C</CODE> or <CODE>Q</CODE>.</P>
+<P>
+<DL>
+<DT><B>L [length]</B><DD><P>Draw a line with given length in the current
+direction.</P>
+<DT><B>T [angle]</B><DD><P>Turn the current dircetion.</P>
+<DT><B>A [angle] [radius]</B><DD><P>Draw an arc.</P>
+<DT><B>C</B><DD><P>Finish by connecting with the starting point.</P>
+<DT><B>Q</B><DD><P>Quit.</P>
+</DL>
+</P>
+
+<DT><B>exclusion_point [Position_x] [Position_y]</B><DD><P>Wenn die Arena innerhalb der Begrenzungen aus mehreren getrennten Gebieten
+besteht, solltest du alle bis auf eins ausschliessen, indem du
+"Exclusion-Punkte" setzt. Alle Punkte von denen aus man eine gerade Linie
+bis zu einem "Exclusion-Punkt" ziehen kann, ohne eine Mauer zu &uuml;berschreiten,
+gelten als ausserhalb der Arena. </P>
+
+</DL>
+</P>
+<HR>
+<IMG SRC="next.png" ALT="Next">
+<A HREF="RealTimeBattle-5.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc6"><IMG SRC="toc.png" ALT="Contents"></A>
+</BODY>
+</HTML>

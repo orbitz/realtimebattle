@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle User Manual, version 1.0.8: Usage</TITLE>
+ <LINK HREF="RealTimeBattle-3.html" REL=next>
+ <LINK HREF="RealTimeBattle-1.html" REL=previous>
+ <LINK HREF="RealTimeBattle.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="RealTimeBattle-3.html"><IMG SRC="next.png" ALT="Next"></A>
+<A HREF="RealTimeBattle-1.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc2"><IMG SRC="toc.png" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Usage"></A> <A NAME="s2">2.</A> <A HREF="RealTimeBattle.html#toc2">Usage</A></H2>
+
+<P>This chapter describes how to use the program itself. If you find it boring to
+read it through, feel free to use trial and error as usual, and return here if you stumble
+upon something confusing in the user interface. It is, however, a good idea to read the
+short section on 
+<A HREF="#Command line options">command line options</A> below. Note
+also that there is no built-in help in the program - here is where you should search for
+help.</P>
+
+
+<H2><A NAME="Command line options"></A> <A NAME="ss2.1">2.1</A> <A HREF="RealTimeBattle.html#toc2.1">Command line options</A>
+</H2>
+
+<P>On the command line, there are two options to set which control the overall behaviour of
+RealTimeBattle. Here you can choose the option file, which determines the default values of
+the 
+<A HREF="RealTimeBattle-5.html#Options">options</A>. You can also select in which game-mode the program
+will run: <CODE>debug</CODE>, <CODE>normal</CODE> or <CODE>competition</CODE> mode.</P>
+<P>
+<HR>
+<PRE>
+ Usage: RealTimeBattle [options] 
+
+ Options:
+    --debug_mode,                -d   debug mode
+    --debug_level [0-5],         -D   sets the initial debug level. implies -d
+    --normal_mode,               -n   normal mode (default)
+    --competition_mode,          -c   competition mode
+
+    --no_graphics,               -g   no graphics will be displayed
+    --option_file [file],        -o   selects option-file (default: $HOME/.rtbrc)
+
+    --log_file [file],           -l   make log file, if 'file' is '-'
+                                      the log is sent to STDOUT
+
+    --tournament_file [file],    -t   specify a tournament file to
+                                      autostart a tournament
+
+    --statistics_file [file],    -s   file to print the statistics to
+                                       when autostarting
+
+    --message_file [file],       -m   redirect messages to 'file'.
+                                      '-' as 'file' is equivalent to STDOUT.
+                                      If both log and messages are send
+                                      to STDOUT, '-m' will be ignored
+
+    --replay [file]              -r   a log file to replay.
+                                      if '-' is specified as file,
+                                      input is taken from STDIN
+
+    --help,                      -h   prints this message
+    --version,                   -v   prints the version number
+    --port_number                -p   specifies the port for remote clients (default is 32134)  
+</PRE>
+<HR>
+</P>
+<P>The port_number option is only available, if you chose to compile RealTimeBattle with the --enable-network option.
+See the <CODE>INSTALL</CODE> file for more information.
+The differences between the three competition modes are shown in the following
+table</P>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<P>
+<BR><CENTER>
+<TABLE BORDER><TR><TD>
+Mode </TD><TD> Debug </TD><TD> Normal </TD><TD> Competition </TD></TR><TR><TD>
+Debug command available </TD><TD> Yes </TD><TD> No </TD><TD> No </TD></TR><TR><TD>
+Pause in game </TD><TD> Yes </TD><TD> Yes </TD><TD> No </TD></TR><TR><TD>
+Step through game </TD><TD> Yes </TD><TD> No </TD><TD> No </TD></TR><TR><TD>
+Robot CPU time unlimited </TD><TD> Yes </TD><TD> Yes </TD><TD> No </TD></TR><TR><TD>
+</TD></TR></TABLE>
+</CENTER><BR>
+</P>
+
+
+<H2><A NAME="Control window"></A> <A NAME="ss2.2">2.2</A> <A HREF="RealTimeBattle.html#toc2.2">Control window</A>
+</H2>
+
+<P>
+<DL>
+<DT><B>New tournament:</B><DD><P>This will start a new tournament. Section
+<A HREF="#Start new tournament window">Start new tournament window</A> will give more
+information. </P>
+
+<DT><B>Replay tournament:</B><DD><P>
+<A HREF="#replaying">Replay a game</A>. It
+will ask you to select a 
+<A HREF="#log_files">log file</A> of the
+game you want to study.</P>
+<P>
+<A NAME="pause"></A> </P>
+<DT><B>Pause:</B><DD><P>Pauses the game, in 
+<A HREF="#Command line options">competition-mode</A> the pausing will be postponed
+until the end of the current game.</P>
+
+<DT><B>End:</B><DD><P>Stops the current tournament.</P>
+
+<DT><B>Options:</B><DD><P>Brings up the 
+<A HREF="#Options_window">options window</A>.</P>
+
+<DT><B>Statistics:</B><DD><P>Displays the 
+<A HREF="#Statistics window">statistics window</A>.</P>
+
+<DT><B>Show arena window:</B><DD><P>This box can be used to show and hide the
+three windows used when a game is running, i.e., 
+the 
+<A HREF="#Arena_window">arena window</A>,
+the 
+<A HREF="#Score window">score window</A> and
+the 
+<A HREF="#Message window">message window</A>.</P>
+
+<DT><B>Quit:</B><DD><P>Terminates the program.</P>
+
+</DL>
+</P>
+<P>In 
+<A HREF="#Command line options">debug-mode</A> there is another set of buttons available. They
+are intended to help with debugging of robots. Note that you can debug a running process; if you use
+<CODE>gdb</CODE> the command is <CODE>gdb robot-name process-number</CODE>.</P>
+<P>
+<DL>
+<DT><B>Step:</B><DD><P>In a 
+<A HREF="#pause">paused</A> game this will move
+one time step forward. This is very useful when running the robot in a
+debugger, since otherwise the robot will be flooded with messages.</P>
+
+<DT><B>End game:</B><DD><P>This will finish the current game. It has the same effect as a
+<A HREF="RealTimeBattle-5.html#Timeout">timeout</A> would have.</P>
+
+<DT><B>Kill marked robot:</B><DD><P>In debug-mode, you can mark a robot in the
+<A HREF="#Score window">score window</A>. That robot will die if you press this button.</P>
+<P>
+<A NAME="Debug level"></A> </P>
+<DT><B>Debug level:</B><DD><P>Changing debug level is a way of telling robots which messages they
+should send. The range is between 0 and 5, where 0 means no debugging and 5 is the highest level of
+debugging, i.e. all debug-messages should be send.</P>
+</DL>
+</P>
+<P>When you are replaying a logfile (not from stdout) there are a number of widgets to
+control the replaying. See further in the chapter about 
+<A HREF="#replaying">replaying</A>.</P>
+
+<H2><A NAME="Start new tournament window"></A> <A NAME="ss2.3">2.3</A> <A HREF="RealTimeBattle.html#toc2.3">Start new tournament window</A>
+</H2>
+
+<P>To select robots and arenas for the tournament, mark the files to the
+right and press the <CODE>add</CODE> button. Selected files are shown to
+the left and can be removed correspondingly.</P>
+<P>
+<A NAME="NumberOfGames"></A> 
+A 
+<A HREF="RealTimeBattle-3.html#A_tournament">tournament</A> consists of a number of 
+<A HREF="RealTimeBattle-3.html#A_sequence">sequences</A> of 
+<A HREF="RealTimeBattle-3.html#A_game">games</A>. In each
+sequence the same robots are playing in all games. Here you select the number of games
+and sequences as well as the number of robots in each sequence. If you intend to play
+with all robots every game you are advised to choose only one sequence and instead
+increase the number of games. The reason is to avoid restarting of the robot processes
+which can take a while, especially if the number of robots is large.</P>
+<P>It is also possible to load a tournament file or save the current tournament.
+The last tournament played is stored in /tmp/rtb/tmp.tour and is always displayed
+when this window opens. If it is not available an empty tournament is displayed.</P>
+<P>You have to select at least two robots and one arena to be able to
+start.</P>
+
+<H2><A NAME="robot_and_arena_directories"></A> <A NAME="ss2.4">2.4</A> <A HREF="RealTimeBattle.html#toc2.4">Robots and arena directories</A>
+</H2>
+
+<P>In order for the program to find the robots and arenas you have set two options
+<A HREF="RealTimeBattle-5.html#Robot search path">Robot search path</A> and
+<A HREF="RealTimeBattle-5.html#Arena search path">Arena search path</A>.
+The subdirectories <CODE>Robots</CODE> and <CODE>Arenas</CODE> in the rtb installl
+directory (default: <CODE>/usr/local/games/RealTimeBattle</CODE>), specified at compile-time in the
+main Makefile, are always searched, regardless of the 
+options, but if you create a new directory, or if you installed RealTimeBattle in some other
+directory, you need to set these options.</P>
+
+<H2><A NAME="Arena_window"></A> <A NAME="ss2.5">2.5</A> <A HREF="RealTimeBattle.html#toc2.5">Arena window</A>
+</H2>
+
+<P>This is where the battle takes place. If you want a more detailed view, use
+the zoom buttons or press +, - or 0. The robots are visualized as coloured
+circles with an angle shape showing the radar direction, the thick line is the
+cannon and the thin line points in the front direction.</P>
+
+<H2><A NAME="Score window"></A> <A NAME="ss2.6">2.6</A> <A HREF="RealTimeBattle.html#toc2.6">Score window</A>
+</H2>
+
+<P>In this window the robots playing in the current sequence are listed.</P>
+
+<H2><A NAME="Message window"></A> <A NAME="ss2.7">2.7</A> <A HREF="RealTimeBattle.html#toc2.7">Message window</A>
+</H2>
+
+<P>Here are messages sent by the robots using 
+<A HREF="RealTimeBattle-4.html#Print">Print and Debug</A> displayed. The
+most recent messages are displayed at the top. You can clean the window and choose to only see new
+messages from a particular robot.</P>
+
+<H2><A NAME="Options_window"></A> <A NAME="ss2.8">2.8</A> <A HREF="RealTimeBattle.html#toc2.8">Options window</A>
+</H2>
+
+<P>Here you can change a number of options. In the 
+<A HREF="RealTimeBattle-5.html#Options">Options chapter</A> you can
+get detailed information on each option. The changes are not applied until either the <CODE>apply</CODE>
+button or the <CODE>OK</CODE> button is pressed. </P>
+<P>You can save your options to a file: <CODE>Save options</CODE> will save the options to a file of your
+choice and <CODE>Save as default</CODE> will save them to <CODE>.rtbrc</CODE> in your home directory.</P>
+<P>The <CODE>Default</CODE> button will reset all options to their default values.</P>
+
+<H2><A NAME="Statistics window"></A> <A NAME="ss2.9">2.9</A> <A HREF="RealTimeBattle.html#toc2.9">Statistics window</A>
+</H2>
+
+<P>You can study the statistics of the current tournament in some
+different ways. You can either display</P>
+<P>
+<UL>
+<LI> statistics on individual <B>Robot</B>s,
+</LI>
+<LI> the result of a <B>game</B>,
+</LI>
+<LI> the <B>sequence total</B> or
+</LI>
+<LI> the <B>total</B> of the tournament.
+</LI>
+</UL>
+
+Pressing the arrowed buttons will move you to the first, back one,
+forward one or to the last element respectively. The middle bar will
+show what is displayed and pressing it will update the statistics if
+the game is in progress. If you are using gtk+1.1.x, it is also possible to sort with respect to
+different columns by clicking on the corresponding title box.</P>
+
+<H2><A NAME="no_graphics"></A> <A NAME="ss2.10">2.10</A> <A HREF="RealTimeBattle.html#toc2.10">Running without graphics</A>
+</H2>
+
+<P>If you want, you can run RealTimeBattle without any graphics at all. This can be
+especially useful when currying out a long series of tests or running a competition. To
+use this option you have two choices: Either you add the flag <CODE>-g</CODE> when
+launching the program, or you disable the graphics at compile time (see the
+<CODE>INSTALL</CODE> file for more information). The latter alternative is useful as the
+executable gets smaller and therefore faster on low memory machines. It also enables
+you to run RealTimeBattle on machines which haven't got <CODE>gtk+</CODE> installed.</P>
+<P>When running without graphics you have to give a tournament file, otherwise nothing at
+all will happen. It is also a good idea to create a log file and/or a statistics file
+if you want to know the result.</P>
+
+
+<H2><A NAME="tournament_files"></A> <A NAME="ss2.11">2.11</A> <A HREF="RealTimeBattle.html#toc2.11">Tournament files</A>
+</H2>
+
+
+<P>The tournament file is specified as a 
+<A HREF="#Command line options">command line option</A>.
+When specified a tournament will automatically begin and end. To save the statistics see section
+<A HREF="#statistics_files">statistics file</A> for more information.</P>
+<P>A tournament file consists of five keywords. All of these keywords can be written several
+times, but keep in mind that only the last one of the keywords that takes a number as argument is
+counted. All keywords should be followed by a semicolon.</P>
+<P>
+<DL>
+<DT><B>Games/Sequence or g/s:</B><DD><P>Takes a number or a <CODE>*</CODE> as an argument. The
+number is how many games should be played per tournament. The asterisk means that the
+program takes the exact amount of arenas and uses this as the argument. The default
+value is 1. </P>
+
+<DT><B>Robots/Sequence or r/s:</B><DD><P>Takes a number or a <CODE>*</CODE> as an argument. The
+number is how many robots is playing in each sequence. The asterisk means that the
+program takes the exact amount of robots and uses this as the argument. The default
+value is 2.</P>
+
+<DT><B>Sequences or seq:</B><DD><P>Takes a number or a <CODE>*</CODE> as an argument. This
+number tells how many sequences shall be played in the tournament. The asterisk means
+that the program takes the exact amount of robots and the robots per sequence, does a
+binomial calculation to determine the number of sequence for all robots to meet each
+other exactly once, and uses this number as the argument.  The default value is 1.</P>
+
+<DT><B>Robots or r:</B><DD><P>Takes one or more robot files as its argument.</P>
+
+<DT><B>Arenas or a:</B><DD><P>Takes one or more arena files as its argument.</P>
+</DL>
+</P>
+<P>File arguments can be one of the following:
+<DL>
+<DT><B>Just the file:</B><DD><P>This searches the path for the file</P>
+<P>Example: <CODE>Robot: empty.robot</CODE></P>
+
+<DT><B>Full path to the file:</B><DD><P>This takes the given file</P>
+<P>Example: <CODE>Arena: /usr/local/games/RealTimeBattle/Arenas/Circle.arena</CODE></P>
+
+<DT><B>All files in path:</B><DD><P>This searches the whole path and takes all files found.</P>
+<P>Example: <CODE>Arena: *</CODE></P>
+
+<DT><B>One specific directory:</B><DD><P>This searches the specified directory and takes all files found. </P>
+<P>Example: <CODE>Robot: /usr/local/games/RealTimeBattle/Robots/*</CODE></P>
+
+</DL>
+</P>
+<P>It is possible to write files more than one time. So if you want three rotate_and_fire.robot. Just
+write rotate_and_fire.robot three times. This is also true for <CODE>*</CODE>.</P>
+<P>Example tournament file:</P>
+<P><CODE>R: * Arenas: Circle.arena Square.arena G/S: 2 r/s: 3 Sequences: *</CODE></P>
+
+<H2><A NAME="log_files"></A> <A NAME="ss2.12">2.12</A> <A HREF="RealTimeBattle.html#toc2.12">Log files</A>
+</H2>
+
+<P>Sometimes it can be useful to 
+<A HREF="#replaying">replay</A> a game
+and analyze it in detail or just to store for future reference, in this
+case log files can be useful. Add the flag <CODE>-l</CODE>, when starting
+RealTimeBattle, with the filename as argument to enable this feature and
+with argument <CODE>'-'</CODE>, the log is printed to stdout.</P>
+<P>The format of the log file is as follows: Each line consist of a letter, determining
+the type of information, followed by a whitespace-separated list of arguments. The
+following information is given:
+<DL>
+<DT><B>Header:</B><DD><P>H [games/sequence] [robots/sequence] [sequences] [robots]</P>
+<DT><B>Arena info:</B><DD><P>A [line from the arena file]</P>
+<DT><B>Game start:</B><DD><P>G [sequence number] [game number]</P>
+<DT><B>Option:</B><DD><P>O [option:value]</P>
+<DT><B>List of robot properties:</B><DD><P>L [robot id] [robot colour] [robot name]
+<A NAME="RobotPositionInfo"></A> </P>
+<DT><B>Robot position info:</B><DD><P>R [robot id] [x] [y] [cannon angle] [radar angle] [energy]</P>
+<DT><B>Time:</B><DD><P>T [time elapsed]</P>
+<DT><B>Print message:</B><DD><P>P [robot id] [message to print]</P>
+<DT><B>Cookie:</B><DD><P>C [cookie id] [x] [y]</P>
+<DT><B>Mine:</B><DD><P>M [mine id] [x] [y]</P>
+<DT><B>Shot:</B><DD><P>S [shot id] [x] [y] [dx/dt] [dy/dt]</P>
+<DT><B>Die:</B><DD><P>D [type of object killed] [object id] (if robot: [points
+received] [position])</P>
+</DL>
+</P>
+
+<H2><A NAME="replaying"></A> <A NAME="ss2.13">2.13</A> <A HREF="RealTimeBattle.html#toc2.13">Replaying</A>
+</H2>
+
+<P>You can replay a game from its 
+<A HREF="#log_files">log file</A> either
+by giving the 
+<A HREF="#Command line options">command line option</A>
+<CODE>&quot;-r&quot;</CODE> or from the 
+<A HREF="#Control window">control window</A>.
+Note that if the log is coming from standard input (command line option
+<CODE>&quot;-r&nbsp;-&quot;</CODE>), you cannot do much but watch the game, but otherwise
+you can influence the flow of the game:</P>
+<P>
+<UL>
+<LI> The slidebar at the top shows how far the current game has progressed. You
+can jump wherever you want in the game by dragging the handle.
+</LI>
+<LI> Fast forward and rewind work as expected. You can alter the speed
+by changing the option 
+<A HREF="RealTimeBattle-5.html#Fast forward factor">fast forward factor</A>.
+</LI>
+<LI> Step forward and step backward can be used to study what happens in
+detail. First, however, the game should be 
+<A HREF="#pause">paused</A>.
+</LI>
+<LI> With the four bottom buttons you can jump between games and
+sequences.</LI>
+</UL>
+</P>
+
+
+<H2><A NAME="statistics_files"></A> <A NAME="ss2.14">2.14</A> <A HREF="RealTimeBattle.html#toc2.14">Statistics files</A>
+</H2>
+
+<P>The statistics file is a file used only when a 
+<A HREF="#tournament_files">tournament file</A> is specified. The statistics will be
+saved to this file when the tournament ends. Otherwise you can save it by hand using
+the <CODE>save</CODE> button in the 
+<A HREF="#Statistics window">statistics window</A>.</P>
+
+
+
+<HR>
+<A HREF="RealTimeBattle-3.html"><IMG SRC="next.png" ALT="Next"></A>
+<A HREF="RealTimeBattle-1.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc2"><IMG SRC="toc.png" ALT="Contents"></A>
+</BODY>
+</HTML>

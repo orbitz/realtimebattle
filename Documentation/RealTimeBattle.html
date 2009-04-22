@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle User Manual, version 1.0.8</TITLE>
+ <LINK HREF="RealTimeBattle-1.html" REL=next>
+
+
+</HEAD>
+<BODY>
+<A HREF="RealTimeBattle-1.html"><IMG SRC="next.png" ALT="Next"></A>
+<IMG SRC="prev.png" ALT="Previous">
+<IMG SRC="toc.png" ALT="Contents">
+<HR>
+<H1>RealTimeBattle User Manual, version 1.0.8</H1>
+
+<H2>Erik Ouchterlony and Ragnar Ouchterlony, Johannes Nicolai (
+<A HREF="mailto:jonico@users.sourceforge.net">jonico@users.sourceforge.net</A>)</H2> 4 October 2005
+<P>
+<H2><A NAME="toc1">1.</A> <A HREF="RealTimeBattle-1.html">Introduction</A></H2>
+
+<UL>
+<LI><A NAME="toc1.1">1.1</A> <A HREF="RealTimeBattle-1.html#ss1.1">More information</A>
+<LI><A NAME="toc1.2">1.2</A> <A HREF="RealTimeBattle-1.html#ss1.2">Requirements</A>
+<LI><A NAME="toc1.3">1.3</A> <A HREF="RealTimeBattle-1.html#ss1.3">Background</A>
+<LI><A NAME="toc1.4">1.4</A> <A HREF="RealTimeBattle-1.html#ss1.4">License</A>
+<LI><A NAME="toc1.5">1.5</A> <A HREF="RealTimeBattle-1.html#ss1.5">Bug reports</A>
+</UL>
+<P>
+<H2><A NAME="toc2">2.</A> <A HREF="RealTimeBattle-2.html">Usage</A></H2>
+
+<UL>
+<LI><A NAME="toc2.1">2.1</A> <A HREF="RealTimeBattle-2.html#ss2.1">Command line options</A>
+<LI><A NAME="toc2.2">2.2</A> <A HREF="RealTimeBattle-2.html#ss2.2">Control window</A>
+<LI><A NAME="toc2.3">2.3</A> <A HREF="RealTimeBattle-2.html#ss2.3">Start new tournament window</A>
+<LI><A NAME="toc2.4">2.4</A> <A HREF="RealTimeBattle-2.html#ss2.4">Robots and arena directories</A>
+<LI><A NAME="toc2.5">2.5</A> <A HREF="RealTimeBattle-2.html#ss2.5">Arena window</A>
+<LI><A NAME="toc2.6">2.6</A> <A HREF="RealTimeBattle-2.html#ss2.6">Score window</A>
+<LI><A NAME="toc2.7">2.7</A> <A HREF="RealTimeBattle-2.html#ss2.7">Message window</A>
+<LI><A NAME="toc2.8">2.8</A> <A HREF="RealTimeBattle-2.html#ss2.8">Options window</A>
+<LI><A NAME="toc2.9">2.9</A> <A HREF="RealTimeBattle-2.html#ss2.9">Statistics window</A>
+<LI><A NAME="toc2.10">2.10</A> <A HREF="RealTimeBattle-2.html#ss2.10">Running without graphics</A>
+<LI><A NAME="toc2.11">2.11</A> <A HREF="RealTimeBattle-2.html#ss2.11">Tournament files</A>
+<LI><A NAME="toc2.12">2.12</A> <A HREF="RealTimeBattle-2.html#ss2.12">Log files</A>
+<LI><A NAME="toc2.13">2.13</A> <A HREF="RealTimeBattle-2.html#ss2.13">Replaying</A>
+<LI><A NAME="toc2.14">2.14</A> <A HREF="RealTimeBattle-2.html#ss2.14">Statistics files</A>
+</UL>
+<P>
+<H2><A NAME="toc3">3.</A> <A HREF="RealTimeBattle-3.html">Structure</A></H2>
+
+<UL>
+<LI><A NAME="toc3.1">3.1</A> <A HREF="RealTimeBattle-3.html#ss3.1">Robot motion</A>
+<LI><A NAME="toc3.2">3.2</A> <A HREF="RealTimeBattle-3.html#ss3.2">Energy</A>
+<LI><A NAME="toc3.3">3.3</A> <A HREF="RealTimeBattle-3.html#ss3.3">The radar</A>
+<LI><A NAME="toc3.4">3.4</A> <A HREF="RealTimeBattle-3.html#ss3.4">The robots position</A>
+<LI><A NAME="toc3.5">3.5</A> <A HREF="RealTimeBattle-3.html#ss3.5">Shooting</A>
+<LI><A NAME="toc3.6">3.6</A> <A HREF="RealTimeBattle-3.html#ss3.6">Collisions</A>
+<LI><A NAME="toc3.7">3.7</A> <A HREF="RealTimeBattle-3.html#ss3.7">Cookies and Mines</A>
+<LI><A NAME="toc3.8">3.8</A> <A HREF="RealTimeBattle-3.html#ss3.8">Time</A>
+<LI><A NAME="toc3.9">3.9</A> <A HREF="RealTimeBattle-3.html#ss3.9">A game</A>
+<LI><A NAME="toc3.10">3.10</A> <A HREF="RealTimeBattle-3.html#ss3.10">A sequence</A>
+<LI><A NAME="toc3.11">3.11</A> <A HREF="RealTimeBattle-3.html#ss3.11">A tournament</A>
+</UL>
+<P>
+<H2><A NAME="toc4">4.</A> <A HREF="RealTimeBattle-4.html">Robot construction</A></H2>
+
+<UL>
+<LI><A NAME="toc4.1">4.1</A> <A HREF="RealTimeBattle-4.html#ss4.1">Reading messages</A>
+<LI><A NAME="toc4.2">4.2</A> <A HREF="RealTimeBattle-4.html#ss4.2">Messagetypes.h</A>
+<LI><A NAME="toc4.3">4.3</A> <A HREF="RealTimeBattle-4.html#ss4.3">Cheating</A>
+<LI><A NAME="toc4.4">4.4</A> <A HREF="RealTimeBattle-4.html#ss4.4">Messages to robots</A>
+<LI><A NAME="toc4.5">4.5</A> <A HREF="RealTimeBattle-4.html#ss4.5">Messages from robots</A>
+</UL>
+<P>
+<H2><A NAME="toc5">5.</A> <A HREF="RealTimeBattle-5.html">Options</A></H2>
+
+<UL>
+<LI><A NAME="toc5.1">5.1</A> <A HREF="RealTimeBattle-5.html#ss5.1">Environmental options</A>
+<LI><A NAME="toc5.2">5.2</A> <A HREF="RealTimeBattle-5.html#ss5.2">Robot options</A>
+<LI><A NAME="toc5.3">5.3</A> <A HREF="RealTimeBattle-5.html#ss5.3">Shot options</A>
+<LI><A NAME="toc5.4">5.4</A> <A HREF="RealTimeBattle-5.html#ss5.4">Extras options</A>
+<LI><A NAME="toc5.5">5.5</A> <A HREF="RealTimeBattle-5.html#ss5.5">Time options</A>
+<LI><A NAME="toc5.6">5.6</A> <A HREF="RealTimeBattle-5.html#ss5.6">Window sizes</A>
+<LI><A NAME="toc5.7">5.7</A> <A HREF="RealTimeBattle-5.html#ss5.7">Miscellaneous options</A>
+</UL>
+<P>
+<H2><A NAME="toc6">6.</A> <A HREF="RealTimeBattle-6.html">Arena construction</A></H2>
+
+<UL>
+<LI><A NAME="toc6.1">6.1</A> <A HREF="RealTimeBattle-6.html#ss6.1">Arena commands</A>
+</UL>
+<HR>
+<A HREF="RealTimeBattle-1.html"><IMG SRC="next.png" ALT="Next"></A>
+<IMG SRC="prev.png" ALT="Previous">
+<IMG SRC="toc.png" ALT="Contents">
+</BODY>
+</HTML>

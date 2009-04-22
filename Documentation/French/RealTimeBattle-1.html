@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Manuel d'utilisation de RealTimeBattle, version 1.0.5 rev 1: Introduction</TITLE>
+ <LINK HREF="RealTimeBattle-2.html" REL=next>
+ <LINK HREF="RealTimeBattle.html#toc1" REL=contents>
+</HEAD>
+
+<BODY text="#000000" lang="fr">
+
+<A HREF="RealTimeBattle-2.html"><IMG SRC="next.gif" ALT="Suivant"></A>
+<A HREF="RealTimeBattle.html"><IMG SRC="prev.gif" ALT="Précédent"></A>
+<A HREF="RealTimeBattle.html#toc1"><IMG SRC="toc.gif" ALT="Table des matières"></A>
+<HR>
+
+<H2><A NAME="Introduction"></A> <A NAME="s1">1. Introduction</A></H2>
+
+<P>Ceci est le manuel d'utilisation pour RealTimeBattle. On vous y expliquera comment
+lancer le programme, comment il marche, comment créer vos propres robots et comment construire des arènes. 
+<P>RealTimeBattle est un jeu pour Unix, dans lequel des robots contrôlés par des programmes se battent entre eux.
+Le but est de détruire ses ennemis, en utilisant un radar pour observer  son environnement et un cannon pour tirer.
+<P>Même s'il est simple de construire un robot qui se déplace bêtement, il est bien plus compliquer d'en construire un
+qui soit 'intelligent'. RealTimeBattle a été fait pour être facile d'utilisation, flexible et rapide.
+Le but d'un programmeur de robots peut être de faire des tests sur des algorithmes 'intelligents', aussi bien
+que de se distraire.
+<P>Caractéristiques:
+<P>
+<UL>
+<LI> Le jeu se déroule en temps réel, et les robots sont des programmes lancés par RealTimeBattle.
+</LI>
+<LI> Les robots communiquent avec le programme principal en utilisant les entrées et sorties standarts.
+</LI>
+<LI> Les robots peuvent a priori être construit dans n'importe quel langage de programmation.
+</LI>
+<LI> Jusqu'à 120 robots peuvent combattre en même temps sur le même terrain.
+</LI>
+<LI> Un langage très simple est utilisé pour la communication, ce qui permet de vite construire son premier robot.
+</LI>
+<LI> Les robots réagissent comme des objets physiques.
+</LI>
+<LI> Vous pouvez construire vos propres arènes.
+</LI>
+<LI> Il comprend un grand nombre de paramètres configurables.
+</LI>
+</UL>
+<P>
+<H2><A NAME="More information"></A> <A NAME="ss1.1">1.1 Plus d'informations</A>
+</H2>
+
+<P>D'autres informations peuvent être trouvées dans les fichiers <CODE>INSTALL</CODE>, <CODE>BUGS</CODE>, <CODE>TODO</CODE>,
+<CODE>README</CODE>, <CODE>FAQ</CODE> and <CODE>ChangeLog</CODE> de la distribution.  
+Des mises à jour peuvent être téléchargées à partir de la 
+<A HREF="http://www.lysator.liu.se/realtimebattle/">page de RealTimeBattle</A>, où vous pouvez aussi trouver
+de nouveaux robots, des nouvelles, des tournois et ce manuel dans différents formats.
+<P>
+<H2><A NAME="Requirements"></A> <A NAME="ss1.2">1.2 Matériel nécessaire</A>
+</H2>
+
+<P> Le matériel nécessaire dépend de l'utilisation que vous voulez faire du programme.
+Lancer quelques robots ne devrait pas poser de problèmes à partir de machines exploitées par un GNU/Linux
+ou sur tout autre clône d'UNIX. La matériel devra bien entendu être plus puissant si vous voulez augmenter
+le nombre de robots sur un même champs de bataille; Lancer 120 gros robots demandera certainement un bon PC.
+<P>RealTimeBattle est uniquement utilisable sous Unix. Il est dévelopé sur une 'machine Linux', mais il devrait
+être compilable sur tout autre clône d'Unix. L'exécution en 
+<A HREF="RealTimeBattle-2.html#Command line options">mode compétition</A> n'est disponible que sous Linux car il
+faut lire le répertoire <CODE>/proc</CODE> pour obtenir des informations de l'utilisation processeur.
+<P>Le seul logiciel nécessaire est 
+<A HREF="http://www.gtk.org">gtk+</A>, qui est utilisé pour les interfaces graphiques.
+<P>
+<P>
+<H2><A NAME="Background"></A> <A NAME="ss1.3">1.3 Background</A>
+</H2>
+
+<P>Le projet a commencé en aout 1998. L'inspiration est venue de 
+<A HREF="http://www.robotbattle.com/">RobotBattle</A>, un jeu très interessant
+auquel nous avons beaucoup joué il y a quelques années. Cette version de 
+RobotBattle avait bien sure quelques défauts : Elle était seulement disponible sous Windows
+et les robots étaient écrits dans un langage propre à l'application, ce qui limitait les
+possibilité d'intelligence des robots. RobotBattle est toujours en dévelopement, mais ne permet toujours
+pas d'etre utilisée sous un autre système d'exploitation.
+<P>C'est pour cela que nous avons décidé de construire un jeu de robots sous 
+Unix, ce qui nous permet d'utiliser les caracteristiques d'une système d'exploitation moderne.
+<P>
+<H2><A NAME="License"></A> <A NAME="ss1.4">1.4 Licence</A>
+</H2>
+
+<P>RealTimeBattle est distribué sous la licence
+<A HREF="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</A>, 
+dans l'esprit de la communauté de Linux. Les versions officielles de RealTimeBattle
+seront mises à jour par les auteurs.
+<P>Copyright (C) 1998-2000  Erik Ouchterlony and Ragnar Ouchterlony
+<P>
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+<P>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+<P>You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+<P>
+<H2><A NAME="BugReports"></A> <A NAME="ss1.5">1.5 Bug reports</A>
+</H2>
+
+<P>
+Si vous trouvez quoi que ce soit qui ne marche pas dans ce package, quelque chose d'étrange, que
+quelque chose manque, quelque chose de mal orthographié ou mal traduit, n'hésitez pas à envoyer un
+rapport aux 
+<A HREF="mailto:rtb@users.sourceforge.net">auteurs</A>. Mais s'il vous plait, vérifiez qu'il n'est pas
+déjà mentionné dans la liste des bugs ou dans 
+<A HREF="http://www.lysator.liu.se/realtimebattle/Documentation/BUGS.html">notre propre liste des bugs</A>.
+<P>
+<P>
+<P>
+<HR>
+
+<A HREF="RealTimeBattle-2.html"><IMG SRC="next.gif" ALT="Suivant"></A>
+<A HREF="RealTimeBattle.html"><IMG SRC="prev.gif" ALT="Précédent"></A>
+<A HREF="RealTimeBattle.html#toc1"><IMG SRC="toc.gif" ALT="Table des matières"></A>
+
+</BODY>
+</HTML>
+

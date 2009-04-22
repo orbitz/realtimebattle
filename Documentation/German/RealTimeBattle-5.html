@@ -1,0 +1,330 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle Benutzer-Handbuch, Version 1.0.8: Optionen</TITLE>
+ <LINK HREF="RealTimeBattle-6.html" REL=next>
+ <LINK HREF="RealTimeBattle-4.html" REL=previous>
+ <LINK HREF="RealTimeBattle.html#toc5" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="RealTimeBattle-6.html"><IMG SRC="next.png" ALT="Next"></A>
+<A HREF="RealTimeBattle-4.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc5"><IMG SRC="toc.png" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Options"></A> <A NAME="s5">5.</A> <A HREF="RealTimeBattle.html#toc5">Optionen</A></H2>
+
+<P>RealTimeBattle kann durch eine ganze Reihe von Optionen konfiguriert werden,
+die in verschiedenen Gruppen zusammengefasst sind. Die Philosophie dahinter
+ist, dir gr&ouml;&szlig;tm&ouml;gliche Freiheit zu geben, das Spiel so zu gestalten wie du
+es willst. Das heisst aber auch, dass bestimmte Kombinationen der Optionen
+zu schlechten Ergebnissen f&uuml;hren k&ouml;nnen, und dem Programm Schwierigkeiten
+machen k&ouml;nnten.</P>
+
+
+<H2><A NAME="Environmental options"></A> <A NAME="ss5.1">5.1</A> <A HREF="RealTimeBattle.html#toc5.1">Umwelt-Optionen</A>
+</H2>
+
+<P>
+<DL>
+
+<DT><B>Gravitational Constant:</B><DD><P>Die Beschleunigung, die von der Gravitation
+herr&uuml;hrt. Auf der Erde ist diese Konstante ungef&auml;hr 9.81. Eine Erh&ouml;hung
+wird zu einer erh&ouml;hten Reibung f&uuml;hren und die Roboter langsamer machen.</P>
+<P>
+<A NAME="AirResistance"></A> </P>
+<DT><B>AirResistance:</B><DD><P>Richtig geraten. Der Luftwiderstand nimmt mit der
+Geschwindigkeit zu.</P>
+<P>
+<A NAME="RollFriction"></A> </P>
+<DT><B>RollFriction:</B><DD><P>Die Reibung in Richtung des Roboters, wenn er nicht
+bremst (Rollreibung).</P>
+<P>
+<A NAME="SlideFriction"></A> </P>
+<DT><B>SlideFriction:</B><DD><P>Die Reibung orthogonal zur Richtung des Roboters.
+Ist gleichzeitig die maximale Reibung, wenn der Roboter bremst (Gleitreibung).</P>
+<P>
+<A NAME="SendCoordinates"></A> </P>
+<DT><B>Send robot coordinates:</B><DD><P>Legt fest wie Koordinaten zu den Robotern
+gesendet werde. Folgende Optionen sind verf&uuml;gbar:
+<UL>
+<LI> 0 - kein Koordinaten senden (standart)</LI>
+<LI> 1 - sendet die Koordinaten relativ zur Startposition</LI>
+<LI> 2 - sendet absolute Koordinaten</LI>
+</UL>
+</P>
+</DL>
+</P>
+
+<H2><A NAME="Robot options"></A> <A NAME="ss5.2">5.2</A> <A HREF="RealTimeBattle.html#toc5.2">Roboter Optionen</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="RobotMaxAcceleration"></A> </P>
+<DT><B>Robot max acceleration:</B><DD><P>Roboter d&uuml;rfen nicht mehr beschleunigen,
+als dieser Wert angibt, und...</P>
+
+<DT><B>Robot min acceleration:</B><DD><P>...nicht weniger als dieser Wert.</P>
+<P>
+<A NAME="RobotRadius"></A> </P>
+<DT><B>Robot radius:</B><DD><P>Gibt die Gr&ouml;&szlig;e des Roboters an.</P>
+
+<DT><B>Robot mass:</B><DD><P>Robotergewicht. Ein grosses Robotergewicht erh&ouml;ht die
+Auswirkungen eines Zusammenpralls.</P>
+<P>
+<A NAME="BounceCoefficient"></A> </P>
+<DT><B>Robot bounce coefficient:</B><DD><P>Gibt an wie gut der Roboter abprallen
+kann. Wenn dieser Wert 0 ist, werden die Roboter 'aufeinanderklatschen' wenn
+sie kollidieren, wenn der Wert 1, ist werden sie sich wie perfekte
+Billiardb&auml;lle verhalten.</P>
+
+<DT><B>Robot hardness coefficient:</B><DD><P>Gibt an wieviel Schaden die Roboter
+erleiden, wenn sie kollidieren. Je kleiner der Wert, desto weicher das
+Material.</P>
+
+<DT><B>Robot protection coefficient:</B><DD><P>Bestimmt, wie gut der Roboter gesch&uuml;tzt
+ist. Dieser Faktor wird mit der Energie des Schadens multipliziert, und man
+erh&auml;lt den Wert, um den man die Roboterenergie verringern muss.</P>
+<P>
+<A NAME="RobotFront"></A> </P>
+<DT><B>Robot frontsize:</B><DD><P>Die Vorderseite des Roboters ist ein Gebiet aus
+verschiedenen Materialien, normalerweise h&auml;rter und sch&uuml;tzender, sodass
+Roboter sich gegenseitig Schaden k&ouml;nnen indem sie sich rammen.</P>
+
+<DT><B>Robot front bounce coefficient:</B><DD><P>Siehe vorherige 4 Erkl&auml;rungen.</P>
+
+<DT><B>Robot front hardness coefficient:</B><DD><P>Siehe vorherige 5 Erkl&auml;rungen.</P>
+
+<DT><B>Robot front protection coefficient:</B><DD><P>Siehe vorherige 6 Erkl&auml;rungen.</P>
+
+<DT><B>Robot start energy:</B><DD><P>Die Menge an Energie, die der Roboter am
+Anfang jeden Spieles haben wird.</P>
+
+<DT><B>Robot max energy:</B><DD><P>Durch aufnehmen eines Kekses kann der Roboter
+seine Energie erh&ouml;hen, allerdings nicht mehr als auf diesen Wert.</P>
+<P>
+<A NAME="RobotMaxRotateSpeed"></A> </P>
+<DT><B>Robot max rotate speed:</B><DD><P>Wie schnell der Roboter rotieren darf.
+Einheit: 'radians'/s.</P>
+
+<DT><B>Robot cannon max rotate speed:</B><DD><P>Maximale Geschwindigkeit, mit der
+die Kanone rotieren darf. Allerdings rotieren die Kanone und der Radar
+relativ zum Roboter, sodass die eigentliche Rotationsgeschwindigkeit h&ouml;her
+sein kann.</P>
+
+<DT><B>Robot radar max rotate speed:</B><DD><P>Maximale
+Radar-Rotationsigeschwindigkeit. Siehe auch obige Bemerkung.</P>
+<P>
+<A NAME="EnergyLevels"></A> </P>
+<DT><B>Robot energy levels:</B><DD><P>Der Roboter wird seine Energie nur ungef&auml;hr
+wissen. Diese Option entscheidet wieviele unterschiedliche Energie-Stufen es
+im Spiel gibt.</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Shot options"></A> <A NAME="ss5.3">5.3</A> <A HREF="RealTimeBattle.html#toc5.3">Schu&szlig;-Optionen</A>
+</H2>
+
+<P>
+<DL>
+<DT><B>Shot radius:</B><DD><P>Gr&ouml;&szlig;e der Sch&uuml;sse. Sollte kleiner sein als der
+<A HREF="#RobotRadius">Roboter Radius</A>.</P>
+<P>
+<A NAME="ShotSpeed"></A> </P>
+<DT><B>Shot speed:</B><DD><P>Sch&uuml;sse bewegen sich mit dieser Geschwindigkeit in die
+Richtung der Kanone plus der Geschwindigkeit des Roboters.</P>
+<P>
+<A NAME="ShootingPenalty"></A> </P>
+<DT><B>Shooting penalty:</B><DD><P>Wenn der Roboter schiesst, nimmt er dabei selber
+Schaden. Dies ist der Faktor, mit dem die Schu&szlig;-Energie multipliziert wird,
+um die Energie zu bekommen, die dem Roboter abgezogen wird.
+Wenn die Anzahl der Roboter gross ist, wird diese Zahl verkleinert, sodass
+man nie unverh&auml;ltnism&auml;&szlig;ig viel Energie verliert.</P>
+<P>
+<A NAME="ShotMinEnergy"></A> </P>
+<DT><B>Shot min energy:</B><DD><P>Die kleinste erlaubte Schu&szlig;-Energie. Ein Roboter,
+der versucht mit weniger Energie zu schiessen wird gar nicht schiessen.</P>
+<P>
+<A NAME="ShotMaxEnergy"></A> </P>
+<DT><B>Shot max potential energy:</B><DD><P>Die Roboter haben eine Schuss-Energie,
+die mit der Zeit zunimmt, diesen Wert aber nicht &uuml;berschreitet.</P>
+<P>
+<A NAME="ShotEnergyIncreaseSpeed"></A> </P>
+<DT><B>Shot potential energy increase speed:</B><DD><P>Gibt an, wie schnell die
+Schuss-Energie des Roboters (siehe oben) zunimmt. Einheit: Energie/Sekunde.</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Cookie_and_mine_options"></A> <A NAME="ss5.4">5.4</A> <A HREF="RealTimeBattle.html#toc5.4">Extra-Optionen</A>
+</H2>
+
+<P>
+<DL>
+<DT><B>Cookie max energy:</B><DD><P>Die Energie, die man von einem Keks bekommt ist
+ein zuf&auml;lliger Wert zwischen <CODE>Cookie max energy</CODE>
+und <CODE>Cookie min energy</CODE>
+.</P>
+
+<DT><B>Cookie min energy:</B><DD><P>Siehe oben.</P>
+
+<DT><B>Cookie frequency:</B><DD><P>Die Zahl der Kekse pro Sekunde, die
+durchschnittlich auftauchen werden.</P>
+
+<DT><B>Cookie radius:</B><DD><P>Gr&ouml;&szlig;e der Kekse.</P>
+
+<DT><B>Mine max energy:</B><DD><P>Die Minen-Energie ist ein Zufallswert zwischen
+<CODE>Mine max energy</CODE> und <CODE>Mine min energy</CODE></P>
+
+<DT><B>Mine min energy:</B><DD><P>Siehe oben.</P>
+
+<DT><B>Mine frequency:</B><DD><P>Die Anzahl der Minen pro Sekunde, die durschnittlich
+auf dem Spielfeld erscheinen werden.</P>
+
+<DT><B>Mine radius:</B><DD><P>Gr&ouml;&szlig;e der Minen.</P>
+
+<DT><B>Cookie colour:</B><DD><P>Farbe der Kekse in hexadezimaler Schreibweise,
+angegeben in rot-gruen-blau Werten.</P>
+
+<DT><B>Mine colour:</B><DD><P>siehe oben.</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Time options"></A> <A NAME="ss5.5">5.5</A> <A HREF="RealTimeBattle.html#toc5.5">Zeit Optionen</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="Timeout"></A> </P>
+<DT><B>Timeout:</B><DD><P>Dies ist die maximale Dauer eines Spiels. Wenn die Zeit
+abgelaufen ist, werden alle verbleibenden Roboter gekillt, ohne noch
+irgendwelche Punkte zu bekommen.</P>
+<P>
+<A NAME="MaxTimestep"></A> </P>
+<DT><B>Max timestep:</B><DD><P>Wenn der Computer zeitweise sehr langsam wird,
+kann die Zeit zwischen updates ziemlich lang werden. Indem man diese Option
+setzt, kann sich das Programm in solchen F&auml;llen k&uuml;nstlich verlangsamen und
+damit die "realtimeness" verletzen.</P>
+<P>
+<A NAME="TimeScale"></A> </P>
+<DT><B>Time scale:</B><DD><P>Setzt man Timescale gr&ouml;sser als 1, heisst das, dass die
+Spiel-Uhr schneller als eine "richtige" Uhr gehen wird. Diesen Wert zu
+ver&auml;ndern kann n&uuml;tzlich sein wenn man entweder den Robotern mehr Zeit geben
+will, oder wenn man (k)einen schnellen Computer hat und man das Spiel
+beschleunigen will. </P>
+<P>
+<A NAME="UpdateInterval"></A> </P>
+<DT><B>Update interval:</B><DD><P>Diese Option gibt die Zeit zwischen Roboter-updates
+an, d.h. wie oft der Roboter-Zustand ver&auml;ndert wird. Sie wird nicht von der
+"Time Scale"-Option beinflusst, und kann nicht ver&auml;ndert werden, wenn das
+Programm l&auml;uft. Die Genauigkeit ist 1/100 s(je nach Genauigkeit des Systems
+auf dem RealTimeBattle l&auml;uft).</P>
+<P>
+<A NAME="RobotStartupTime"></A> </P>
+<DT><B>Robot startup time:</B><DD><P>Legt die Zeit zwischen dem ausf&uuml;hren der Roboter und dem Anfang der Sequenz
+fest. Wenn Roboter schwarz sind und keine Namen haben, solltest du die
+RobotStartupTime etwas erh&ouml;hen(voreingestellt ist 1 Sekunde).
+Dies kann z.B. passieren wenn es viele Roboter gibt, die Roboter ziemlich gro&szlig;
+sind, man auf einem langsamen Rechner arbeitet.</P>
+<P>
+<A NAME="CPUOptions"></A> </P>
+<DT><B>Start CPU time:</B><DD><P>Im 
+<A HREF="RealTimeBattle-2.html#Command line options">Competition-Modus</A> 
+ist die CPU-Zeit eines Roboters begrenzt. Am Anfang einer Sequenz bekommt ein
+Roboter diese Menge an CPU-Zeit, die er verbrauchen darf.</P>
+
+<DT><B>Extra CPU time:</B><DD><P>Wenn die anf&auml;ngliche CPU-Zeit verbraucht ist,
+bekommt der Roboter die Menge an Extra-CPU-Zeit.</P>
+
+<DT><B>Extra CPU period:</B><DD><P>Die Extra CPU-Zeit muss eine ganze CPU-Periode
+reichen, sonst stirbt der Roboter im aktuellen Spiel.</P>
+<P>
+<A NAME="CPUWarningPercentage"></A> </P>
+<DT><B>CPU warning percentage:</B><DD><P>Wenn der Roboter diesen Betrag an CPU-Zeit
+aufgebraucht hat, bekommt er eine Warnung zugeschickt.</P>
+
+<DT><B>Process check interval:</B><DD><P>Im 
+<A HREF="RealTimeBattle-2.html#Command line options">Competition-Modus</A> 
+entscheidet dieser Wert, wie oft das Programm den CPU-Verbrauch &uuml;berpr&uuml;fen wird.</P>
+<P>
+<A NAME="LoggingFrequency"></A> </P>
+<DT><B>Logging frequency:</B><DD><P>Um die Gr&ouml;&szlig;e der 
+<A HREF="RealTimeBattle-2.html#log_files">log files</A> zu reduzieren kannst
+du diesen Wert vergr&ouml;ssern. Mit dieser Option werden 
+<A HREF="RealTimeBattle-2.html#RobotPositionInfo">robot position info</A> nur jedes 'n'te
+<A HREF="#UpdateInterval">Update-Interval</A> aktualisiert.</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Window sizes"></A> <A NAME="ss5.6">5.6</A> <A HREF="RealTimeBattle.html#toc5.6">Fenstergr&ouml;&szlig;en</A>
+</H2>
+
+<P>Hier kann man die Gr&ouml;&szlig;e f&uuml;r verschiedene Fenster setzen, n&auml;mlich
+das 
+<A HREF="RealTimeBattle-2.html#Arena_window">Arena-Fenster</A>,
+das 
+<A HREF="RealTimeBattle-2.html#Message window">Message-Fenster</A>,
+das 
+<A HREF="RealTimeBattle-2.html#Score window">Score-Fenster</A> und
+das 
+<A HREF="RealTimeBattle-2.html#Statistics window">Statistik-Fenster</A>.
+Man kann auch die Position f&uuml;r die ersten drei und
+das 
+<A HREF="RealTimeBattle-2.html#Control window">Kontroll-Fenster</A> angeben.</P>
+
+<H2><A NAME="Miscellaneous options"></A> <A NAME="ss5.7">5.7</A> <A HREF="RealTimeBattle.html#toc5.7">Verschiedene Optionen</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="ArenaScale"></A> </P>
+<DT><B>Arena scale:</B><DD><P>"Overall Scale" der Arena. Ein Wert von 2 ergibt eine
+doppelte Seitenl&auml;nge, d.h. eine viermal so gro&szlig;e Arena.</P>
+<P>
+<A NAME="Fast forward factor"></A> </P>
+<DT><B>Fast forward factor:</B><DD><P>Legt die Geschwindigkeit fest mit der das Spiel mittels fast forward oder
+rewind abl&auml;uft(siehe auch 
+<A HREF="RealTimeBattle-2.html#replaying">Replay</A>).</P>
+<P>
+<A NAME="Max robots allowed simultaneously"></A> </P>
+<DT><B>Max. Anzahl von Robotern, die gleichzeitig erlaubt sind:</B><DD><P>Erlaubt dem User die maximal erlaubte Anzahl an Robotern in einer Sequenz zu
+ver&auml;ndern. Wenn es zu viele sind, kann sich das Betriebssystem beschweren
+(bei wievielen dies passiert ist systemabh&auml;ngig).</P>
+
+<DT><B>Background colour:</B><DD><P>Hintergrundfarbe und...</P>
+
+<DT><B>Foreground colour:</B><DD><P>...Vordergrundfarbe der Arena.</P>
+<P>
+<A NAME="Colour for RTB messages"></A> </P>
+<DT><B>Farbe der RTB-Nachrichten:</B><DD><P>Farbe des Textes der RTB-Nachrichten.</P>
+<P>
+<A NAME="Robot search path"></A> </P>
+<DT><B>Robot search path:</B><DD><P>Dies ist eine durch Doppelpunkte getrennte Liste
+von Verzeichnissen die nach Robotern durchsucht werden, wenn ein
+<A HREF="RealTimeBattle-2.html#Start new tournament window">neues Turnier</A> anf&auml;ngt.
+Das Verzeichnis <CODE>Robots</CODE> im Installationsverzeichnis
+(Standard-Wert: <CODE>/usr/local/games/RealTimeBattle</CODE>) wird immer durchsucht.</P>
+<P>
+<A NAME="Arena search path"></A> </P>
+<DT><B>Arena search path:</B><DD><P>&Auml;hnlich wie oben, allerdings f&uuml;r Arena-Dateien,
+nicht f&uuml;r Roboter. Das Verzeichnis <CODE>Arenas</CODE> im Installationsverzeichnis
+(Standard-Wert: <CODE>/usr/local/games/RealTimeBattle</CODE>) wird immer durchsucht.</P>
+
+</DL>
+</P>
+
+
+
+<HR>
+<A HREF="RealTimeBattle-6.html"><IMG SRC="next.png" ALT="Next"></A>
+<A HREF="RealTimeBattle-4.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc5"><IMG SRC="toc.png" ALT="Contents"></A>
+</BODY>
+</HTML>

@@ -1,0 +1,10 @@
+scale 15.0
+boundary -0.826 -0.971   1.02 0.971
+
+closed_polygon 0.7 0.7  0.04   10   0.309 0.951   0.405 0.294   1 0  0.405 -0.294  0.309 -0.951  -0.155 -0.476 -0.809 -0.588  -0.5 0  -0.806 0.588  -0.155 0.476  
+
+exclusion_point 0.809 0.588
+exclusion_point 0.809 -0.588
+exclusion_point -0.309 -0.951
+exclusion_point -1 0
+exclusion_point -0.309 0.951

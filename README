@@ -1,0 +1,80 @@
+*** PLEASE READ EXTRAROBOTS.README CAREFULLY IF YOU LIKE 
+TO USE THE ROBOTS SUPPLIED WITH THIS PACKAGE ***
+
+
+ RealTimeBattle
+ --------------
+
+ RealTimeBattle is a programming game for Unix, in which robots controlled
+ by programs are fighting each other. The goal is to destroy the enemies,
+ using the radar to examine the environment and the cannon to shoot.
+
+ RealTimeBattle is open source software, distributed under the General
+ Public License (GPL). Read more about this license in the file COPYING.
+
+
+ More Information
+ ----------------
+
+ For info on installation, read the file INSTALL.
+
+ More information on usage, construction of robots and more can be found
+ in the user manual in the subdirectory Documentation.
+
+ If you encounter a bug or some problem of any sort, please look in the
+ files BUGS, TODO and FAQ in this directory, as well as the corresponding
+ pages at the RealTimeBattle homepage at 
+ 'http://realtimebattle.sourceforge.net'
+
+
+ Mailing lists
+ -------------
+
+ There are three mailing-lists for RealTimeBattle. One for announcements,
+ one for discussions and one for development.
+
+ The announcement-list is called realtimebattle-announce. It is a
+ moderated low traffic list where only posts of general interest to
+ RealTimeBattle users get through. Here will, for example, new releases
+ and competitions be announced.
+
+ To subscribe, unsubscribe or set your preferences go to the web page
+ 'http://lists.sourceforge.net/mailman/listinfo/realtimebattle-announce'.
+
+ There is also an email-based interface, for help send an email to
+ 'realtimebattle-announce-request@lists.sourceforge.net' with just the
+ word 'help' in the subject or body.
+
+
+ The discussion-list is called realtimebattle-discussion.  Here can
+ anything related to RealTimeBattle be discussed. It is not moderated.
+
+ To subscribe, unsubscribe or set your preferences, go to
+ 'http://lists.sourceforge.net/mailman/listinfo/realtimebattle-discussion'.
+
+ There is also an email-based interface, for help send an email to
+ 'realtimebattle-discussion-request@lists.sourceforge.net' with just the
+ word 'help' in the subject or body.
+
+
+ The development-list is called realtimebattle-devel.  Here can
+ anything related to RealTimeBattle development be discussed. It is not moderated.
+
+ To subscribe, unsubscribe or set your preferences, go to
+ 'http://lists.sourceforge.net/mailman/listinfo/realtimebattle-devel'.
+
+ There is also an email-based interface, for help send an email to
+ 'realtimebattle-devel-request@lists.sourceforge.net' with just the
+ word 'help' in the subject or body.
+ Contacts
+ --------
+
+ Comments, bug reports and/or patches can be sent to the email address
+ jonico@users.sourceforge.net
+
+
+
+ Hope you will enjoy your time using the program!
+
+
+

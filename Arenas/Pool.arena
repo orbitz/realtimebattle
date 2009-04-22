@@ -1,0 +1,38 @@
+scale 5
+angle_unit degrees
+
+boundary  -2.7 -4.45    2.7  4.5
+
+
+
+
+poly_curve 0.96  0.1  0.2   1.51  -4.1   1.0 0.0
+        A   45   0.4
+        A -180   0.3
+        A   45   0.4
+        L  3.1        
+        A   90   0.15 
+        A -180   0.3
+        A   90   0.15 
+        L  3.1        
+        A   45   0.4
+        A -180   0.3
+        A   45   0.4
+        L  3.1        
+        A   45   0.4
+        A -180   0.3
+        A   45   0.4
+        L  3.1        
+        A   90   0.15 
+        A -180   0.3
+        A   90   0.15 
+        L  3.1        
+        A   45   0.4
+        A -180   0.3
+        A   45   0.4
+        C
+
+exclusion_point 0 10
+exclusion_point 0 -10
+exclusion_point 10 0
+exclusion_point -10 0

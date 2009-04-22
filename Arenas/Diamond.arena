@@ -1,0 +1,9 @@
+scale 0.5
+boundary -20.0 -20.0  20.0 20.0
+
+inner_circle 0.7 0.7    0.0 0.0  19.5
+
+closed_polygon 0.7 0.7   1.0   4   5.0 0.0   0.0 5.0  -5.0 0.0   0.0 -5.0 
+
+exclusion_point 0.0 0.0
+

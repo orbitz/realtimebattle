@@ -1,0 +1,5 @@
+Robots: empty.robot seek_and_destroy.robot rotate_and_fire_signal.robot
+Arenas: *
+Games/Sequence: *
+Robots/Sequence: 3
+Sequences: 1

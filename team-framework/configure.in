@@ -1,0 +1,67 @@
+dnl                                                -*- Autoconf -*-
+dnl  Process this file with autoconf to produce a configure script.
+
+AC_INIT([initcomponents.cpp])
+AC_CONFIG_AUX_DIR(buildinternal)
+AM_CONFIG_HEADER([config.h])
+AM_INIT_AUTOMAKE([RealTimeBattleTeamFrameWork] , [1.1])
+
+dnl  Checks for programs.
+dnl AC_PROG_CC
+AC_PROG_CXX
+
+dnl  Checks for libraries and language features, the next setp will be to use the information
+AC_CHECK_LIB([rt],[clock_gettime])
+AC_CXX_HAVE_STL
+AC_CXX_HAVE_STD
+AC_CXX_EXCEPTIONS
+AC_CXX_HAVE_SSTREAM
+AC_CXX_HAVE_STRING_PUSH_BACK
+AC_CXX_MEMBER_CONSTANTS
+AC_CXX_NAMESPACES
+AC_CXX_REINTERPRET_CAST
+AC_CXX_STATIC_CAST
+AC_CXX_TEMPLATES
+mni_CXX_HAVE_KOENIG_LOOKUP
+
+dnl  Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([fcntl.h stdlib.h string.h syslog.h unistd.h])
+
+dnl  Checks for typedefs, structures, and compiler characteristics.
+AC_CXX_BOOL
+
+dnl  Checks for library functions.
+AC_FUNC_ERROR_AT_LINE
+AC_FUNC_SELECT_ARGTYPES
+AC_FUNC_STAT
+AC_CHECK_FUNCS([select socket strerror])
+dnl Here we test whether we have to link against lsocket and lnsl
+ETR_SOCKET_NSL
+
+dnl Find out where RealTime Battle lives
+AC_PREFIX_DEFAULT(/usr/local)
+AC_ARG_WITH(rtb_dir, 
+[  --with-rtb-dir=[path]   directory for rtb installation 
+                          [EPREFIX/games/RealTimeBattle]],,
+   with_rtb_dir=['${exec_prefix}/games/RealTimeBattle'])
+
+RTB_DIR=$with_rtb_dir
+AC_SUBST(RTB_DIR)
+AC_SUBST(RTB_LOCALEDIR)
+DOCS_DIR=[${RTB_DIR}/Documentation]
+AC_SUBST(DOCS_DIR)
+
+RTB_EXPAND_DIR(ROBOTDIR, "${RTB_DIR}/Robots")
+AC_SUBST(ROBOTDIR)
+RTB_EXPAND_DIR(ARENADIR, "${RTB_DIR}/Arenas")
+AC_SUBST(ARENADIR)
+AC_DEFINE_UNQUOTED(ROBOTDIR, "$ROBOTDIR",[robothome])
+AC_DEFINE_UNQUOTED(ARENADIR, "$ARENADIR",[arenahome])
+
+dnl Do the output now
+AC_OUTPUT([
+Makefile
+conf/Makefile
+])
+

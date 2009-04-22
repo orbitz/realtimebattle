@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle Benutzer-Handbuch, Version 1.0.8</TITLE>
+ <LINK HREF="RealTimeBattle-1.html" REL=next>
+
+
+</HEAD>
+<BODY>
+<A HREF="RealTimeBattle-1.html"><IMG SRC="next.png" ALT="Next"></A>
+<IMG SRC="prev.png" ALT="Previous">
+<IMG SRC="toc.png" ALT="Contents">
+<HR>
+<H1>RealTimeBattle Benutzer-Handbuch, Version 1.0.8</H1>
+
+<H2>Erik Ouchterlony and Ragnar Ouchterlony, Johannes Nicolai (
+<A HREF="mailto:jonico@users.sourceforge.net">jonico@users.sourceforge.net</A>)</H2> 4. Oktober 2005
+<HR>
+<EM>Deutsche &Uuml;bersetzung von Uwe Hermann, Falko Menge und Johannes Nicolai</EM>
+<HR>
+<P>
+<H2><A NAME="toc1">1.</A> <A HREF="RealTimeBattle-1.html">Einf&uuml;hrung</A></H2>
+
+<UL>
+<LI><A NAME="toc1.1">1.1</A> <A HREF="RealTimeBattle-1.html#ss1.1">Weitere Informationen</A>
+<LI><A NAME="toc1.2">1.2</A> <A HREF="RealTimeBattle-1.html#ss1.2">Systemvoraussetzungen</A>
+<LI><A NAME="toc1.3">1.3</A> <A HREF="RealTimeBattle-1.html#ss1.3">Hintergrundinformationen</A>
+<LI><A NAME="toc1.4">1.4</A> <A HREF="RealTimeBattle-1.html#ss1.4">Lizenz</A>
+<LI><A NAME="toc1.5">1.5</A> <A HREF="RealTimeBattle-1.html#ss1.5">Bug Reports</A>
+<LI><A NAME="toc1.6">1.6</A> <A HREF="RealTimeBattle-1.html#ss1.6">Deutsche &Uuml;bersetzung</A>
+</UL>
+<P>
+<H2><A NAME="toc2">2.</A> <A HREF="RealTimeBattle-2.html">Bedienung des Programms</A></H2>
+
+<UL>
+<LI><A NAME="toc2.1">2.1</A> <A HREF="RealTimeBattle-2.html#ss2.1">Kommandozeilenparameter</A>
+<LI><A NAME="toc2.2">2.2</A> <A HREF="RealTimeBattle-2.html#ss2.2">Kontroll-Fenster</A>
+<LI><A NAME="toc2.3">2.3</A> <A HREF="RealTimeBattle-2.html#ss2.3">Neues Turnier-Fenster &ouml;ffnen</A>
+<LI><A NAME="toc2.4">2.4</A> <A HREF="RealTimeBattle-2.html#ss2.4">Roboter- und Arena-Verzeichnisse</A>
+<LI><A NAME="toc2.5">2.5</A> <A HREF="RealTimeBattle-2.html#ss2.5">Arena-Fenster</A>
+<LI><A NAME="toc2.6">2.6</A> <A HREF="RealTimeBattle-2.html#ss2.6">Score-Fenster</A>
+<LI><A NAME="toc2.7">2.7</A> <A HREF="RealTimeBattle-2.html#ss2.7">Nachrichten-Fenster</A>
+<LI><A NAME="toc2.8">2.8</A> <A HREF="RealTimeBattle-2.html#ss2.8">Options-Fenster</A>
+<LI><A NAME="toc2.9">2.9</A> <A HREF="RealTimeBattle-2.html#ss2.9">Statistik-Fenster</A>
+<LI><A NAME="toc2.10">2.10</A> <A HREF="RealTimeBattle-2.html#ss2.10">Spiel ohne Grafiken</A>
+<LI><A NAME="toc2.11">2.11</A> <A HREF="RealTimeBattle-2.html#ss2.11">Turnier-Dateien</A>
+<LI><A NAME="toc2.12">2.12</A> <A HREF="RealTimeBattle-2.html#ss2.12">Log-Dateien</A>
+<LI><A NAME="toc2.13">2.13</A> <A HREF="RealTimeBattle-2.html#ss2.13">Replaying</A>
+<LI><A NAME="toc2.14">2.14</A> <A HREF="RealTimeBattle-2.html#ss2.14">Statistik-Datei</A>
+</UL>
+<P>
+<H2><A NAME="toc3">3.</A> <A HREF="RealTimeBattle-3.html">Aufbau des Programms</A></H2>
+
+<UL>
+<LI><A NAME="toc3.1">3.1</A> <A HREF="RealTimeBattle-3.html#ss3.1">Roboterbewegung</A>
+<LI><A NAME="toc3.2">3.2</A> <A HREF="RealTimeBattle-3.html#ss3.2">Energie</A>
+<LI><A NAME="toc3.3">3.3</A> <A HREF="RealTimeBattle-3.html#ss3.3">Das Radar</A>
+<LI><A NAME="toc3.4">3.4</A> <A HREF="RealTimeBattle-3.html#ss3.4">Die Position des Robters</A>
+<LI><A NAME="toc3.5">3.5</A> <A HREF="RealTimeBattle-3.html#ss3.5">Schie&szlig;en</A>
+<LI><A NAME="toc3.6">3.6</A> <A HREF="RealTimeBattle-3.html#ss3.6">Kollisionen</A>
+<LI><A NAME="toc3.7">3.7</A> <A HREF="RealTimeBattle-3.html#ss3.7">Kekse und Minen</A>
+<LI><A NAME="toc3.8">3.8</A> <A HREF="RealTimeBattle-3.html#ss3.8">Zeit</A>
+<LI><A NAME="toc3.9">3.9</A> <A HREF="RealTimeBattle-3.html#ss3.9">Ein Spiel</A>
+<LI><A NAME="toc3.10">3.10</A> <A HREF="RealTimeBattle-3.html#ss3.10">Eine Sequenz</A>
+<LI><A NAME="toc3.11">3.11</A> <A HREF="RealTimeBattle-3.html#ss3.11">Ein Turnier</A>
+</UL>
+<P>
+<H2><A NAME="toc4">4.</A> <A HREF="RealTimeBattle-4.html">Roboter-Programmierung</A></H2>
+
+<UL>
+<LI><A NAME="toc4.1">4.1</A> <A HREF="RealTimeBattle-4.html#ss4.1">Nachrichten lesen</A>
+<LI><A NAME="toc4.2">4.2</A> <A HREF="RealTimeBattle-4.html#ss4.2">Messagetypes.h</A>
+<LI><A NAME="toc4.3">4.3</A> <A HREF="RealTimeBattle-4.html#ss4.3">Schummeln</A>
+<LI><A NAME="toc4.4">4.4</A> <A HREF="RealTimeBattle-4.html#ss4.4">Nachrichten an Roboter</A>
+<LI><A NAME="toc4.5">4.5</A> <A HREF="RealTimeBattle-4.html#ss4.5">Nachrichten von Robotern</A>
+</UL>
+<P>
+<H2><A NAME="toc5">5.</A> <A HREF="RealTimeBattle-5.html">Optionen</A></H2>
+
+<UL>
+<LI><A NAME="toc5.1">5.1</A> <A HREF="RealTimeBattle-5.html#ss5.1">Umwelt-Optionen</A>
+<LI><A NAME="toc5.2">5.2</A> <A HREF="RealTimeBattle-5.html#ss5.2">Roboter Optionen</A>
+<LI><A NAME="toc5.3">5.3</A> <A HREF="RealTimeBattle-5.html#ss5.3">Schu&szlig;-Optionen</A>
+<LI><A NAME="toc5.4">5.4</A> <A HREF="RealTimeBattle-5.html#ss5.4">Extra-Optionen</A>
+<LI><A NAME="toc5.5">5.5</A> <A HREF="RealTimeBattle-5.html#ss5.5">Zeit Optionen</A>
+<LI><A NAME="toc5.6">5.6</A> <A HREF="RealTimeBattle-5.html#ss5.6">Fenstergr&ouml;&szlig;en</A>
+<LI><A NAME="toc5.7">5.7</A> <A HREF="RealTimeBattle-5.html#ss5.7">Verschiedene Optionen</A>
+</UL>
+<P>
+<H2><A NAME="toc6">6.</A> <A HREF="RealTimeBattle-6.html">Arena-Konstruktion</A></H2>
+
+<UL>
+<LI><A NAME="toc6.1">6.1</A> <A HREF="RealTimeBattle-6.html#ss6.1">Arena Kommandos</A>
+</UL>
+<HR>
+<A HREF="RealTimeBattle-1.html"><IMG SRC="next.png" ALT="Next"></A>
+<IMG SRC="prev.png" ALT="Previous">
+<IMG SRC="toc.png" ALT="Contents">
+</BODY>
+</HTML>

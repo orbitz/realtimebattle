@@ -1,0 +1,1618 @@
+<!doctype linuxdoc system>
+
+<!--
+RealTimeBattle, a robot programming game for Unix
+Copyright (C) 1998-2000  Erik Ouchterlony and Ragnar Ouchterlony
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+-->
+
+<article>
+<titlepag>
+<title>RealTimeBattle Benutzer-Handbuch, Version 1.0.8
+<author>Erik Ouchterlony and Ragnar Ouchterlony, Johannes Nicolai (<htmlurl name="jonico@users.sourceforge.net" url="mailto:jonico@users.sourceforge.net">)
+<date> 4. Oktober 2005
+<abstract>Deutsche Übersetzung von Uwe Hermann, Falko Menge und Johannes Nicolai</abstract>
+
+</titlepag>
+
+<toc>
+
+
+<!--   ################      Introduction      ##################   -->
+
+<sect>Einführung<label id="Introduction">
+<p>
+Dies hier ist die Anleitung zu RealTimeBattle. Sie beschreibt wie man das
+Programm bedient, wie es funktioniert, wie man eigene Roboter programmiert und
+wie man sich eine eigene Arena erstellen kann.
+
+RealTimeBattle ist ein "Programmier-Spiel" für Unix, in dem Programm-gesteuerte
+Roboter gegeneinander kämpfen. Das Ziel ist es, alle Gegner zu vernichten,
+wobei man den Radar einsetzt um die Gegend abzutasten, und die Kanone, um die
+Gegner abzuschießen.
+
+Obwohl die Umgebung in der sich die Roboter bewegen relativ einfach gestaltet
+ist, ist es nicht einfach einen intelligenten Roboter zu programmieren.
+RealTimeBattle wurde so geschrieben, dass es leicht zu bedienen, flexibel
+und schnell ist. Die Idee dahinter war, das Programm zum testen von intelligenten Algorithmen
+zu verwenden, oder auch einfach zur Unterhaltung.
+
+Features:
+
+<itemize>
+<item>Das Spiel wird in Echtzeit ausgeführt; die Roboter laufen als
+Child-Prozesse von RealTimeBattle.</item>
+
+<item>Die Roboter kommunizieren mit dem Programm durch standard input und
+output(stdin und stdout).</item>
+
+<item>Die Roboter können in nahezu jeder Programmiersprache geschrieben werden.</item>
+
+<item>Bis zu 120 Roboter können gleichzeitig gegeneinander antreten.</item>
+
+<item>Für die Kommunikation wird eine simple "messaging"-Sprache benutzt,
+die es einfach macht neue Roboter zu schreiben.</item>
+
+<item>Die Roboter verhalten sich wie richtige physikalische Objekte.</item>
+
+<item>Man kann sich eigene Arenen bauen.</item>
+
+<item>Viele Konfigurationsmöglichkeiten.</item>
+
+<item>Externe Clients können das Spielgeschehen anzeigen.</item>
+
+<item>Rudimentärer Team-Support ist direkt im Spiel eingebaut, Team Frameworks erlauben weitere Koordination der Roboter.</item>
+
+</itemize>
+
+<sect1>Weitere Informationen<label id="More information">
+<p>
+Mehr Informationen gibt's in den Dateien <tt>INSTALL</tt>, <tt>AUTHORS</tt>, <tt>BUGS</tt>, <tt>TODO</tt>, 
+<tt>README</tt>, <tt>FAQ</tt> und <tt>ChangeLog</tt>
+. Aktuellere Informationen kann man auf der
+<url name="RealTimeBattle Homepage" url="http://realtimebattle.sourceforge.net/">
+finden, wo es auch verschiedene Roboter, Neuigkeiten zu diversen Wettkämpfen, 
+sowie dieses Handbuch in mehreren Dateiformaten gibt.
+ 
+<sect1>Systemvoraussetzungen<label id="Requirements">
+<p>
+Die Hardware-Voraussetzungen hängen sehr davon ab, was man machen will.
+Ein paar Roboter antreten zu lassen, sollte auf nahezu jedem Rechner auf dem
+Linux(oder ein anderes Unix) läuft möglich sein.
+Der Bedarf an schnellerer Hardware steigt jedoch mit der Zahl der Roboter, die
+man gleichzeitig aufs Schlachfeld schickt; 120 gut programmierte Roboter
+gleichzeitig kämpfen zu lassen, kann einem normalen PC schon einiges
+abverlangen. 
+
+RealTimeBattle gibt es nur für Unix. Es wird auf einem Linux-Rechner
+geschrieben, sollte sich aber auch auf anderen Unix-Derivaten kompilieren
+lassen. Der  
+<ref id="Command line options" name="Competition-Modus"> ist im
+Moment nur verfügbar, wenn man unter Linux das <tt>/proc</tt>-Verzeichnis
+aktiviert hat, daRealTimeBattle Informationen über die momentane CPU-Last erhalten muss.
+
+Die einzige benötigte Software ist <url url="http://www.gtk.org" name="gtk+">, das für die grafische Benutzeroberfläche verwendet wird.
+
+
+<sect1>Hintergrundinformationen<label id="Background">
+<p>
+Das Projekt wurde im August 1998 ins Leben gerufen. Die Inspiration dazu war
+<url url="http://www.robotbattle.com/" name="RobotBattle">, ein sehr
+interessantes Spiel, das wir früher gern gespielt haben.
+Die damalige Version von RobotBattle hatte jedoch zwei entscheidende Nachteile:
+
+<itemize>
+<item>Das Spiel gibt es nur für Windows.</item>
+<item>Die Roboter sind in einer eigenen Programmiersprache geschrieben, was
+die Möglichkeiten, intelligente Roboter zu schreiben zu sehr einschränkt.</item>
+</itemize>
+
+RobotBattle wurde inzwischen weiterentwickelt, ist aber nach wie vor nicht für
+andere Betriebssysteme erhältlich.
+
+Daher haben wir uns entschieden, eine Unix-Version zu entwickeln, die viele
+Features eines modernen Betriebssytems nutzt.
+
+<sect1>Lizenz<label id="License">
+<p> 
+RealTimeBattle unterliegt, ganz im Sinne Linux-Philosophie, der
+<url url="http://www.gnu.org/copyleft/gpl.html" name="GNU General Public License">.
+Offizielle Versionen von RealTimeBattle werden von den Autoren
+freigegeben werden.
+
+Copyright (C) 1998-2000  Erik Ouchterlony and Ragnar Ouchterlony, weitere Entwickler sind in der <tt>AUTHORS</tt> Datei zu finden.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+<sect1>Bug Reports<label id="BugReports">
+<p>
+Wenn du etwas in diesem Softwarepaket findest, das nicht funktioniert, nicht
+<tt>richtig</tt> 
+funktioniert, fehlt, falsch geschrieben, oder einfach nur verwirrend ist, schicke einen Bug Report an
+<url name="RealTimeBattle Homepage" url="http://sourceforge.net/bugs/?group_id=561">.
+
+<sect1>Deutsche Übersetzung<label id="German Translation">
+<p>
+Diese Übersetzung unterliegt der GNU General Public License. Nähere
+Infomationen gibt es unter
+<url url="http://www.fsf.org/copyleft/gpl.html" name="http://www.fsf.org/copyleft/gpl.html">
+rtb-docs.de -- german translation of the RTB documentation
+Copyright (C) 1999-2005  Uwe Hermann, Falko Menge, Johannes Nicolai 
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+Die deutsche Übersetzung(für RTB-Version 0.9.7) wurde von
+<url url="mailto:uh1763@bingo-ev.de" name="Uwe Hermann &lt;uwe@hermann-uwe.de&gt;">
+am 16. Mai fertiggestellt.
+Ich habe mir Mühe gegeben die englische Anleitung möglichst genau zu
+übersetzen, und trotzdem ein gut verständliches Deutsch zu erhalten.
+Ich hoffe dies ist mir, trotz einiger Ausdrücke die mir selber nicht sonderlich
+gefallen, einigermaßen gelungen.
+Fehler, Verbesserungsvorschläge o.ä. in der Übersetzung bitte an
+<htmlurl url="mailto:uh1763@bingo-ev.de" name="uh1763@bingo-ev.de">
+schicken.
+Ich möchte mich bei
+<htmlurl url="mailto:br1764@bingo-ev.de" name="Daniel Reutter &lt;reutter@dhreutter.de&gt;"> dafür bedanken, dass er die Übersetzung
+durchgelesen hat, und mich auf "ein paar" Fehler aufmerksam gemacht hat :-).
+
+Die neueste Version der Übersetzung ist unter
+<htmlurl url="http://realtimebattle.sourceforge.net/Documentation/German/" name="http://realtimebattle.sourceforge.net/Documentation/German/"> erhältlich.
+
+Changelog:
+
+<itemize>
+	<item>4. Oktober 2005 (von Johannes Nicolai):
+		<itemize>
+			<item>Anpassung an Version 1.0.8</item>
+			<item>Aktuellere Links eingefügt</item>
+			<item>weitere kleinere Verbesserungen</item>
+		</itemize>
+	</item>
+	<item>23. November 2004 (von Falko Menge):
+		<itemize>
+			<item>Anpassung an Version 1.0.7</item>
+			<item>Bugs 206688 und 458248 behoben</item>
+			<item>weitere kleinere Verbesserungen</item>
+		</itemize>
+	</item>
+	<item>23. November 2004 (von Falko Menge):
+		<itemize>
+			<item>Anpassung an Version 1.0.5 Rev 1</item>
+		</itemize>
+	</item>
+	<item>17.-22. November 2004 (von Falko Menge):
+		<itemize>
+			<item>kleinere Fehler behoben</item>
+		</itemize>
+	</item>
+	<item>4. Februar 2000:
+		<itemize>
+			<item>Anpassung an Version 1.0.2</item>
+			<item>Alle 'Tournament's in 'Turnier'e geändert</item>
+			<item>Tippfehler ausgebessert</item>
+		</itemize>
+	</item>
+	<item>7. September 1999:
+		<itemize>
+			<item>Anpassung an Version 0.9.11(und dadurch natürlich auch an 0.9.10)</item>
+		</itemize>
+	</item>
+	<item>16. August 1999:
+		<itemize>
+			<item>kleinere Verbesserungen.</item>
+			<item>Übersetzung an Version 0.9.8 und dann 0.9.9 angepasst.</item>
+		</itemize>
+	</item>
+	<item>21. Mai 1999:
+		<itemize>
+			<item>einige Fehler verbessert.</item>
+			<item>Datum der deutschen Übersetzung hingefügt.</item>
+			<item>Anfang der GPL hinzugefügt(bisher war nur ein Link zur FSF-Homepage da)</item>
+		</itemize>
+	</item>
+</itemize>
+
+
+<!--   ################ 	Usage	       ##################   -->
+
+<sect>Bedienung des Programms<label id="Usage">
+<p>
+Dieses Kapitel beschreibt, wie man RealTimeBattle bedient. Wenn es Dir
+langweilig erscheint, die ganze Anleitung durchzulesen, kannst du auch nach
+dem <tt>Try-and-Error</tt>-Prinzip vorgehen, und nur nachschauen wenn du
+irgendwo nicht weiterkommst.
+Es ist aber eine gute Idee den kurzen Abschnitt über
+<ref name="Kommandozeilen-Parameter" id="Command line options">
+zu lesen. Beachte auch, dass es keine eingebaute Hilfe im Programm selber gibt
+- um Hilfe zu erhalten musst du dieses Dokument lesen.
+
+
+<sect1>Kommandozeilenparameter<label id="Command line options">
+<p>
+An der Kommandozeile gibt es die Möglichkeit, zwei Optionen zu setzen, die das
+allgemeine Verhalten von RealTimeBattle kontrollieren. Hier kannst du die
+Options-Datei wählen, die die Standardwerte der
+<ref name="Optionen" id="Options"> festlegt. Man kann auch auswählen, in
+welchem Spielmodus das Programm laufen wird:
+<tt>Debug-</tt>, <tt>Normal-</tt> oder <tt>Competition-</tt>Modus.
+
+<code>
+ Programmaufruf: RealTimeBattle [Optionen]
+
+ Optionen:
+    --debug_mode,		 -d   Debug-Modus
+    --debug_level [0-5],	 -D   Setzt den anfänglichen Debug-Level. Impliziert -d
+    --normal_mode,		 -n   Normal-Modus (standard)
+    --competition_mode, 	 -c   Competition-Modus
+    
+    --no_graphics,		 -g   es werden keine Grafiken angezeigt
+    --option_file [file],	 -o   wählt die Options-Datei (standard: $HOME/.rtbrc)
+    
+    --log_file [file],		 -l   erzeuge eine Log-Datei;
+				      wenn als Datei '-' angegeben wird,
+				      wird nach stdout geloggt.
+
+    --tournament_file [file],	 -t   Angabe einer Turnier-Datei um
+				      automatisch ein Turnier zu starten.
+
+    --statistics_file [file],	 -s   Datei in die Statistiken
+				      geschrieben werden, wenn
+				      automatisch gestartet wird.
+
+    --message_file [file],	 -m   Nachrichten in die Datei
+				      "file" umleiten. '-' entspricht
+				      stdout. Wenn die Logs und die
+				      Nachrichten nach STDOUT umgeleitet
+				      werden, wird '-m' ignoriert.
+    --replay [file]		 -r   Ein Logfile das abgespielt
+				      werden soll. Wenn '-' als Datei
+				      angegeben wird, wird von STDIN
+				      gelesen.
+
+    --help,			 -h   zeigt diese Informationen
+    --version,			 -v   gibt die Versionsnummer aus
+    --port_number                -p   legt den Port fest, an denen externe Clients sich
+				      verbinden können (Standard: 32134)	    
+</code>
+
+Die port_number Option ist nur dann verfügbar, wenn RealTimeBattle mit der --enable-network Option compiliert wurde (siehe Datei <tt>INSTALL</tt>).
+Die Unterschiede zwischen den drei Comepetition-Modi sind in folgender Tabelle zusammengefasst.
+
+<#if table="char" >
+<code>
++---------------------------------------+-------+--------+-------------+
+| Modus 				| Debug | Normal | Competition |
++---------------------------------------+-------+--------+-------------+
+| Debug Kommando verfügbar		|   Ja	|  Nein  |     Nein    |
+| Pause während des Spiels		|   Ja	|   Ja	 |     Nein    |
+| Programm schrittweise ausführbar	|   Ja	|  Nein  |     Nein    |
+| CPU-Zeit der Roboter ist unbeschränkt |   Ja	|   Ja	 |     Nein    |
++---------------------------------------+-------+--------+-------------+
+</code>
+
+</#if>
+<#if table="real" >
+<table loc="htb">
+<tabular ca="|l|ccc|"><hline>
+Modus				      | Debug | Normal | Competition @<hline>
+Debug Kommando verfügbar	      |   Ja  |  Nein  |     Nein    @
+Pause während des Spiels	      |   Ja  |   Ja   |     Nein    @
+Programm schrittweise ausführbar      |   Ja  |  Nein  |     Nein    @
+CPU-Zeit der Roboter ist unbeschränkt |   Ja  |   Ja   |     Nein    @<hline>
+</tabular>
+</table>
+</#if>
+
+<sect1>Kontroll-Fenster<label id="Control window">
+<p>
+<descrip>
+<tag>New tournament:</tag> Ein neues Turnier wird gestartet. Die Sektion
+<ref id="Start new tournament window" name="Neues Turnier-Fenster öffnen">
+gibt mehr Informationen darüber.
+
+<tag>Replay tournament:</tag> <ref id="replaying" name="Ein Spiel ablaufen lassen">.
+Du wirst das <ref id="log_files" name="Logfile"> des Spiels auswählen müssen
+das du studieren willst.
+
+<label id="pause">
+<tag>Pause:</tag> Hält das Spiel an. Im
+<ref id="Command line options" name="Competition-Modus"> wird erst am Ende
+des aktuellen Spiels angehalten.
+
+<tag>End:</tag> Beendet das aktuelle Turnier.
+
+<tag>Options:</tag> Öffnet das <ref id="Options_window" name="Options-Fenster">.
+
+<tag>Statistics:</tag> Zeigt das <ref id="Statistics window" name="Statistik-Fenster"> an.
+
+<tag>Show arena window:</tag> Diese Box kann dazu benutzt werden die drei Fenster, die während eines
+laufenden Spieles zu sehen sind, zu verstecken oder anzuzeigen, nämlich:
+das <ref id="Arena_window" name="Arena-Fenster">,
+das <ref id="Score window" name="Score-Fenster"> und
+das <ref id="Message window" name="Nachrichten-Fenster">.
+
+<tag>Quit:</tag> Beendet das Programm.
+
+</descrip>
+
+Im <ref id="Command line options" name="Debug-Modus"> stehen weitere
+Möglichkeiten zur Verfügung. Sie dienen dazu, beim debuggen von Robotern zu
+helfen. Es ist möglich, laufende Prozesse (und somit Roboter) zu debuggen. Wenn
+man <tt>gdb</tt> benutzt, muss man folgendermaßen starten:
+<tt>gdb Robotername Prozessnummer</tt>.
+
+<descrip>
+<tag>Step:</tag> In einem <ref name="angehaltenen" id="pause"> Spiel wird dieser Button das Spiel um
+eine Zeiteinheit voranschreiten lassen. Dies ist sehr nützlich, wenn man einen
+Roboter im Debugger am Laufen hat, da der Roboter sonst mit Nachrichten
+überflutet werden würde.
+
+<tag>End game:</tag> Das aktuelle Spiel wird beendet. Das hat den selben Effekt wie ihn ein
+<ref id="Timeout" name="Timeout"> haben würde.
+
+<tag>Kill marked robot:</tag> Im Debug-Modus kann man einen Roboter im
+<ref id="Score window" name="Score-Fenster"> markieren. Dieser Roboter wird
+sterben, wenn man diesen Button drückt.
+
+<label id="Debug level">
+<tag>Debug level:</tag> Den Debug-Level zu ändern ist eine Möglichkeit, den
+Robotern mitzuteilen, welche Nachrichten sie senden sollen. Dieser Wert liegt
+zwischen 0 und 5, wobei 0 bedeutet, dass überhaupt nicht debuggt wird, und 5
+ist der höchste Debug-Level, d.h. alle Debug-Nachrichten sollen gesendet
+werden.
+</descrip>
+
+Beim Abspielen einer Logdatei (nicht von STDOUT) gibt es eine Menge Möglichkeiten
+die Wiedergabe zu steuern. Siehe dazu auch das Kapitel über
+<ref id="replaying" name="Replaying">.
+
+<sect1>Neues Turnier-Fenster öffnen<label id="Start new tournament window">
+<p>
+Um Roboter und Arenas für ein neues Turnier auszusuchen, musst du die
+Dateien auf der rechten Seite markieren und den <tt>add</tt>-Knopf drücken.
+Die ausgesuchten Dateien werden links angezeigt. Sie können entsprechend
+auch wieder entfernt werden.
+
+<label id="NumberOfGames"> 
+Ein <ref id="A_tournament" name="Turnier"> besteht aus einer bestimmten Zahl
+von <ref id="A_sequence" name="Sequenzen"> von <ref id="A_game" name="Spielen">.
+In jeder Sequenz spielen die gleichen Roboter in allen Spielen. Hier wählt man
+die Anzahl der Spiele und Sequenzen, und auch die Anzahl der Roboter in jeder
+Sequenz. Wenn du vorhast, jedes Spiel mit allen Robotern zu spielen, ist es
+ratsam, nur eine Sequenz zu wählen und stattdessen die Anzahl der Spiele zu
+erhöhen. Der Grund dafür ist, es zu vermeiden alle Roboter-Prozesse neu zu
+starten, da dies eine Weile dauern kann, besonders wenn viele Roboter
+gegeneinander antreten.
+
+Es ist auch möglich eine Turnier-Datei zu laden oder das aktuelle Turnier
+zu speichern. Das letzte gespielte Turnier ist in /tmp/rtb/tmp.tour
+gespeichert und wird immer angezeigt wenn dieses Fenster geöffnet wird.
+
+Wenn die Datei nicht existiert wird ein leeres Turnier angezeigt.
+Du musst mindestens zwei Roboter und eine Arena auswählen um starten zu können.
+
+<sect1>Roboter- und Arena-Verzeichnisse<label id="robot_and_arena_directories">
+<p>
+Damit das Programm die Roboter und die Arenas findet, muss man zwei Optionen
+setzen: den
+<ref id="Robot search path" name="Roboter-Suchpfad"> und den
+<ref id="Arena search path" name="Arena-Suchpfad">.
+Die Unterverzeichnisse <tt>Robots</tt> und <tt>Arenas</tt> im Installationsverzeichnis
+(Standard-Wert: <tt>/usr/local/games/RealTimeBattle</tt>), das
+vor dem Kompilieren im Haupt-Makefile festgelegt wird, werden auf jeden Fall
+durchsucht. Wenn man ein neues Verzeichnis erzeugt, oder wenn man RealTimeBattle
+in ein anderes Verzeichnis installiert hat, muss man diese Optionen setzen.
+
+
+<sect1>Arena-Fenster<label id="Arena_window">
+<p>
+Hier findet das Gemetzel statt. Wenn du das Spiel detaillierter betrachten
+willst, kannst du die Zoom-Knöpfe benutzen oder +, - oder 0 drücken.
+Die Roboter werden als farbige Kreise mit einer Spitze in dem Kreis, die
+die Radar-Richtung anzeigt, die dicke Linie ist die Kanone und die dünne Linie
+zeigt in Bewegungs-Richtung.
+
+<sect1>Score-Fenster<label id="Score window">
+<p>
+In diesem Fenster werden alle Roboter aufgelistet, die in der aktuellen Sequenz
+"mitspielen".
+
+<sect1>Nachrichten-Fenster<label id="Message window">
+<p>
+Hier werden Nachrichten angezeigt, die die Roboter mittels
+<ref id="Print" name="Print und Debug"> senden. Die neuesten Nachrichten
+erscheinen ganz oben. Du kannst das Fenster leeren und auswählen nur die
+neuen Nachrichten von einem bestimmten Roboter zu sehen.
+
+<sect1>Options-Fenster<label id="Options_window">
+<p>
+Hier kannst du eine ganze Reihe von Optionen ändern. Im
+<ref id="Options" name="Optionen-Kapitel"> kannst du detaillierte
+Informationen zu jeder Option erhalten. Die Änderungen werden erst wirksam,
+wenn entweder der <tt>apply</tt>- oder der <tt>OK</tt>-Knopf gedrückt werden.
+
+Man kann seine Optionen auch in eine Datei sichern: <tt>Save options</tt> wird
+die Optionen in eine Datei deiner Wahl speichern und <tt>Save as default</tt>
+wird sie in die Datei <tt>.rtbrc</tt> in deinem Homeverzeichnis sichern.
+
+Der <tt>Default</tt>-Button wird alle Optionen auf ihre Standardwerte
+zurücksetzen.
+
+<sect1>Statistik-Fenster<label id="Statistics window">
+<p>
+Man kann sich die Statistiken des aktuellen Turniers auf verschiedene Arten
+anzeigen lassen: 
+
+<itemize>
+<item> Statistiken über einzelne <bf>Robot</bf>er,</item>
+
+<item> die Ergebnisse eines Spieles (<bf>game</bf>),</item>
+
+<item> die Gesamtergebnisse der Sequenz (<bf>sequence total</bf>) oder</item>
+
+<item> die Gesamtergebnisse(<bf>total</bf>) des Turniers.</item>
+
+</itemize>
+Mit den Pfeiltasten kann man zum ersten Element, eines zurück,
+eines vorwärts oder zum letzen Element gelangen. Der Balken in der Mitte
+ist ein Indikator dafür, was gerade angezeigt wird; Wenn man auf den Balken
+drückt, werden die Statistiken erneuert, vorausgesetzt das Spiel läuft
+gerade. Wenn du gtk+1.1.x verwendest ist es auch möglich, die einzelnen Spalten
+zu sortieren, indem man ins entsprechende Titel-Kästchen klickt.
+
+<sect1>Spiel ohne Grafiken<label id="no_graphics">
+<p>
+Wenn man will, kann man RealTimeBattle auch ganz ohne Grafiken laufen lassen.
+Dies kann besonders nützlich sein, wenn man eine lange Reihe von Tests oder
+einen Wettbewerb durchführt.
+Man hat zwei Möglichkeiten diese Option zu benutzen: Entweder man verwendet die
+Option <tt>-g</tt> beim Programmstart, oder man schaltet die Grafiken schon
+beim Kompilieren ab (die Datei <tt>INSTALL</tt> gibt dazu nähere Informationen).
+Die letze Alternative ist besonders nützlich, da die ausführbare Datei kleiner
+wird und daher auf Rechnern mit weniger Arbeitsspeicher schneller läuft. Das
+ermöglicht es auch, RealTimeBattle auf Rechnern laufen zu lassen, auf denen kein
+<tt>gtk+</tt> installiert ist.
+
+Wenn man ohne Grafiken arbeitet, muss man ein Turnier-file angeben,
+andernfalls wird nichts passieren. Es ist auch zu empfehlen eine Log-Datei
+und/oder Statistik-Datei zu erzeugen, wenn man die Ergebnisse wissen will :-)
+
+
+<sect1>Turnier-Dateien<label id="tournament_files">
+<p>
+Die Turnier-Datei wird als <ref id="Command line options" name="Kommandozeilenparameter"> angegeben.
+Wenn diese Datei verwendet wird, wird das Turnier automatisch anfangen und
+beendet werden. Wie man die Statistiken speichert steht im Kapitel
+<ref id="statistics_files" name="Statistik-Datei">.
+
+Eine Turnier-Datei besteht aus 5 Schlüsselwörtern. Alle diese Schlüsselwörter
+können mehrmals benutzt werden, aber man muss sich dessen bewusst sein, dass
+nur das letzte Schlüsselwort, das eine Zahl als Parameter annimmt, gezählt wird.
+Alle Schlüsselwörter sollten mit einem Strichpunkt beendet werden.
+
+<descrip>
+<tag>Games/Sequence oder g/s:</tag> Als Parameter muss man entweder eine Zahl
+oder ein <tt>*</tt> angeben. Die Zahl legt fest wieviele Spiele pro Turnier
+gespielt werden sollen. Das Sternchen bedeutet, dass das Programm die genaue
+Anzahl von Arenas hernimmt und diese Zahl als Parameter verwendet. Der
+voreingestellte Wert ist 1.
+
+<tag>Robots/Sequence oder r/s:</tag> Als Parameter muss man entweder eine Zahl
+oder ein <tt>*</tt> angeben. Die Zahl legt fest wie viele Roboter in jeder
+Sequenz antreten. Das Sternchen bedeutet, dass das Programm die Anzahl der
+Roboter als Parameter nimmt. Der Default-Wert ist hier 2.
+
+<tag>Sequences oder seq:</tag> Als Parameter muss man entweder eine Zahl
+oder ein <tt>*</tt> angeben. Die Zahl legt die Anzahl der Sequenzen die
+im Turnier gespielt werden sollen fest. Wenn man ein Sternchen angibt,
+errechnet das Programm aus der Anzahl der Roboter und der Anzahl der Roboter
+pro Sequenz eine Zahl, sodaß alle Roboter genau einmal gegeneinander antreten.
+Diese errechnete Zahl wird dann als Parameter verwendet. Der Default-Wert
+ist 1. 
+
+<tag>Robots oder r:</tag> Als Parameter wird eine oder mehrere
+Roboter-Datei(en) angegeben.
+
+<tag>Arenas oder a:</tag> Eine oder mehrere Arena-Dateien werden als Parameter
+übergeben.
+</descrip>
+
+Datei-Argumente können wie folgt aussehen:
+<descrip>
+<tag>Nur die Datei selber:</tag> Hier wird der Pfad nach der Datei durchsucht.
+
+Beispiel: <tt>Robot: empty.robot</tt>
+
+<tag>Der volle Pfad zur Datei + der Dateiname:</tag> Die angegebene Datei
+wird verwendet.
+
+Beispiel: <tt>Arena: /usr/local/Games/RealTimeBattle/Arenas/Circle.arena</tt>
+
+<tag>Alle Dateien im Pfad:</tag> Diese Angabe durchsucht den ganzen Pfad und
+verwendet alle gefundenen Dateien.
+
+Beispiel: <tt>Arena: *</tt>
+
+<tag>Ein bestimmtes Verzeichnis:</tag> Es wird das angegebene Verzeichnis
+durchsucht und alle gefundenen Dateien werden verwendet.
+
+Beispiel: <tt>Robot: /usr/local/Games/RealTimeBattle/Robots/*</tt>
+
+</descrip>
+
+Es ist möglich Dateien mehr als einmal in die Turnier-Datei zu schreiben.
+Wenn du z.B. drei <tt>rotate_and_fire.robot</tt>s haben willst, trage einfach
+drei mal <tt>rotate_and_fire.robot</tt> in die Turnier-Datei ein.
+Dies gilt genauso für <tt>*</tt>.
+
+Beispiel Turnier-Datei:
+
+<tt>R: * Arenas: Circle.arena Square.arena G/S: 2 r/s: 3 Sequences: *</tt>
+
+<sect1>Log-Dateien<label id="log_files">
+<p>
+Manchmal ist es ganz nützlich, ein Spiel detailliert zu analysieren
+(<ref id="replaying" name="Replay">), oder es
+einfach nur aufzuheben, weil man es später vielleicht noch brauchen könnte.
+Hierfür sind Log-Dateien sinnvoll. Gib <tt>-l</tt> als Kommandozeilenparameter
+an, wenn du RealTimeBattle startest, und dahinter den Dateinamen der Log-Datei,
+um dieses Feature zu aktivieren. Wenn du als Datei '-' angibst, wird nach
+stdout geloggt.
+
+Die Log-Datei ist wie folgt aufgebaut:
+Jede Zeile besteht aus einem Buchstaben, der den Typ der Information angibt,
+gefolgt von einer Liste von Argumenten die durch 'Whitespaces' getrennt sind.
+Die folgenden Informationen werden angegeben:
+<descrip>
+<tag>Header:</tag> H [Spiele/Sequenz] [Roboter/Sequenz] [Sequenzen] [Roboter]
+<tag>Arena Info:</tag> A [Zeile aus der Arena Datei]
+<tag>Spielstart:</tag> G [Sequenznummer] [Spielnummer]
+<tag>Option:</tag> O [Option:Wert]
+<tag>Liste von Robotereigenschaften:</tag> L [Roboter-ID] [Roboterfarbe] [Robotername]
+<label id="RobotPositionInfo">
+<tag>Roboter Positions-Info:</tag> R [Roboter-ID] [x] [y] [Kanonen-Winkel] [Radar-Winkel] [Energie]
+<tag>Zeit:</tag> T [verstrichene Zeit]
+<tag>Nachricht ausgeben:</tag> P [Roboter-ID] [Nachricht]
+<tag>Cookie:</tag> C [Cookie-ID] [x] [y]
+<tag>Mine:</tag> M [Minen-ID] [x] [y]
+<tag>Schuß:</tag> S [Schuß-ID] [x] [y] [dx/dt] [dy/dt]
+<tag>Tod:</tag> D [Typ des gekillten Objekts] [Object-ID] [Wenn's ein Roboter war: erhaltene Punkte] [Position]
+</descrip>
+
+<sect1>Replaying<label id="replaying">
+<p>
+Du kannst ein aufgenommenes Spiel mit Hilfe seiner 
+<ref id="log_files" name="Log-Datei"> abspielen lassen, und
+zwar entweder aus dem <ref id="Control window" name="Kontroll-Fenster">
+heraus, oder indem du die <ref id="Command line options" name="Kommandozeilenoption">
+<tt>&dquot;-r&dquot;</tt> verwendest.
+Beachte aber, dass du, wenn du Standard-Input als Log-Datei verwendest
+(<ref id="Command line options" name="Kommandozeilenoption"> 
+<tt>&dquot;-r&nbsp;-&dquot;</tt>), nicht viel mehr machen kannst als
+das Spiel anzusehen. Normalerweise kann man den Ablauf des Spiels
+folgendermaßen beinflussen:
+
+<itemize>
+<item> Der Scroll-Balken ganz oben zeigt an, wie weit das aktuelle Spiel
+schon abgelaufen ist. Man kann an einen beliebigen Zeitpunkt springen, indem
+man an dem Scrollbalken zieht und ihn richtig positioniert.
+
+<item> Fast Forward und Rewind funktionieren so, wie man es von CD-Spielern
+und Video-Geräten gewohnt ist. Die Geschwindigkeit kann mittels
+<ref name="Fast Forward Factor" id="Fast forward factor"> geändert werden.
+
+<item> Step forward und step backward können dazu verwendet werden zu
+studieren was im Detail passiert. Zuerst sollte man das Spiel allerdings
+auf <ref name="Pause" id="pause"> setzen.
+
+<item> Mit den vier Buttons ganz unten kann man zwischen Spielen und Sequenzen
+hin- und herwechseln.
+</itemize>
+
+
+<sect1>Statistik-Datei<label id="statistics_files">
+<p>
+Die Statistik-Datei wird nur benutzt, wenn eine
+<ref id="tournament_files" name="Turnier-Datei"> angegeben wurde. Die
+Statistiken werden in diese Datei gespeichert, wenn das Turnier zu Ende ist.
+Man kann die Statistiken aber auch mit dem <tt>save</tt>-Knopf im
+<ref id="Statistics window" name="Statistik-Fenster"> manuell speichern. 
+
+
+<!--   ################       Structure        ##################   -->
+
+<sect>Aufbau des Programms<label id="Structure">
+<p>
+In diesem Abschnitt werden wir den Aufbau des Programms beschreiben, außerdem
+die Art, wie die Roboter sich bewegen, schießen und den Radar kontrollieren,
+wann Punkte vergeben werden, und wie ein Turnier aufgebaut ist.
+
+<sect1>Roboterbewegung<label id="Robot_motion">
+<p>
+Der Roboter verhält sich wie ein Fahrzeug mit Rädern, er rollt mit einer
+leichten <ref id="RollFriction" name="Roll-Reibung"> nach vorne und gleitet
+mit einer wesentlich höheren <ref id="SlideFriction" name="Gleit-Reibung"> zur Seite.
+Die dritte verlangsamende Kraft ist der 
+<ref id="AirResistance" name="Luftwiderstand">, der entgegen der
+Bewegungsrichtung des Roboters wirkt, und mit zunehmender
+Geschwindigkeit größer wird.
+Es gibt drei Wege, die Roboterbewegung zu beinflussen:
+<ref id="Accelerate" name="Beschleunigen">, 
+<ref id="Rotate" name="Rotieren"> und 
+<ref id="Brake" name="Bremsen">.
+Das Beschleunigen erhöht die Geschwindigkeit des Roboters in die Richtung
+in die der Roboter schaut. Man kann die Geschwindigkeit nicht direkt
+kontrollieren, Beschleunigen ist der einzige Weg den Roboter vom Fleck zu
+bewegen.
+
+Wenn man den Roboter rotieren lässt, muss man beachten, dass dies nicht
+direkt die Richtung der Bewegung beinflusst, sondern nur die Richtung der sich
+der Roboter zuwendet. Die Gleit-Reibung wird die eigentliche Drehung
+des Roboters bewerkstelligen.
+
+Bremsen wird die Roll-Reibung des Roboters auf den Maximalwert erhöhen.
+Das passiert, wenn die Räder blockiert sind, und der Roboter rutscht anstatt zu
+rollen. Vergiss nicht, die Bremse wieder zu lösen, wenn du wieder schneller
+werden willst.
+
+<sect1>Energie<label id="Energy">
+<p>
+Der Zustand des Roboters wird anhand seiner Energie gemessen. Es gibt mehrere
+Möglichkeiten, Energie zu verlieren. der Roboter kann:<itemize>
+<item> von einem Schuss getroffen werden,
+<item> mit einem anderen Roboter oder einer Mauer zusammenstoßen,
+<item> in eine Mine rennen oder
+<item> einen Schuss abfeuern.
+</itemize>
+
+Die einzige Methode, Energie zu <tt>gewinnen</tt> ist einen Keks zu essen.
+
+<sect1>Das Radar<label id="The_radar">
+<p>
+Das einzige Mittel, um Informationen über die Umgebung zu bekommen ist das
+Radar. Jedes Mal, wenn der Roboter aktuallisiert wird, wird ihm eine
+<ref id="Radar" name="Radar-Nachricht"> zugeschickt, die ihm Informationen
+über das nächste Objekt in Radar-Richtung, d.h. Entfernung und Typ des Objekts
+gibt. Wenn das Objekt ein Roboter ist, wird auch die Energie dieses Roboters
+bekanntgegeben. 
+
+Da die Radar-Informationen alles sind, was der Roboter über seine Umwelt weiß,
+ist es extrem wichtig das Radar möglichst gut zu nutzen. Außerdem ist es
+wichtig, das Radar richtig zu <ref id="Rotate" name="bewegen">, damit das
+Radar brauchbare Informationen sammeln kann.
+
+<sect1>Die Position des Robters<label id="Position">
+<p>Seit RealTimeBattle Version 1.0.5 ist es möglich, die Position des Roboter direkter
+zu bekommen. Anstatt die Umgebung mit dem Radar analysieren zu müssen und daraus
+die Position zu ermitteln, kann man RealTimeBattle so konfigurieren, dass es die
+<ref name="Roboter Koordinaten" id="Coordinates"> übermittelt. Dieses Verhalten
+wird durch die Option <ref name="Send robot coordinates" id="SendCoordinates">
+gesteuert.
+
+<sect1>Schießen<label id="Shooting">
+<p>
+Schießen ist die beste Methode andere Roboter zu eliminieren. In
+RealTimeBattle bewegt sich jeder Schuss mit konstanter Geschwindigkeit, die
+sich aus der Summe der Roboter-Geschwindigkeit und der
+<ref id="ShotSpeed" name="Schuss-Geschwindigkeit"> in die Richtung in die
+die Kanone zeigt, errechnet. Der Schuss wird solange weiterfliegen, bis er mit
+irgendeinem Objekt kollidiert.
+
+Wenn der Schuss abgefeuert wird, hat er eine bestimmte Energie, die den Schaden
+bestimmt, den ein getroffener Roboter erleiden wird. Die Energie ist jedoch
+begrenzt; die 
+<ref id="ShotMinEnergy" name="Mindest-Energie"> verbietet
+Schüsse mit sehr geringer Energie, die man z.B. zum Abschießen von Minen
+hätte verwenden können. Die
+<ref id="ShotMaxEnergy" name="Maximal-Energie"> wird von der momentanen
+potentiellen Schuss-Energie des Roboters begrenzt, die mit der Zeit zunimmt.
+
+Schießen ist jedoch nicht ohne Risiko, da jeder abgegebene Schuss den Roboter
+eine gewisse <ref id="ShootingPenalty" name="Energie"> kostet, die proportional
+zur Schuss-Energie ist.
+
+Wenn ein Keks oder eine Mine getroffen werden, werden sie zerstört, unabhängig
+von der Schuss-Energie. Daher sollte man minimalste Schuss-Energien verwenden,
+wenn man Minen abschießt.
+
+Schüsse, die kollidieren, werden nicht automatisch vernichtet, sondern ihre
+Energie wird gegeneinander aufgerechnet. Wenn die Schüsse in die gleiche
+Richtung fliegen, wird ihre Energie aufaddiert, wenn sie in entgegengesetzte
+Richtungen fliegen, heben sich ihre Energien auf.
+
+<sect1>Kollisionen<label id="Collisions">
+<p>
+Roboter sind zerbrechliche Objekte, die von Kollisionen mit Mauern oder anderen
+Robotern Schaden erleiden. Bei Kollisionen verhalten sich die Roboter wie
+Gummibälle: sie springen zurück. Es gibt drei Faktoren, die ihr Verhalten
+beinflussen, der 
+<ref id="BounceCoefficient" name="Bounce-Koeffizient">, der
+<ref id="BounceCoefficient" name="Härte-Koeffizient"> und der
+<ref id="BounceCoefficient" name="Schutz-Koeffizient">.
+An der <ref id="RobotFront" name="Vorderseite"> sind die Roboter aus anderem
+Material gebaut, das härter ist und mehr Schutz gewährt. Das kann ausgenutzt
+werden um andere Roboter zu rammen; man teilt so weit mehr Schaden aus, als
+man selber einstecken muss.
+
+<sect1>Kekse und Minen<label id="Cookies_and_mines">
+<p>
+Kekse und Minen sind gleichwertige Objekte, mit dem einzigen Unterschied,
+dass man bein Einsammeln von Keksen Energie bekommt, und beim 'Einsammeln'
+von Minen Energie verliert. Kekse und Minen werden während des Spiels zufällig
+in der Arena auftauchen. Die Energie, die man von ihnen bekommt/verliert, und
+die Häufigkeit mit der sie erscheinen, kann durch
+<ref id="Cookie_and_mine_options" name="Optionen"> kontrolliert werden.
+
+<sect1>Zeit<label id="Time">
+<p>
+Wie der Name des Programms schon andeutet, wird als Zeit die Echtzeit benutzt.
+Es ist einzig und allein die Aufgabe der Roboter, auf Signale und Nachrichten
+des Programms rechtzeitig zu antworten. Während des Spiels wird regelmässig die
+update-Funktion aufgerufen. Zwischen diesen Aufrufen müssen sich die Roboter
+die verbleibende CPU-Zeit aufteilen. Um Roboter daran zu hindern, nicht zuviel
+Prozessorleistung zu veranschlagen, ist ihre CPU-Zeit im
+<ref id="Command line options" name="Competition-Modus"> beschränkt.
+Die entsprechenden 
+<ref id="CPUOptions" name="CPU-Optionen"> geben dazu mehr
+Infomationen.
+
+Die 'Echtzeit-ness' kann aber unter Umständen verändert werden. Man kann die
+Spielgeschwindigkeit beschleunigen oder verlangsamen, indem man die
+<ref id="TimeScale" name="Timescale">-Option verändert, und es gibt eine
+Methode, die Unterbrechung des Spiels zu verhindern, wenn die Systemlast zu
+hoch ist. Wenn die Zeit zwischen zwei Updates länger als
+<ref id="MaxTimestep" name="MaxTimestep"> ist, wird das Spiel entsprechend
+langsamer gemacht.
+
+
+<sect1>Ein Spiel<label id="A_game">
+<p>
+Am Anfang eines Spiels haben die Roboter eine zufällige Position auf dem
+Spielfeld, mit einer zufälligen Ausrichtung.
+Das Radar und die Kanone zeigen beide nach vorne und die
+<ref id="Shooting" name="potentielle Schuss-Energie"> ist Null.
+Das Ziel der Roboter ist es nun, solange wie möglich zu überleben und
+gleichzeitig möglichst viele andere Roboter zu zerstören. Ein Roboter erhält
+einen Punkt für jeden gegnerischen Roboter, den er überlebt. Ein Extra-Punkt
+geht jedoch auch an alle teilnehmenden Roboter. Roboter die gleichzeitig
+sterben, bekommen genausoviele Punkte, wie sie bekommen hätten, wenn sie nicht
+gleichzeitig gestorben wären(d.h. sie bekommen einen halben Punkt für den
+jeweils anderen, der gleichzeitig stirbt).
+
+Ein Spiel ist beendet wenn entweder die Anzahl der lebenden Roboter weniger
+als zwei ist, oder <ref id="Timeout" name="die Zeit abgelaufen ist.">
+
+
+<sect1>Eine Sequenz<label id="A_sequence">
+<p>
+Eine Sequenz ist eine Reihe von Spielen, in denen immer die gleichen Roboter
+kämpfen. Am Anfang der Sequenz werden die Roboter-Prozesse gestartet. Die
+Anzahl der Roboter in einer Sequenz ist, wegen der Beschränkung auf maximal
+256 offene File-Deskriptoren in Linux, auf 120 begrenzt. Es werden für jeden
+Roboter zwei Pipes als Kommunikations-Kanäle geöffnet.
+
+Nachdem eine bestimmte <ref id="NumberOfGames" name="Anzahl von Spielen">
+gespielt wurden, werden die Roboter-Prozesse schliesslich gekillt.
+
+
+<sect1>Ein Turnier<label id="A_tournament">
+<p>
+Ein Turnier ist eine Folge von Sequenzen.
+Die Anzahl der Roboter in einem Turnier ist(theorethisch) unbegrenzt.
+Eine beliebige Anzahl von Sequenzen ist erlaubt, um aber das Turnier fair
+zu gestalten, sollte man eine Anzahl von Sequenzen aussuchen, sodass alle
+Roboter die gleiche Anzahl von Spielen spielen (d.h.
+&num;Sequenzen = &num;Roboter pro Spiel /
+ggT(&num;Roboter pro Spiel, &num;Roboter im Turnier)).
+
+
+<!--   ################   Robot Construction   ##################   -->
+
+<sect>Roboter-Programmierung<label id="Robot construction">
+<p>
+Dieses Kapitel beschreibt, wie man eigene Roboter programmiert. Das wichtigste
+was man wissen muss ist die Messaging-Sprache, die aus ca. 35 Befehlen
+besteht die zur Kommunikation mit dem Server-Programm benutzt werden.
+Zudem kann es sehr hilfreich sein, die Beispiel-Roboter im
+<tt>Robots/</tt>-Verzeichnis zu studieren.
+
+
+<sect1>Nachrichten lesen<label id="Reading messages">
+<p>
+Am Anfang jeder Sequenz werden die Roboter-Prozesse gestartet und jeder
+bekommt zwei Pipes zugewiesen, eine für Input die andere für Output.
+Diese Pipes sind mit <tt>stdin</tt> und <tt>stdout</tt> verbunden, so dass
+es für die Roboter so aussieht, als würden sie mit dem Server über
+Standard Input und Standard Output kommunizieren.
+Dieses Verfahren ermöglicht es, Roboter in nahezu jeder Programmiersprache
+zu schreiben. Es gibt nur ein Problem: der Roboter muss wissen, wann er eine
+Nachricht erhalten hat. Um das zu erreichen gibt es (mindestens) drei
+verschiedene Methoden:
+
+<descrip>
+<tag>STDIN blockiert:</tag> Dies ist die einfachste Methode. Wenn man von stdin liest, wird das Program
+blockiert bis die nächste Nachricht ankommt. Daher kann man das Programm so
+schreiben als wäre immer eine Nachricht vorhanden. Der Nachteil ist, dass man
+keine Berechnungen durchführen kann während man auf neue Nachrichten wartet.
+Um die Blockieren-Methode auszuwählen, sende folgende Roboter-Option
+<em>solbald das Programm gestartet wurde</em>:
+<verb>
+cout << "RobotOption " << USE_NON_BLOCKING << " " << 0 << endl;
+</verb>
+Beachte, dass das C++ Code ist. Wenn du nicht C++ verwendest gib einfach die
+obenstehenden Informationen auf stdout aus. endl bedeutet 'end of line'.
+
+<tag>Select:</tag> Wenn man die Unix Libc Funktion <tt>select</tt>
+verwendet, hat der Roboter
+mehr Kontrolle darüber, wann er nach neuen Nachrichten schauen soll.
+Dies ermöglicht dir, z.B. alle vorhandenen Nachrichten zu lesen, einige
+Berechnungen durchzuführen, Kommandos zu senden und dann auf weitere
+Nachrichten zu warten. Um mehr über <tt>select</tt> 
+zu lernen, lies bitte die Unix-Dokumentation (man- oder info-pages).
+
+Um die Select-Methode auszuwählen sende folgede Roboter-Option
+<em>solbald das Programm gestartet wurde</em>:
+<verb>
+cout << "RobotOption " << USE_NON_BLOCKING << " " << 1 << endl;
+</verb>
+Beachte auch hier, dass das C++ Code ist.
+
+<tag>Signale:</tag>
+Wenn du willst kannst du RealTimeBattle sagen, der Roboter soll jedesmal ein
+Signal gesendet bekommen, wenn neue Nachrichten gesendet werden.
+Diese Methode ermöglicht es dem Roboter ständig auf dem laufenden zu sein,
+auch wenn er gerade mit Berechnungen beschäftigt ist. Verwende die
+Unix-Dokumentation um mehr über Signale zu erfahren, oder alternativ:
+schau dir den Quelltext anderer Roboter an um mehr darüber zu lernen.
+
+Um die Signal-Methode auszuwählen sende folgede Roboter-Optionen
+<em>solbald das Programm gestartet wurde</em>:
+<verb>
+cout << "RobotOption " << USE_NON_BLOCKING << " " << 1 << endl;
+cout << "RobotOption " << SIGNAL << " " << SIGUSR1 << endl;
+</verb>
+Beachte auch hier, dass das C++ Code ist.
+
+Natürlich kannst du irgendein anderes Signal als <tt>SIGUSR1</tt> wählen.
+
+</descrip>
+
+Als kleine Hilfe diese drei Methoden zu implementieren, wurde der Roboter
+<tt>rotate_and_fire</tt> in drei verschiedenen, aber funktionell äquivalenten,
+Versionen geschrieben. Du kannst diese gerne studieren und in deinen eigenen
+Robotern verwenden.
+
+
+
+Ein ''busy wait'', also ein wiederholtes Nachschauen, ob eine
+Nachricht da ist, ist keine gute Idee. Das würde zu einer drastischen
+Verlangsamung des Spielablaufs führen, schlimmer noch: im
+<ref id="Command line options" name="Competition-Modus"> würde der Roboter
+ziemlich schnell wegen mangelnder CPU-Zeit draufgehen.
+
+
+<sect1>Messagetypes.h<label id="Messagetypes.h">
+<p>
+Die Datei <tt>Messagetypes.h</tt> ist eine gute Quelle für Informationen über
+die Messaging-Sprache. Es ist eine C/C++ Include-Datei, kann aber leicht
+für die Benutzung mit anderen Programmiersprachen umgeschrieben werden.
+Dort findet man eine Auflistung von Nachrichten, Warning-Typen, Objekten,
+Spiel-Optionen und Roboter-Optionen.
+
+
+<sect1>Schummeln<label id="Cheating">
+<p>
+Da der Kampf der Roboter in Echtzeit und mit richtigen Prozessen stattfindet,
+gibt es möglicherweise Methoden Roboter zu schreiben, die auf die eine oder
+andere Art schummeln, z.B. indem sie andere Roboter oder sogar RealTimeBattle
+selber untersuchen, um mehr Informationen zu erhalten, sehr viele Ressourcen
+aufbrauchen damit andere Roboter weniger haben, etc. Das ist natürlich nicht
+die feine, englische Art, einen Gegner zu schlagen, daher versuchen wir das so
+gut wie möglich zu verhindern.
+
+Im <ref id="Command line options" name="Competition-Modus">
+ist die CPU-Zeit der Roboter beschränkt, denn auf diese Art kann ein Roboter nicht
+die ganze CPU-Zeit aufbrauchen. Dies könnte man durch das Öffnen weiterer
+Kind-Prozesse umgehen, aber seitdem die vom Kind-Prozess genutzte Zeit beim
+Beenden des Prozesses gezählt wird, sollte es sehr einfach sein zu Erkennen ob
+ein Roboter irgendetwas verdächtiges tut.
+
+Es ist nicht möglich alle Möglichkeiten des Schummelns in RTB zu verhindern.
+So ist es z.B erlaubt, Dateien zu lesen und zu schreiben, man sollte sich aber
+dessen bewusst sein, dass die Organisatoren von Wettkämpfen dies verbieten
+können, wenn sie wollen, indem die einfach Besitzer und Rechte der
+Roboter-Programme richtig setzen. 
+Es ist vielleicht immer noch möglich, Wege zu finden, um diese Einschränkungen
+zu umgehen; Wenn du eine solche Möglichkeit findest, sende bitte einen
+<ref id="BugReports" name="Bug-Report"> an uns. Im übrigen ist es die Aufgabe
+der Turnier-Organisatoren sicherzustellen, dass die Regeln befolgt werden.
+
+<!--   ################   Messages to robots   ##################   -->
+
+<sect1>Nachrichten an Roboter<label id="Messages to robots">
+<p>
+<descrip>
+<label id="Initialize"> 
+
+<tag>Initialize [ErsteSequenz? (int)]</tag> Dies ist die allererste Nachricht
+die der Roboter bekommen wird. Wenn das Argument eins ist, ist es die erste
+Sequenz im Turnier und der Roboter sollte
+<ref id="NameAndColour" name="seinen Namen und seine Farbe"> and den Server
+senden, ansonsten sollte er auf YourName- und YourColor-Nachrichten warten.
+
+<label id="YourName">
+<tag>YourName [Name (string)]</tag> Der momentane Name des Roboters; man sollte
+ihn nur ändern, wenn man <tt>sehr</tt> gute Gründe dafür hat.
+
+<label id="YourColour">
+<tag>YourColour [Farbe (hex)]</tag> Die momentane Farbe des Roboters; wenn
+sie einem nicht gefällt, kann man sie ändern.
+Alle Roboter in einem Team haben dieselbe Farbe.
+
+<tag>GameOption [Optionsnummer (int)] [value (double)]</tag> Am Anfang jedes
+Spieles werden dem Roboter einige Einstellungen mitgeteilt, die dem Roboter
+nützlich sein können. Für eine komplette Liste sollte man sich das
+<tt>game_option_type</tt> enum in der Datei
+<ref id="Messagetypes.h" name="Messagetypes.h"> anschauen. Im
+<ref id="Options" name="Optionen-Kapitel"> gibt's mehr Informationen
+zu den einzelnen Optionen.
+Der <ref id="Debug level" name="Debug-Level"> wird auch als Spiel-Option
+gesendet obwohl es nicht in der Options-Liste ist.
+
+<tag>GameStarts</tag> Diese Nachricht wird gesendet wenn das Spiel anfängt
+(wer hätte das gedacht?).
+
+<label id="Radar">
+<tag>Radar [Entfernung (double)] [Typ des beobachteten Objekts (int)] [Radar-Winkel (double)]</tag>
+Diese Nachricht gibt jede Runde Radar-Informationen. Der Radar-Winkel wird
+relativ zur Vorderseite des Roboters angegeben, und zwar im Bogenmaß.
+
+<tag>Info [Zeit (double)] [Geschwindigkeit (double)] [Kanonen-Winkel (double)]</tag>
+Die <bf>Info</bf>-Nachricht wird immer nach der <bf>Radar</bf>-Nachricht
+gesendet. Sie gibt mehr allgemeine Informationen über den Status des Roboters.
+Die Zeit ist jene Zeit, die seit dem Start des Spieles vergangen ist. Dies
+ist nicht unbedingt die Zeit, die in Wirklichkeit vergangen ist,
+und zwar wegen 
+<ref id="TimeScale" name="time scale"> und
+<ref id="MaxTimestep" name="max timestep">.
+
+<label id="Coordinates">
+<tag>Coordinates [x (double)] [y (double)] [angle (double)]</tag>
+Diese Nachricht teilt Dir die aktuelle Prosition mit. Sie ist nur gesendet
+wenn die Option
+<ref name="Send robot coordinates" id="SendCoordinates">
+auf 1 oder 2 gesetzt ist. Der Wert 1 bedeutet das die Koordinaten relativ
+zur Startposition gesendet werden, so dass der Roboter nicht weiß wo er
+gestartet ist sondern nur wohin er sich seitdem bewegt hat.
+
+
+<tag>RobotInfo [Energie-Level (double)] [Team-Mitglied? (int)]</tag>
+Wenn dein Roboter einen anderen Roboter mittels des Radars entdeckt, wird
+diese Nachricht an deinen Roboter gesendet. Sie gibt verschiedene Informationen
+über den feindlichen Roboter. Die Energie des anderen Roboters wird auf die
+gleiche Art und Weise angegeben, wie die Energie deines eigenen
+Roboters(siehe unten). Der zweite Parameter ist nur im Team-Mode interessant, 
+1 heisst Team-Mitglied,
+0 steht für einen Gegner.
+
+<label id="RotationReached">
+<tag>RotationReached [Was hat seine Rotation beendet?(int)]</tag>
+Wenn die Roboter-Option <ref id="RobotOption" name="SEND&lowbar;ROTATION&lowbar;REACHED">
+richtig gesetzt ist, wird diese Nachricht gesendet, wenn eine
+Rotation (mit RotateTo oder RotateAmount) beendet wurde, oder die Richtung
+sich geändert hat (beim 'sweeping'). Der Parameter entspricht dem 'was soll
+ich rotieren', z.B. bei
+<ref id="Rotate" name="Rotate">.
+
+<tag>Energy [Energie-Level(double)]</tag>
+Am Ende jeder Runde wird der Roboter seinen eigenen Energie-Level erfahren.
+Er wird jedoch nicht die exakte Energie gesagt bekommen, sondern nur einen der
+<ref id="EnergyLevels" name="Energie-Level">.
+
+<tag>RobotsLeft [Anzahl der Roboter (int)]</tag>
+Am Anfang des Spiels, und wenn ein Roboter getötet wird, wird die Anzahl der
+verbleibenden Roboter allen noch lebenden Robotern bekanntgegeben.
+
+
+<tag>Collision [Objekt-Typ mit dem der Roboter zusammengestossen ist (int)] [angle relative robot (double)]</tag>
+Wenn ein Roboter von etwas getroffen wird, oder selber etwas rammt, bekommt er
+diese Nachricht. In der Datei <ref id="Messagetypes.h" name="Messagetypes.h">
+findest du eine Liste aller Objekt-Typen.
+
+<label id="Warning">
+<tag>Warning [Warnungs-Typ (int)] [Nachricht (string)]</tag>
+Eine Warnungs-Nachricht wird dann gesendet wenn ein Problem aufgetaucht ist.
+Momentan können 7 verschiedene Warnungs-Nachrichten gesendet werden, nämlich:
+
+<tt>UNKNOWN&lowbar;MESSAGE:</tt> Der Server hat eine Nachricht erhalten,
+mit der er nichts anfangen kann.
+
+<tt>PROCESS&lowbar;TIME&lowbar;LOW:</tt> Die CPU-Last hat den 
+<ref id="CPUWarningPercentage" name="CPU Warnungs-Prozentsatz"> erreicht.
+Taucht nur im <ref id="Command line options" name="Competition-Modus"> auf.
+
+<tt>MESSAGE&lowbar;SENT&lowbar;IN&lowbar;ILLEGAL&lowbar;STATE:</tt>
+Die erhaltene Nachricht konnte in diesem Spielstadium nicht verarbeitet werden.
+Z.B. wenn <ref id="Rotate" name="Rotate"> vor dem Anfang des Spiels gesendet
+wurde.
+
+<tt>UNKNOWN&lowbar;OPTION:</tt>
+Der Roboter hat eine <ref id="RobotOption" name="robot option"> gesendet, 
+die entweder einen unzulässigen Optionsnamen oder Options-Parameter enthielt. 
+
+<tt>OBSOLETE&lowbar;KEYWORD:</tt>
+Das Schlüsselwort ist veraltet, und sollte nicht mehr verwendet werden.
+Lies die Datei <tt>ChangeLog</tt> um herauszufinden was stattdessen benutzt
+werden sollte.
+
+<tt>NAME&lowbar;NOT&lowbar;GIVEN:</tt>
+Der Roboter hat seinen Namen nicht vor Spielbeginn gesendet. Das passiert
+wenn die <ref id="RobotStartupTime" name="robot startup time"> zu kurz ist
+oder der Roboter seinen Namen nicht früh genug sendet.
+
+<tt>COLOUR&lowbar;NOT&lowbar;GIVEN:</tt>
+Der Roboter hat seine Farbe nicht vor Spielbeginn gesendet.
+
+<tag>Dead</tag> Der Roboter ist gestorben. Versuche nicht, weitere Nachrichten
+an den Server zu senden bis das Spiel zu ende ist. Der Server wird sie nicht
+lesen.
+
+<tag>GameFinishes</tag> Das aktuelle Spiel ist beendet, mache dich bereit
+für das nächste.
+
+<label id="ExitRobot">
+<tag>ExitRobot</tag> Verlasse *sofort* das Programm, oder du wirst mit Gewalt
+rausgeschmissen!
+
+</descrip>
+
+<!--   ################   Messages from robots	 ##################   -->
+
+<sect1>Nachrichten von Robotern<label id="Messages from robots">
+<p>
+Nachrichten von einem Roboter an RealTimeBattle dürfen nicht länger als 128 Zeichen sein.
+Anderenfalls wird RealTimeBattle die Nachricht in zwei Teile schneiden und möglicherweise
+eine "Unbekannte Nachricht" melden.
+
+When you send messages to RealTimeBattle make shure that they are not longer than 128 chars,
+otherwise RealTimeBattle will cut them in two parts and may report an unknown message.
+
+<descrip>
+<label id="RobotOption">
+<tag>RobotOption [Optionsnummer (int)] [Wert (int)]</tag>
+Momentan sind nur zwei Optionen verfügbar:
+
+<tt>SIGNAL:</tt> Teilt dem Server mit, er soll ein Signal senden, wenn
+Nachrichten eintreffen. Der Parameter wird angeben, welches Signal. Sende
+diese Nachricht (z.B. mit Parameter SIGUSR1), sobald du bereit bist Signale zu
+empfangen. Der Standardwert ist 0, d.h. der Server soll keine Signale senden.
+
+<tt>SEND&lowbar;SIGNAL:</tt>
+Sagt dem Server er soll SIGUSR1 senden, wenn eine Nachricht eintrifft. Sende
+diese Nachricht (mit Parameter 1 (=true)) sobald du bereit bist ein Signal zu
+empfangen. Der Standardwert ist false.
+
+<tt>SEND&lowbar;ROTATION&lowbar;REACHED:</tt> Wenn du willst das der Server
+eine <ref id="RotationReached" name="RotationReached"> Nachricht sendet, wenn
+eine Rotation beendet wurde, solltest du diese Option setzen. Mit 1 als Wert
+wird die Nachricht gesendet, wenn ein RotateTo oder ein RotateAmount fertig
+ist, mit 2 als Wert werden auch Veränderungen in der Sweep-Richtung gemeldet.
+Standardwert ist 0, d.h. es werden keine Nachrichten gesendet.
+
+<tt>USE&lowbar;NON&lowbar;BLOCKING:</tt>
+Bestimmt wie <ref id="Reading messages" name="Nachrichten gelesen werden">.
+Diese Option sollte genau einmal gesendet werden, sobald das Programm
+gestartet wird. Da die Option immer angegeben werden sollte, gibt es keinen
+Default-Wert.
+
+<label id="NameAndColour">
+<tag>Name [Name (string)]</tag> Wenn man die
+<ref id="Initialize" name="Initialize">-Nachricht mit 1 als Argument erhält,
+die anzeigt dass dies die erste Sequenz ist, sollte der Roboter seinen Namen
+und seine Farbe senden. Im Namen kann die Teamzugehörigkeit mitgeteilt werden.
+Lautet der Name <tt>foo Team: bar</tt>, so heißt der Roboter <tt>foo</tt> und spielt im Team <tt>bar</tt>.
+Teammitglieder bekommen dieselbe Farbe und erkennen sich als Freund bei der RobotInfo Nachricht.
+Ausgefeilteren Team-Support bietet das <url name="RealTimeBattle Team FrameWork" url="http://rtb-team.sf.net">.
+
+<tag>Colour [home colour (hex)] [away colour (hex)]</tag>
+Siehe oben. Die Farben sind wie normale Fußballtrikots. Die
+"home colour" wird verwendet falls sie nicht schon vergeben ist.
+Anderenfalls wird die "away colour" oder als letzten Ausweg eine
+zufällig gewählte, freie Farbe benutzt.
+
+<label id="Rotate">
+<tag>Rotate [Was soll rotieren (int)] [angular velocity (double)]</tag>
+Setzt die "angular velocity" für den Roboter, die Kanone und den Radar.
+Setze 'Was soll rotieren' auf 1 für den Roboter, 2 für die Kanone, 4 für den
+Radar, oder zu einer Summe dieser Werte, um mehrere Objekte gleichzeitig zu
+rotieren. Die "angular velocity" wird in "Radians" pro Sekunde angegeben und
+wird von <ref id="RobotMaxRotateSpeed" name="Robot (cannon/radar) max rotate speed">
+begrenzt. 
+
+<tag>RotateTo [Was soll rotieren (int)] [angular velocity (double)] [End-Winkel (double)]</tag>
+Genau wie <bf>Rotate</bf>, allerdings wird nur um einen bestimmten Winkel
+rotiert. Beachte dass Radar- und Kanonen-Winkel relativ zum Roboter-Winkel
+angegeben werden. Dieses Kommando kann nicht dazu benutzt werden den Roboter
+selber rotieren zu lassen, benutze <bf>RotateAmount</bf> dafür.  
+
+<label id="RotateAmount">
+<tag>RotateAmount [Was soll rotieren (int)] [angular velocity (double)] [Winkel (double)]</tag>
+Funktioniert wie <bf>Rotate</bf>, wird aber relativ zum momentanen Winkel
+rotieren.
+
+<tag>Sweep [what to rotate (int)] [angular velocity (double)] [right angle (double)] [left angle (double)]</tag>
+Funktioniert wie <bf>Rotate</bf>, setzt aber den Radar und/oder die Kanone
+in einen "Sweep Mode"(nicht möglich für den Roboter selber).
+
+<label id="Accelerate">
+<tag>Accelerate [Wert (double)]</tag>
+Setzt die Roboter-Beschleunigung. Der Wert ist durch
+<ref id="RobotMaxAcceleration" name="Robot max/min acceleration"> beschränkt.
+
+<label id="Brake">
+<tag>Brake [portion (double)]</tag> Dient zum Bremsen.
+Vollbremsung (portion=1.0) heisst dass die Reibung in Roboter-Richtung gleich
+der <ref id="SlideFriction" name="Gleit-Reibung"> ist.
+
+<tag>Shoot [Schuss-Energie (double)]</tag>
+Schuss mit der angegebenen Energie.
+Die <ref id="Shot options" name="Schuss-Optionen"> geben dazu mehr Informationen.
+
+<label id="Print">
+<tag>Print [Nachricht (string)]</tag>
+Zeigt die Nachricht im <ref id="Message window" name="Message-Fenster"> an.
+
+<tag>Debug [message (string)]</tag>
+Zeigt die Nachricht im <ref id="Message window" name="Message-Fenster"> an,
+wenn man sich im <ref id="Command line options" name="Debug-Modus"> befindet.
+
+<tag>DebugLine [Winkel1 (double)] [Radius1 (double)] [Winkel2 (double)] [Radius2 (double)]</tag>
+Zeichnet eine Linie direkt in die Arena. Dies ist nur im höchsten
+Debug-Level(5) erlaubt; Ist dies nicht der Fall wird eine
+<ref id="Warning" name="Warnungs-Nachricht"> gesendet. Die Parameter sind
+die Start- und End-Punkte der Linie, angegeben in Polarkoordinaten relativ zum
+Roboter.
+
+<tag>DebugCircle [Mittelpunkts-Winkel (double)] [Mittelpunkts-Radius (double)] [Kreisradius (double)]</tag>
+Ähnlich wie DebugLine, zeichnet aber einen Kreis.
+Die ersten zwei Parameter sind Winkel und Radius des Kreismittelpunktes
+relativ zum Roboter. Der dritte Parameter gibt den Radius des Kreises an.
+
+</descrip>
+
+
+<!--   ################        Options	       ##################   -->
+
+<sect>Optionen<label id="Options">
+<p>
+RealTimeBattle kann durch eine ganze Reihe von Optionen konfiguriert werden,
+die in verschiedenen Gruppen zusammengefasst sind. Die Philosophie dahinter
+ist, dir größtmögliche Freiheit zu geben, das Spiel so zu gestalten wie du
+es willst. Das heisst aber auch, dass bestimmte Kombinationen der Optionen
+zu schlechten Ergebnissen führen können, und dem Programm Schwierigkeiten
+machen könnten.
+
+
+<sect1>Umwelt-Optionen<label id="Environmental options">
+<p>
+<descrip>
+
+<tag>Gravitational Constant:</tag> Die Beschleunigung, die von der Gravitation
+herrührt. Auf der Erde ist diese Konstante ungefähr 9.81. Eine Erhöhung
+wird zu einer erhöhten Reibung führen und die Roboter langsamer machen.
+
+<label id="AirResistance">
+<tag>AirResistance:</tag> Richtig geraten. Der Luftwiderstand nimmt mit der
+Geschwindigkeit zu.
+
+<label id="RollFriction">
+<tag>RollFriction:</tag> Die Reibung in Richtung des Roboters, wenn er nicht
+bremst (Rollreibung).
+
+<label id="SlideFriction">
+<tag>SlideFriction:</tag> Die Reibung orthogonal zur Richtung des Roboters.
+Ist gleichzeitig die maximale Reibung, wenn der Roboter bremst (Gleitreibung).
+
+<label id="SendCoordinates">
+<tag>Send robot coordinates:</tag> Legt fest wie Koordinaten zu den Robotern
+gesendet werde. Folgende Optionen sind verfügbar:
+<itemize>
+<item> 0 - kein Koordinaten senden (standart)
+<item> 1 - sendet die Koordinaten relativ zur Startposition
+<item> 2 - sendet absolute Koordinaten
+</itemize>
+</descrip>
+
+<sect1>Roboter Optionen<label id="Robot options">
+<p>
+<descrip>
+<label id="RobotMaxAcceleration">
+<tag>Robot max acceleration:</tag> Roboter dürfen nicht mehr beschleunigen,
+als dieser Wert angibt, und...
+
+<tag>Robot min acceleration:</tag> ...nicht weniger als dieser Wert.
+
+<label id="RobotRadius">
+<tag>Robot radius:</tag> Gibt die Größe des Roboters an.
+
+<tag>Robot mass:</tag> Robotergewicht. Ein grosses Robotergewicht erhöht die
+Auswirkungen eines Zusammenpralls.
+
+<label id="BounceCoefficient">
+<tag>Robot bounce coefficient:</tag> Gibt an wie gut der Roboter abprallen
+kann. Wenn dieser Wert 0 ist, werden die Roboter 'aufeinanderklatschen' wenn
+sie kollidieren, wenn der Wert 1, ist werden sie sich wie perfekte
+Billiardbälle verhalten.
+
+<tag>Robot hardness coefficient:</tag> Gibt an wieviel Schaden die Roboter
+erleiden, wenn sie kollidieren. Je kleiner der Wert, desto weicher das
+Material.
+
+<tag>Robot protection coefficient:</tag> Bestimmt, wie gut der Roboter geschützt
+ist. Dieser Faktor wird mit der Energie des Schadens multipliziert, und man
+erhält den Wert, um den man die Roboterenergie verringern muss.
+
+<label id="RobotFront">
+<tag>Robot frontsize:</tag> Die Vorderseite des Roboters ist ein Gebiet aus
+verschiedenen Materialien, normalerweise härter und schützender, sodass
+Roboter sich gegenseitig Schaden können indem sie sich rammen.
+
+<tag>Robot front bounce coefficient:</tag> Siehe vorherige 4 Erklärungen.
+
+<tag>Robot front hardness coefficient:</tag> Siehe vorherige 5 Erklärungen.
+
+<tag>Robot front protection coefficient:</tag> Siehe vorherige 6 Erklärungen.
+
+<tag>Robot start energy:</tag> Die Menge an Energie, die der Roboter am
+Anfang jeden Spieles haben wird.
+
+<tag>Robot max energy:</tag> Durch aufnehmen eines Kekses kann der Roboter
+seine Energie erhöhen, allerdings nicht mehr als auf diesen Wert.
+
+<label id="RobotMaxRotateSpeed">
+<tag>Robot max rotate speed:</tag> Wie schnell der Roboter rotieren darf.
+Einheit: 'radians'/s.
+
+<tag>Robot cannon max rotate speed:</tag> Maximale Geschwindigkeit, mit der
+die Kanone rotieren darf. Allerdings rotieren die Kanone und der Radar
+relativ zum Roboter, sodass die eigentliche Rotationsgeschwindigkeit höher
+sein kann.
+
+<tag>Robot radar max rotate speed:</tag> Maximale
+Radar-Rotationsigeschwindigkeit. Siehe auch obige Bemerkung.
+
+<label id="EnergyLevels">
+<tag>Robot energy levels:</tag> Der Roboter wird seine Energie nur ungefähr
+wissen. Diese Option entscheidet wieviele unterschiedliche Energie-Stufen es
+im Spiel gibt.
+
+</descrip>
+
+<sect1>Schuß-Optionen<label id="Shot options">
+<p>
+<descrip>
+<tag>Shot radius:</tag> Größe der Schüsse. Sollte kleiner sein als der
+<ref id="RobotRadius" name="Roboter Radius">.
+
+<label id="ShotSpeed">
+<tag>Shot speed:</tag> Schüsse bewegen sich mit dieser Geschwindigkeit in die
+Richtung der Kanone plus der Geschwindigkeit des Roboters.
+
+<label id="ShootingPenalty">
+<tag>Shooting penalty:</tag> Wenn der Roboter schiesst, nimmt er dabei selber
+Schaden. Dies ist der Faktor, mit dem die Schuß-Energie multipliziert wird,
+um die Energie zu bekommen, die dem Roboter abgezogen wird.
+Wenn die Anzahl der Roboter gross ist, wird diese Zahl verkleinert, sodass
+man nie unverhältnismäßig viel Energie verliert.
+
+<label id="ShotMinEnergy">
+<tag>Shot min energy:</tag> Die kleinste erlaubte Schuß-Energie. Ein Roboter,
+der versucht mit weniger Energie zu schiessen wird gar nicht schiessen.
+
+<label id="ShotMaxEnergy">
+<tag>Shot max potential energy:</tag> Die Roboter haben eine Schuss-Energie,
+die mit der Zeit zunimmt, diesen Wert aber nicht überschreitet.
+
+<label id="ShotEnergyIncreaseSpeed">
+<tag>Shot potential energy increase speed:</tag> Gibt an, wie schnell die
+Schuss-Energie des Roboters (siehe oben) zunimmt. Einheit: Energie/Sekunde.
+
+</descrip>
+
+<sect1>Extra-Optionen<label id="Cookie_and_mine_options">
+<p>
+<descrip>
+<tag>Cookie max energy:</tag> Die Energie, die man von einem Keks bekommt ist
+ein zufälliger Wert zwischen <tt>Cookie max energy</tt>
+und <tt>Cookie min energy</tt>
+.
+
+<tag>Cookie min energy:</tag> Siehe oben.
+
+<tag>Cookie frequency:</tag> Die Zahl der Kekse pro Sekunde, die
+durchschnittlich auftauchen werden.
+
+<tag>Cookie radius:</tag> Größe der Kekse.
+
+<tag>Mine max energy:</tag> Die Minen-Energie ist ein Zufallswert zwischen
+<tt>Mine max energy</tt> und <tt>Mine min energy</tt>
+
+<tag>Mine min energy:</tag> Siehe oben.
+
+<tag>Mine frequency:</tag> Die Anzahl der Minen pro Sekunde, die durschnittlich
+auf dem Spielfeld erscheinen werden.
+
+<tag>Mine radius:</tag> Größe der Minen.
+
+<tag>Cookie colour:</tag> Farbe der Kekse in hexadezimaler Schreibweise,
+angegeben in rot-gruen-blau Werten.
+
+<tag>Mine colour:</tag> siehe oben.
+
+</descrip>
+
+<sect1>Zeit Optionen<label id="Time options">
+<p>
+<descrip>
+<label id="Timeout">
+<tag>Timeout:</tag> Dies ist die maximale Dauer eines Spiels. Wenn die Zeit
+abgelaufen ist, werden alle verbleibenden Roboter gekillt, ohne noch
+irgendwelche Punkte zu bekommen.
+
+<label id="MaxTimestep">
+<tag>Max timestep:</tag> Wenn der Computer zeitweise sehr langsam wird,
+kann die Zeit zwischen updates ziemlich lang werden. Indem man diese Option
+setzt, kann sich das Programm in solchen Fällen künstlich verlangsamen und
+damit die "realtimeness" verletzen.
+
+<label id="TimeScale">
+<tag>Time scale:</tag> Setzt man Timescale grösser als 1, heisst das, dass die
+Spiel-Uhr schneller als eine "richtige" Uhr gehen wird. Diesen Wert zu
+verändern kann nützlich sein wenn man entweder den Robotern mehr Zeit geben
+will, oder wenn man (k)einen schnellen Computer hat und man das Spiel
+beschleunigen will. 
+
+<label id="UpdateInterval">
+<tag>Update interval:</tag> Diese Option gibt die Zeit zwischen Roboter-updates
+an, d.h. wie oft der Roboter-Zustand verändert wird. Sie wird nicht von der
+"Time Scale"-Option beinflusst, und kann nicht verändert werden, wenn das
+Programm läuft. Die Genauigkeit ist 1/100 s(je nach Genauigkeit des Systems
+auf dem RealTimeBattle läuft).
+
+<label id="RobotStartupTime">
+<tag>Robot startup time:</tag> Legt die Zeit zwischen dem ausführen der Roboter und dem Anfang der Sequenz
+fest. Wenn Roboter schwarz sind und keine Namen haben, solltest du die
+RobotStartupTime etwas erhöhen(voreingestellt ist 1 Sekunde).
+Dies kann z.B. passieren wenn es viele Roboter gibt, die Roboter ziemlich groß
+sind, man auf einem langsamen Rechner arbeitet.
+
+<label id="CPUOptions">
+<tag>Start CPU time:</tag> Im <ref id="Command line options" name="Competition-Modus"> 
+ist die CPU-Zeit eines Roboters begrenzt. Am Anfang einer Sequenz bekommt ein
+Roboter diese Menge an CPU-Zeit, die er verbrauchen darf.
+
+<tag>Extra CPU time:</tag> Wenn die anfängliche CPU-Zeit verbraucht ist,
+bekommt der Roboter die Menge an Extra-CPU-Zeit.
+
+<tag>Extra CPU period:</tag> Die Extra CPU-Zeit muss eine ganze CPU-Periode
+reichen, sonst stirbt der Roboter im aktuellen Spiel.
+
+<label id="CPUWarningPercentage">
+<tag>CPU warning percentage:</tag> Wenn der Roboter diesen Betrag an CPU-Zeit
+aufgebraucht hat, bekommt er eine Warnung zugeschickt.
+
+<tag>Process check interval:</tag> Im <ref id="Command line options" name="Competition-Modus"> 
+entscheidet dieser Wert, wie oft das Programm den CPU-Verbrauch überprüfen wird.
+
+<label id="LoggingFrequency">
+<tag>Logging frequency:</tag> Um die Größe der 
+<ref id="log_files" name="log files"> zu reduzieren kannst
+du diesen Wert vergrössern. Mit dieser Option werden 
+<ref id="RobotPositionInfo" name="robot position info"> nur jedes 'n'te
+<ref id="UpdateInterval" name="Update-Interval"> aktualisiert.
+
+</descrip>
+
+<sect1>Fenstergrößen<label id="Window sizes">
+<p>
+Hier kann man die Größe für verschiedene Fenster setzen, nämlich
+das <ref id="Arena_window" name="Arena-Fenster">,
+das <ref id="Message window" name="Message-Fenster">,
+das <ref id="Score window" name="Score-Fenster"> und
+das <ref id="Statistics window" name="Statistik-Fenster">.
+Man kann auch die Position für die ersten drei und
+das <ref id="Control window" name="Kontroll-Fenster"> angeben.
+
+<sect1>Verschiedene Optionen<label id="Miscellaneous options">
+<p>
+<descrip>
+<label id="ArenaScale">
+<tag>Arena scale:</tag> "Overall Scale" der Arena. Ein Wert von 2 ergibt eine
+doppelte Seitenlänge, d.h. eine viermal so große Arena.
+
+<label id="Fast forward factor">
+<tag>Fast forward factor:</tag> Legt die Geschwindigkeit fest mit der das Spiel mittels fast forward oder
+rewind abläuft(siehe auch <ref id="replaying" name="Replay">).
+
+<label id="Max robots allowed simultaneously">
+<tag>Max. Anzahl von Robotern, die gleichzeitig erlaubt sind:</tag>Erlaubt dem User die maximal erlaubte Anzahl an Robotern in einer Sequenz zu
+verändern. Wenn es zu viele sind, kann sich das Betriebssystem beschweren
+(bei wievielen dies passiert ist systemabhängig).
+
+<tag>Background colour:</tag> Hintergrundfarbe und...
+
+<tag>Foreground colour:</tag> ...Vordergrundfarbe der Arena.
+
+<label id="Colour for RTB messages">
+<tag>Farbe der RTB-Nachrichten:</tag> Farbe des Textes der RTB-Nachrichten.
+
+<label id="Robot search path">
+<tag>Robot search path:</tag> Dies ist eine durch Doppelpunkte getrennte Liste
+von Verzeichnissen die nach Robotern durchsucht werden, wenn ein
+<ref id="Start new tournament window" name="neues Turnier"> anfängt.
+Das Verzeichnis <tt>Robots</tt> im Installationsverzeichnis
+(Standard-Wert: <tt>/usr/local/games/RealTimeBattle</tt>) wird immer durchsucht.
+
+<label id="Arena search path">
+<tag>Arena search path:</tag> Ähnlich wie oben, allerdings für Arena-Dateien,
+nicht für Roboter. Das Verzeichnis <tt>Arenas</tt> im Installationsverzeichnis
+(Standard-Wert: <tt>/usr/local/games/RealTimeBattle</tt>) wird immer durchsucht.
+
+</descrip>
+
+
+<!--   ################   Arena Construction   ##################   -->
+
+<sect>Arena-Konstruktion<label id="Arena construction">
+<p>
+
+In ReatTimeBattle ist es sehr einfach, eine eigene Arena zu erstellen. Die
+Sprache, die dafür verwendet wird besteht aus lediglich elf Kommandos,
+und es gibt nur vier grundlegende Bauelemente: Linie, Kreis, 'Innenkreis' und Bogen.
+Dies ist hauptsächlich aus Gründen der Programm-Geschwindigkeit so, da man bei
+Kreisen und Linien sehr einfach prüfen kann, ob es eine Kollision gab.
+Kreise und 'Innenkreise' hindern die Roboter daran, in einen Kreis
+hinein- oder aus einem Kreis herauszugelangen. Die Linie und der Bogen hindern Roboter daran
+an der Längsseite (bzw.an der gekrümmten Seite beim Bogen) hineinzugelangen, allerdings wird das an den zwei Enden der
+Linie nicht geprüft. Daher muss man an jedes Ende einer Linie einen Kreis
+anhängen, um es zu einem soliden Objekt zu machen.
+Die Kommandos <tt>polygon</tt>, <tt>closed&lowbar;polygon</tt> und <tt>poly_curve</tt> sollen diese
+Prozedur vereinfachen, und ergeben immer ein richtiges Objekt.
+
+Alle Winkel sind in der Voreinstellung im Bogenmaß. Das kann jedoch durch den Befehl
+<tt>angle_unit degrees</tt> geändert werden.
+
+Man sollte beachten, dass RTB nicht überprüft ob eine Arena-Datei eine
+korrekte Arena ergibt, das ist einzig und allein deine Sache. Allerdings
+wird RTB sich beschweren, wenn du die Regeln der Arena-Konstruktionssprache
+nicht beachtest.
+
+Arena-Dateien sollten mit <tt>.arena</tt> enden und im Arena-Verzeichnis
+untergebracht werden, so dass RealTimeBattle sie finden kann.
+
+Die <tt>bounce coefficient</tt>- und <tt>hardness</tt>-Parameter, die an alle
+Mauer-erzeugenden Kommandos übergeben werden, legen das Material der Mauer fest.
+Beides sind Werte zwischen 0 und 1. Härtere Mauern beschädigen kollidierende
+Roboter mehr, und ein höherer Bounce-Koeffizient brigt sie dazu, besser
+abzuprallen. 
+
+Du solltest dir auch mal die Arenas die mit RTB mitgeliefert werden
+ansehen und von den Beispielen lernen.
+
+
+
+<sect1>Arena Kommandos<label id="Arena_commands">
+<p>
+Ein Kommando besteht aus dem Kommandonamen und den Parametern, die durch
+Whitespaces getrennt werden. Du solltest immer sicherstellen, dass die
+richtige Anzahl der Parameter übergeben wird.
+
+In der Kommando-Liste werden die Parameter in eckigen Klammern angegeben.
+
+<descrip>
+<tag>scale [Wert]</tag> Dieser Wert multipliziert mit der <ref id="ArenaScale" name="arena scale">
+ergibt den Skalierungsfaktor mit dem alle Koordinaten multipliziert werden.
+Dieses Kommando muss, wenn es verwendet wird, das este Kommando in der Datei
+sein, Standardwert ist 1.0.
+
+<tag>angle_unit [unit]</tag> Schaltet zu der ausgewählten Winkel-Einheit um.
+Mögliche Einheiten sind <tt>degrees</tt> (Gradmaß) or <tt>radians</tt> (Bogenmaß).
+Die Voreinstellung verwendet das Bogenmaß.
+
+<tag>boundary [links] [oben] [rechts] [unten]</tag>
+Diese Begrenzungen umschliessen das Gebiet, in der Roboter, Kekse und Minen
+aufgestellt werden. Ausserdem legen sie das sichtbare Gebiet im
+<ref id="Arena_window" name="Arena-Fenster"> fest.
+Dieses Kommando wird unbedingt benötigt und nur <tt>scale</tt> darf vorher
+verwendet werden.
+
+<tag>inner_circle [Bounce] [Härte] [Mittelpunkt_x] [Mittelpunkt_y] [Radius]</tag>
+Roboter sind im inneren dieses Kreises gefangen.
+
+<tag>circle [Bounce] [Härte] [Mittelpunkt_x] [Mittelpunkt_y] [Radius]</tag>
+Eine Mauer in Form eines Kreises.
+
+<tag>line [Bounce] [Härte] [Dicke] [Start_x] [Start_y] [Ende_x] [Ende_y]</tag>
+ Erzeugt eine Linie. Sie hindert den Roboter nur daran an der Längsseite durchzudringen,
+daher müssen Kreise an die Enden gesetzt werden.
+
+<tag>arc [Bounce] [Härte] [Dicke] [Mittelpunkt_x] [Mittelpunkt_y]
+[Innenradius] [Außenradius] [Winkel1] [Winkel2]</tag>
+ Ein Bogen ist ein Kreissegment zwischen zwei Winkeln. Genau wie die Linie benötigt der Bogen
+ zwei Kreise an seinen Endpunkten.
+
+<tag>polygon [Bounce] [Härte] [Dicke] [Anzahl der Seiten] ([Mittelpunkt_x] [Mittelpunkt_y])...</tag>
+Dieses Kommando wird eine Menge Kreise erzeugen, die durch Linien verbunden
+sind, und dadurch ein Polygon-ähnliches Gebilde schaffen.
+
+<tag>closed_polygon [Bounce] [Härte] [Dicke] [Anzahl der Seiten] ([Mittelpunkt_x] [Mittelpunkt_y])...</tag>
+Ähnlich wie ein Polygon, aber die erste und letzte Seite sind auch durch
+eine Linie verbunden.
+
+<tag>poly_curve [Bounce] [Härte] [Dicke] [Start_x] [Start_y] [Richtung_x] [Richtung_y] 
+([Befehlsargumente ...]) ...</tag>
+ Die <tt>poly_curve</tt> ist das mächtigste der Arena-Kommandos. 
+ Sie wird genutzt im Wände aus Linien und Bögen zu bauen. 
+ Nach jeden Abschnitt hatt man eine aktuelle Position und eine aktuelle Richtung, die si
+ 
+ It is
+ used to build walls with lines and arcs. At each step you have a current
+ position and direction, which are affected by the subcommands. The last
+ subcommand must be <tt>C</tt> or <tt>Q</tt>.
+
+ <descrip>
+ <tag>L [length]</tag> Draw a line with given length in the current
+ direction.
+ <tag>T [angle]</tag> Turn the current dircetion.
+ <tag>A [angle] [radius]</tag> Draw an arc.
+ <tag>C</tag> Finish by connecting with the starting point.
+ <tag>Q</tag> Quit.
+ </descrip>
+
+<tag>exclusion_point [Position_x] [Position_y]</tag>
+Wenn die Arena innerhalb der Begrenzungen aus mehreren getrennten Gebieten
+besteht, solltest du alle bis auf eins ausschliessen, indem du
+"Exclusion-Punkte" setzt. Alle Punkte von denen aus man eine gerade Linie
+bis zu einem "Exclusion-Punkt" ziehen kann, ohne eine Mauer zu überschreiten,
+gelten als ausserhalb der Arena. 
+
+</descrip>
+</article>
+
+
+

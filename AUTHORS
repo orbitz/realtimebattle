@@ -1,0 +1,30 @@
+Original authors:
+Erik Ouchterlony
+Ragnar Ouchterlony
+
+Further development / maintaining / porting and bug fixes:
+Benoit Rousseau
+Mr. Friendly (Volker Ströbel)
+Johannes Nicolai
+Remi Vanicat
+Moskvan Jaromir
+
+Translators:
+Andoni Ayala
+Rui Sousa
+Uwe Hermann
+
+Additional robots
+xt-bot: xt, bug fixes and some enhancements made by Falko Menge 
+thomas2: Thomas Ouchterlony
+joypad_robot: Jiro Sekiba, some minor modifications made by Johannes Nicolai
+jBot: Ingo Beckmann
+perl-Skeleton: Shinsuke Noguchi
+perl: unknown
+raziel: Torsten Sachse, Johannes Nicolai
+brotfrucht: This is the first working strategy for the RTB Team Framework, see the AUTHORS file there for details
+
+and many other
+
+If you have contributed to RealTimeBattle and you are not on the list or want to be removed from it, please report to
+jonico@users.sourceforge.net

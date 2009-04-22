@@ -1,0 +1,63 @@
+#
+# spec file for package RealTimeBattle (for version see below)
+# 
+# Author: CW Zuckschwerdt <zany@triq.net>, Nov 1999 
+#
+
+%define prefix  /usr
+%define name    RealTimeBattle
+%define version @VERSION@
+%define release @RTB_RPM_RELEASE@
+
+Summary:     RealTimeBattle, a robot programming game for Unix
+Name:        %{name}
+Version:     %{version}
+Release:     %{release}
+Copyright:   GPL
+Group:       X11/Games
+Source:      http://realtimebattle.sourceforge.net
+URL:         http://realtimebattle.sourceforge.net
+BuildRoot:   /tmp/%{name}-%{version}
+Packager:    CW Zuckschwerdt <zany@triq.net>
+
+
+%description
+RealTimeBattle is a programming game, in which robots controlled by
+programs are fighting each other. The goal is to destroy the enemies,
+using the radar to examine the environment and the cannon to shoot.
+
+%prep
+%setup
+
+%build
+./configure --prefix=%{prefix} --enable-rpm="$RPM_OPT_FLAGS"
+make
+
+%install
+make prefix=$RPM_BUILD_ROOT%{prefix} install
+
+%post
+/sbin/install-info /usr/info/RealTimeBattle.info.gz --info-dir=/usr/info/dir --menuentry="* RealTimeBattle: (RealTimeBattle).             A robot programming game." --description="RealTimeBattle: A robot programming game."
+
+%preun
+if [ $1 = 0 ]; then
+    /sbin/install-info --remove /usr/info/RealTimeBattle.info.gz --info-dir=/usr/info/dir --menuentry="* RealTimeBattle: (RealTimeBattle).             A robot programming game." --description="RealTimeBattle: A robot programming game."
+fi
+
+%files
+
+%doc ABOUT-NLS BUGS COPYING CVS-Help FAQ ChangeLog README TODO
+%doc Documentation/*.html
+%doc Documentation/*.gif
+%doc Documentation/*.dvi
+
+%{prefix}/bin/*
+%{prefix}/include/*
+%{prefix}/share/*
+%{prefix}/info/*
+
+%{prefix}/games/RealTimeBattle/*.h
+%{prefix}/games/RealTimeBattle/*.xpm
+%{prefix}/games/RealTimeBattle/*.txt
+%{prefix}/games/RealTimeBattle/Arenas/*
+%{prefix}/games/RealTimeBattle/Robots/*

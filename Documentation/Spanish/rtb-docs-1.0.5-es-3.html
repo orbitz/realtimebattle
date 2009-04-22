@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Manual de Usuario de Real Time Battle, version 1.0.5 rev 1: Estructura (Structure)</TITLE>
+ <LINK HREF="rtb-docs-1.0.5-es-4.html" REL=next>
+ <LINK HREF="rtb-docs-1.0.5-es-2.html" REL=previous>
+ <LINK HREF="rtb-docs-1.0.5-es.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="rtb-docs-1.0.5-es-4.html"><IMG SRC="next.gif" ALT="Next"></A>
+<A HREF="rtb-docs-1.0.5-es-2.html"><IMG SRC="prev.gif" ALT="Previous"></A>
+<A HREF="rtb-docs-1.0.5-es.html#toc3"><IMG SRC="toc.gif" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Structure"></A> <A NAME="s3">3. Estructura (Structure)</A></H2>
+
+<P>En esta secci&oacute;n se describe la estructura del programa, como se mueven
+los robots, los disparos, el control del radar, la puntuaci&oacute;n y como
+se monta un torneo.
+<P>
+<H2><A NAME="Robot_motion"></A> <A NAME="ss3.1">3.1 Movimiento del Robot (Robot motion)</A>
+</H2>
+
+<P>El Robot se comporta como un veh&iacute;culo con ruedas, se mueve hacia
+adelante con un peque&ntilde;o 
+<A HREF="rtb-docs-1.0.5-es-5.html#RollFriction">rozamiento (roll friction)</A> y resbala hacia los laterales (derrapa) con un gran
+<A HREF="rtb-docs-1.0.5-es-5.html#SlideFriction">rozamiento lateral (sliding friction)</A>. El
+tercer efecto de resistencia es la 
+<A HREF="rtb-docs-1.0.5-es-5.html#AirResistance">resistencia del aire (air resistance)</A>,  que es aplicada en direcci&oacute;n
+contraria al movimiento y que incrementa con la velocidad.
+<P>Hay tres formas de variar el movimiento del robot:
+<A HREF="rtb-docs-1.0.5-es-4.html#Accelerate">acelerar (acceleration)</A>, 
+<A HREF="rtb-docs-1.0.5-es-4.html#Rotate">rotar (rotation)</A> y 
+<A HREF="rtb-docs-1.0.5-es-4.html#Brake">frenar (braking)</A>.
+<P>La aceleracion se usa para incrementar la velocidad de los robots en
+la direcci&oacute;n frontal. No es posible controlar directamente la
+velocidad. La aceleraci&oacute;n es la unica manera de mover al robot.
+<P>Rotando el robot puedes hacer que este gire. Ten en cuenta que la
+rotaci&oacute;n no afecta directamente al movimiento, si no que afecta
+unicamente a la direccion de la frontal del robot. La fricci&oacute;n junto
+con la aceleraci&oacute;n, llevar&aacute;n a cabo el giro del robot.
+<P>Cuando se frena se incrementa la fricci&oacute;n hasta llegar a un valor m&aacute;ximo. Este se da cuando las ruedas son bloqueadas y el robot, en lugar de rodar,
+derrapa. No te olvides de liberar el freno cuando quieras aumentar la
+velocidad otra vez.
+<P>
+<H2><A NAME="Energy"></A> <A NAME="ss3.2">3.2 Energ&iacute;a (Energy)</A>
+</H2>
+
+<P>La salud del Robot es medida por su energ&iacute;a. Hay varias maneras de que
+el robot pierda energ&iacute;a. El robot puede: 
+<UL>
+<LI> ser alcanzado por un disparo,</LI>
+<LI> chocar con un muro o con otro robot, </LI>
+<LI> 'pisar' una mina o </LI>
+<LI> disparar.</LI>
+</UL>
+<P>Y solo hay una manera de ganar energia: comer una cookie (N. del T. o
+galletita ;))
+<P>
+<H2><A NAME="The_radar"></A> <A NAME="ss3.3">3.3 El radar (The radar)</A>
+</H2>
+
+<P>El m&eacute;todo principal para obtener informaci&oacute;n sobre nuestro entorno es
+mediante el radar. Cada vez que el robot es actualizado recibir&aacute; un
+<A HREF="rtb-docs-1.0.5-es-4.html#Radar">mensaje del radar (radar message)</A>, d&aacute;ndole
+informaci&oacute;n sobre los objetos mas cercanos en la direcci&oacute;n actual del
+radar, por ejemplo la distancia y el tipo de objeto. Si detectamos un robot,
+nos mostrar&aacute; el nivel de energ&iacute;a de dicho robot. 
+<P>Ya que la informaci&oacute;n ofrecida por el radar es pr&aacute;cticamente lo &uacute;nico que conoceremos de nuestros alrededores, es muy importante hacer un uso &oacute;ptimo del radar. Es tambi&eacute;n importante 
+<A HREF="rtb-docs-1.0.5-es-4.html#Rotate">maniobrar lo mejor posible el radar</A>, para obtener informaci&oacute;n &uacute;til.
+<P>
+<H2><A NAME="Position"></A> <A NAME="ss3.4">3.4 Posici&oacute;n de los robots (The robots position)</A>
+</H2>
+
+<P> A aprtir de la versi&oacute;n 1.0.5 de RTB es posible obtener la posici&oacute;n
+de los robots directamente. En lugar de tener que analizar los
+alrededores con el radar y encontrar tu posicion a partir de &eacute;l,
+puedes configurar RTB para que mande las 
+<A HREF="rtb-docs-1.0.5-es-4.html#Coordinates">coordenadas del robot (robot coordinates)</A>. El comportamiento es
+controlado por la opcion 
+<A HREF="rtb-docs-1.0.5-es-5.html#SendCoordinates">enviar coordenadas del robot (Send robot coordinates)</A>.
+<P>
+<H2><A NAME="Shooting"></A> <A NAME="ss3.5">3.5 Disparo (Shooting)</A>
+</H2>
+
+<P>Disparar es el principal m&eacute;todo de eliminar a los otros robots. En
+RealTimeBattle un disparo se mueve con una velocidad constante,
+calculada como la suma de la velocidad del robot mas la 
+<A HREF="rtb-docs-1.0.5-es-5.html#ShotSpeed">velocidad de disparo (shot speed)</A> en la
+direcci&oacute;n hacia la que apunta el ca&ntilde;&oacute;n. El disparo se mover&aacute; hasta que
+choque con un objeto. 
+<P>Cuando se dispara un proyectil se le da una energia, que determina el
+da&ntilde;o que sufrir&aacute; el robot contra el que impacte. La energia es, no
+obstante, limitada; la 
+<A HREF="rtb-docs-1.0.5-es-5.html#ShotMinEnergy">energia minima (minimal energy)</A> evita los disparos de muy baja energ&iacute;a, por
+ejemplo si quieres eliminar una mina. La 
+<A HREF="rtb-docs-1.0.5-es-5.html#ShotMaxEnergy">energia maxima (maximal energy)</A> esta restringida por la cantidad
+de la energia de disparo potencial del robot, que se incrementa con el
+tiempo.
+<P>El disparar conlleva asi mismo cierto riesgo, ya que al disparar el
+mismo robot pierde una cantidad de energ&iacute;a  
+<A HREF="rtb-docs-1.0.5-es-5.html#ShootingPenalty">proporcional a la energia del disparo</A>. 
+<P>Si se impacta sobre una mina o una cookie, estas son destruidas,
+independientemente de la energia del disparo. Asi pues deberias usar
+una cantidad m&iacute;nima de energ&iacute;a para disparar a las minas. 
+<P>Los disparos que choquen no seran destruidos inmediatamente, sino que
+sus velocidades y sus energias seran superpuestas, con lo que si
+chocan dos disparos que viajan en la misma direccion, sus energ&iacute;as
+seran sumadas, y en caso de que choquen de frente, sus energ&iacute;as seran
+canceladas. 
+<P>
+<H2><A NAME="Collisions"></A> <A NAME="ss3.6">3.6 Choques (Collisions)</A>
+</H2>
+
+<P>Los robots son objetos fr&aacute;giles, que sufir&aacute;n da&ntilde;os cuando choquen
+contra las paredes o contra otros robots. Cuando se choca, los robots
+son como pelotas, con tres factores que afectan su comportamiento 
+<A HREF="rtb-docs-1.0.5-es-5.html#BounceCoefficient">el coeficiente de robote, el coeficiente de dureza y el coeficiente de protecci&oacute;nt</A>. En la parte 
+<A HREF="rtb-docs-1.0.5-es-5.html#RobotFront">delantera</A>, los robots estan hechos de un material diferente, normalmente mas duro. Esto puede ser usado para arrollar a otros robots, haciendo mas da&ntilde;o del recibido.
+<P>
+<H2><A NAME="Cookies_and_mines"></A> <A NAME="ss3.7">3.7 Cookies y minas (Cookies and Mines)</A>
+</H2>
+
+<P>Las cookies y las minas son esencialmente objetos iguales, con la
+diferencia que los robots ganar&aacute;n energia tomando una cookie y
+perder&aacute;n energ&iacute;a con las minas. Tanto las minas como las cookies son
+colocadas aleatoriamente en la arena durante el juego. Su potencia y
+su frecuencia pueden ser controladas mediante las 
+<A HREF="rtb-docs-1.0.5-es-5.html#Cookie_and_mine_options">opciones (options)</A>.
+<P>
+<H2><A NAME="Time"></A> <A NAME="ss3.8">3.8 Tiempo (Time)</A>
+</H2>
+
+<P>Como el propio nombre del programa indica, el tiempo que se usa es
+tiempo real. Es tarea de los robots responder r&aacute;pidamente a los
+eventos del juego. El juego avanza con una frecuencia de refresco
+regular. Entre cada llamada los robots comparten el resto del tiempo
+de la CPU. Para prevenir que los robots utilicen masivamente el
+procesador, su tiempo de CPU esta limitado en 
+<A HREF="rtb-docs-1.0.5-es-2.html#Command line options">el modo competici&oacute;n</A>. Las
+<A HREF="rtb-docs-1.0.5-es-5.html#CPUOptions">opciones correspondientes</A> te dar&aacute;n mayor informacion.
+<P>De todas formas, el tiempo real puede ser violado en algunos casos. 
+Puedes aumentar o disminiur la velocidad del juego cambiando la 
+<A HREF="rtb-docs-1.0.5-es-5.html#TimeScale">escala de tiempo (timescale)</A>. Asimismo hay un
+metodo para prevenir el colapso del sistema, cuando la carga es
+demasiado alta. Si el tiempo entre dos refrescos es superior a 
+<A HREF="rtb-docs-1.0.5-es-5.html#MaxTimestep">max timestep</A>, la velocidad del juego se
+reducira correspondientemente.
+<P>
+<P>
+<H2><A NAME="A_game"></A> <A NAME="ss3.9">3.9 Un juego (A game)</A>
+</H2>
+
+<P>Al comienzo de un juego, los robots seran dispuestos en una posici&oacute;n
+aleatoria en la arena, con una orientaci&oacute;n aleatoria. El radar y el
+ca&ntilde;&oacute;n estaran los dos apuntando al frente y la 
+<A HREF="#Shooting">energia potencial de disparo (potential shot-energy)</A> estar&aacute; puesta a cero. El objetivo de los robots es sobrevivir el mayor tiempo
+posible a la vez que destruir los otros robots. Un robot recibir&aacute; un
+punto por cada robot enemigo que elimine. Asi mismo, se les dar&aacute; un
+punto extra a cada uno de los robots participantes. Si dos robots
+mueren al mismo tiempo, se reparten los puntos amistosamente (en otras
+palabras, obtendr&aacute;n medio punto por cada robot que muera al mismo
+tiempo).
+<P>Un juego finaliza cuando el numero de robots vivos es menor que dos o
+cuando 
+<A HREF="rtb-docs-1.0.5-es-5.html#Timeout">finaliza el tiempo (time is up)</A>.
+<P>
+<P>
+<H2><A NAME="A_sequence"></A> <A NAME="ss3.10">3.10 Una secuencia (A sequence)</A>
+</H2>
+
+<P>Una secuencia es una serie de juegos, donde luchan los mismos robots. Al comienzo de una secuencia se inicias los procesos de los robots. El n&uacute;mero de robots en una secuencia esta limitado a 120. Para cada robot se crean dos tuberias (pipes) para comunicarse con el robot.
+<P>A partir de entonces se juegan 
+<A HREF="rtb-docs-1.0.5-es-2.html#NumberOfGames">el n&uacute;mero de juegos indicados</A> y finalmente se eliminan los procesos de los robots.
+<P>
+<H2><A NAME="A_tournament"></A> <A NAME="ss3.11">3.11 Un torneo (A tournament)</A>
+</H2>
+
+<P>Un torneo es una serie de secuencias. 
+El numero de robots en un torneo es (teoricamente) ilimitado. 
+Esta permitido Cualquier n&uacute;mero de secuencias, pero para hacer un torneo
+agradable, deber&aacute;s elegir un numero de secuencias de forma que cada
+robot compita en el mismo numero de juegos (por ejemplo #secuencia
+= #robots por juego / GCD( #robots por juego, #robots en
+el torneo)).
+<P>
+<P>
+<P>
+<HR>
+<A HREF="rtb-docs-1.0.5-es-4.html"><IMG SRC="next.gif" ALT="Next"></A>
+<A HREF="rtb-docs-1.0.5-es-2.html"><IMG SRC="prev.gif" ALT="Previous"></A>
+<A HREF="rtb-docs-1.0.5-es.html#toc3"><IMG SRC="toc.gif" ALT="Contents"></A>
+</BODY>
+</HTML>

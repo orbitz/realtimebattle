@@ -1,0 +1,28 @@
+If you do not get one robot per robot directory, you do not have certain compilers or API's needed on your system.
+Simply read the output of configure to find out what is missing. If you do not have certain features, the related robot will be left out.
+
+
+Robots in the directory rtb-team-framework:
+
+For more information about sophisticated teamplay possibilities in RTB and configuration take a look on http://rtb-team.sourceforge.net.
+We have included only a first tutorial strategy for our framework: brotfrucht
+Should you have any problems compiling rtb-team so that the whole building process will stop and you cannot procede with some quirks, please
+a) write a bug report to jonico@users.sourceforge.net
+b) simply remove the rtb-team-framework directory and start configure again, so you can enjoy the rest of the extra stuff included in this edition 8-)
+
+brotfrucht<...>.robot: There are as much robots because they are all individual, so you can't let one of them participate twice or more in a game.
+Furthermore, brotfrucht will only work if you have ABSOLUTE COORDINATES activated in RealTimeBattle.
+The binary for every robot for the framework is the same, only the configuration files differ.
+The brotfrucht robots log into the /tmp/ directory, so look there if something won't work.
+
+
+Robots in the Robots directory with some special issues:
+
+joypad_robot: This robot needs a joystick on /dev/js0 or /dev/input/js0 and a working linux joystick api to let it work.
+It can be started only ONCE.
+
+jBot.robot: You will need java and a startup time in RealTimeBattle of about half and a second to let this robot work.
+
+perl.robot, perl-Skeleton.robot: As the name says, you will nedd perl in order to start these robots. perl.robot will create a log file located at /tmp/perl.robot.log
+
+raziel.py.robot: You will need python in order to run this robot.

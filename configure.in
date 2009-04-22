@@ -1,0 +1,306 @@
+dnl Process this file with autoconf to produce a configure script.
+dnl Created by anjuta, later hardly modified by Johannes Nicolai
+
+AC_INIT(src/Robot.cc)
+AC_CONFIG_AUX_DIR(config)
+dnl Version numbers
+
+RTB_MAJOR_VERSION=1
+RTB_MINOR_VERSION=0
+RTB_MICRO_VERSION=8
+RTB_EXTRA_VERSION=[-Ext]
+RTB_RPM_RELEASE=1
+
+RTB_LAST_RELEASED_VERSION=1.0.8
+RTB_LAST_RELEASED_RELEASE=2
+
+RTB_VERSION=$RTB_MAJOR_VERSION.$RTB_MINOR_VERSION.$RTB_MICRO_VERSION$RTB_EXTRA_VERSION
+
+RTB_RPM_VERSION="$RTB_VERSION"-"$RTB_RPM_RELEASE"
+
+AC_SUBST(RTB_MAJOR_VERSION)
+AC_SUBST(RTB_MINOR_VERSION)
+AC_SUBST(RTB_MICRO_VERSION)
+AC_SUBST(RTB_RPM_RELEASE)
+AC_SUBST(RTB_RPM_VERSION)
+AC_SUBST(RTB_VERSION)
+VERSION=$RTB_VERSION
+PACKAGE=RealTimeBattle
+
+AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE",[Package name])
+AC_DEFINE_UNQUOTED(VERSION, "$VERSION",[version number])
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
+
+dnl Automake initialization
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
+AM_CONFIG_HEADER(config.h)
+
+dnl Search for install_info
+AC_PATH_PROG(install_info, install-info, no, $PATH:/sbin:/usr/sbin/:/usr/local/sbin)
+INSTALL_INFO=$install_info
+
+dnl Search for sgml-tools
+
+AC_CHECK_PROG(sgml2html, sgml2html, yes, no)
+AM_CONDITIONAL(SGML2HTML, test x$sgml2html = xyes)
+
+AC_CHECK_PROG(sgml2latex, sgml2latex, yes, no)
+AM_CONDITIONAL(SGML2LATEX, test x$sgml2latex = xyes)
+
+AC_CHECK_PROG(sgml2info, sgml2info, yes, no)
+AM_CONDITIONAL(SGML2INFO, test x$sgml2info = xyes)
+
+AC_CHECK_PROG(sgml2txt, sgml2txt, yes, no)
+AM_CONDITIONAL(SGML2TXT, test x$sgml2txt = xyes)
+
+AC_CHECK_PROG(sgml2lyx, sgml2lyx, yes, no)
+AM_CONDITIONAL(SGML2LYX, test x$sgml2lyx = xyes)
+
+AC_CHECK_PROG(sgml2rtf, sgml2rtf, yes, no)
+AM_CONDITIONAL(SGML2RTF, test x$sgml2rtf = xyes)
+
+dnl Checks for programs.
+
+AC_PROG_CXX
+AC_PROG_INSTALL
+AC_PREFIX_DEFAULT(/usr/local)
+
+dnl switch to C++ mode
+AC_LANG_SAVE
+AC_LANG_CPLUSPLUS
+
+AM_PROG_CC_STDC
+AC_ISC_POSIX
+
+dnl Check for header files
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS(fcntl.h strings.h sys/time.h unistd.h floatingpoint.h sys/types.h) 
+AC_EGREP_HEADER(RLIMIT_NPROC, sys/resource.h, AC_DEFINE(HAVE_RLIMIT_NPROC,1,[cheat_check]))
+
+# network support
+
+AC_ARG_ENABLE(network, [  --enable-network      make a version with network support], enable_network=yes, enable_network=no)
+AM_CONDITIONAL(NO_NETWORK, test x$enable_network = xno)
+
+
+# graphics / GTK
+
+AC_ARG_ENABLE(graphics, [  --disable-graphics      make a version without a GUI], enable_graphics=no, enable_graphics=yes)
+AM_CONDITIONAL(NO_GRAPHICS, test x$enable_graphics = xno)
+if test x$enable_graphics = "xyes"; then
+dnl Here we test whether we have to link against lsocket and lnsl
+ETR_SOCKET_NSL
+fi
+
+# Check for GTK+.
+
+if test "x$enable_graphics" = "xyes"; then
+dnl Checks for libraries.
+PKG_CHECK_MODULES([GTK], [gtk+-2.0 gdk-2.0],,[exit])
+AC_SUBST(GTK_LIBS)
+AC_SUBST(GTK_CFLAGS)
+fi
+
+dnl debugging options
+AC_ARG_ENABLE(debug, [  
+RealTimeBattle options:
+  --enable-debug[=no/yes]
+                          turn on debugging [default=no]],,
+    enable_debug=no)
+
+dnl compile warning options
+AC_ARG_ENABLE(compile-warnings,
+              [  --enable-compile-warnings  turn on compile time warnings],
+              , enable_compile_warnings=no)
+
+WARNING_FLAGS="-Wall"
+PROFILE_FLAGS="-pg"
+
+if test "x$enable_compile_warnings" = "xyes"; then
+   CXXFLAGS="$CXXFLAGS $WARNING_FLAGS"
+fi
+
+dnl enable profiling
+AC_ARG_ENABLE(prof, [], enable_prof=yes, enable_prof=no)
+
+if test "x$enable_prof" = "xyes"; then
+   CXXFLAGS="$CXXFLAGS $PROFILEFLAGS"
+fi
+
+changequote(,)dnl
+if test "x$enable_debug" = "xyes"; then
+   case " $CXXFLAGS " in
+   *[\ \	]-g[\ \	]*) ;;
+   *) CXXFLAGS="$CXXFLAGS -g " ;;
+   esac
+   case " $CFLAGS " in
+   *[\ \	]-g[\ \	]*) ;;
+   *) CFLAGS="$CFLAGS -g " ;;
+   esac
+   CXXFLAGS=`echo "$CXXFLAGS " | sed "s/-O[0-9]* //"`
+   CFLAGS=`echo "$CXXFLAGS " | sed "s/-O[0-9]* //"`
+else
+   CXXFLAGS=`echo "$CXXFLAGS " | sed "s/-g //"`
+   CFLAGS=`echo "$CFLAGS " | sed "s/-g //"`
+   if test "x$enable_debug" = "xno"; then
+      CPPFLAGS="$CPPFLAGS -DNDEBUG"
+   fi
+fi
+changequote([,])dnl
+
+AC_ARG_ENABLE(rpm, [  --enable-rpm=[opts]     used when making RPM-packages], use_rpm=yes, use_rpm=no)
+
+changequote(,)dnl
+if test "x$use_rpm" = "xyes"; then
+   CXXFLAGS="$enable_rpm" 	
+   CFLAGS="$enable_rpm" 	
+	INSTALL_INFO=no
+fi
+changequote([,])dnl
+
+AM_CONDITIONAL(ENABLE_RPM, test x$use_rpm = xyes)
+
+AC_ARG_WITH(rtb_dir, 
+[  --with-rtb-dir=[path]   directory for rtb installation 
+                          [EPREFIX/games/RealTimeBattle]],,
+   with_rtb_dir=['${exec_prefix}/games/RealTimeBattle'])
+
+RTB_DIR=$with_rtb_dir
+AC_SUBST(RTB_DIR)
+DOCS_DIR=[${RTB_DIR}/Documentation]
+AC_SUBST(DOCS_DIR)
+AC_SUBST(INSTALL_INFO)
+
+RTB_EXPAND_DIR(ROBOTDIR, "${RTB_DIR}/Robots")
+AC_SUBST(ROBOTDIR)
+RTB_EXPAND_DIR(ARENADIR, "${RTB_DIR}/Arenas")
+AC_SUBST(ARENADIR)
+AC_DEFINE_UNQUOTED(ROBOTDIR, "$ROBOTDIR",[robothome])
+AC_DEFINE_UNQUOTED(ARENADIR, "$ARENADIR",[arenahome])
+
+AC_ARG_WITH(nls_localedir, 
+[  --with-nls-localedir=[path]  Data directory for NLS, parent of locale 
+                          [DATADIR/locale]],,
+   with_nls_localedir=['${datadir}/locale'])
+
+RTB_EXPAND_DIR(RTB_LOCALEDIR, "${with_nls_localedir}")
+AC_SUBST(RTB_LOCALEDIR)
+RTB_EXPAND_DIR(RTB_LOCALEDIR, "${RTB_LOCALEDIR}") #Need to expand twice!
+AC_DEFINE_UNQUOTED(RTB_LOCALEDIR, "$RTB_LOCALEDIR",[localehome])
+
+AC_CHECK_LIB(stdc++, getc,stdcxx=yes,
+	AC_MSG_ERROR(You need to have libstdc++ installed))
+AC_CHECK_HEADER(vector,,
+	AC_MSG_ERROR(You need to have the libstdc++ headers installed))
+
+if test "x$stdcxx" = "xyes"; then
+	STDCXX_LIBS=-lstdc++
+fi
+AC_SUBST(STDCXX_LIBS)
+	      
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_PID_T
+AC_HEADER_TIME
+
+dnl Checks for library functions.
+AC_TYPE_SIGNAL
+AC_CHECK_FUNCS(select)
+AC_CHECK_FUNC(getopt_long,, [getopt=yes])
+AM_CONDITIONAL(NO_GETOPT_LONG, test x$getopt = xyes)
+AC_CHECK_LIB(xpg4, setlocale)
+
+
+dnl Initialize localization support
+AM_GNU_GETTEXT
+AM_GNU_GETTEXT_VERSION(0.14.1)
+
+dnl Checks for Additional stuffs.
+GETTEXT_PACKAGE=RealTimeBattle
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTTEXT_PACKAGE", [Package name for gettext])
+
+dnl begin of robot specific checks (only needed for perl , joystick and java bots )
+dnl Check if linux joystick api is availabe (used for joypad_robot)
+AC_CHECK_HEADERS(linux/joystick.h,[linuxjoystickavailable="yes"],[linuxjoystickavailable="false"; AC_MSG_WARN([No joystick API found, cannot compile joypad robot])])
+AM_CONDITIONAL([linuxjoystickavailable],[test x$linuxjoystickavailable = "xyes"])
+
+dnl now configure java
+AC_CHECK_CLASSPATH
+AC_PROG_JAVAC
+AM_CONDITIONAL([javacavailable],[test "x$JAVAC" != x])
+AC_PROG_JAVA
+AM_CONDITIONAL([javaavailable],[test "x$JAVA" != x])
+
+dnl now configure perl
+AX_SYS_PERLSHARPBANG
+AM_CONDITIONAL([perlavailable],[test "x$PERL_SHEBANG" != x ])
+
+dnl now configure python
+AX_WITH_PYTHON(2.2, missing)
+AM_CONDITIONAL([pythonavailable],[test "x$PYTHON" != "xmissing"]) 
+AC_SUBST(PYTHON)
+
+dnl now configure the RealTimeBattle Team Framework with the Brotfrucht strategy
+if test -d "$srcdir/team-framework"; then
+	AC_CONFIG_SUBDIRS([team-framework])
+else
+	AC_MSG_WARN(["You have deleted the RealTimeBattle Team Framework, so this part is not to be built!"])
+fi
+
+dnl restore language
+AC_LANG_RESTORE
+
+dnl Finally, the default behavior of msgmerge breaks 2-byte character
+dnl encodings, as used in ja.po and others.
+dnl We fix this by forcing the "-w 0" option on all msgmerge calls.
+AC_OUTPUT_COMMANDS(
+  [if test -f po/Makefile ; then
+     if grep 'MSGMERGE = PATH=../src:$$PATH msgmerge -w 0' po/Makefile >/dev/null 2>&1 ; then
+       # has already been modified
+       :
+     else
+       echo modifying po/Makefile
+       mv -f po/Makefile po/Makefile.tmp
+       sed -e 's/MSGMERGE = PATH=..\/src:$$PATH msgmerge/MSGMERGE = PATH=..\/src:$$PATH msgmerge -w 0/' po/Makefile.tmp > po/Makefile
+       rm po/Makefile.tmp
+     fi
+   fi])
+
+AC_OUTPUT([
+m4/Makefile
+intl/Makefile
+Makefile
+po/Makefile.in
+Arenas/Makefile
+Packages/Makefile
+Packages/rpm/Makefile
+Packages/debian/Makefile
+Packages/freebsd/Makefile
+Documentation/Makefile
+Documentation/German/Makefile
+Documentation/Spanish/Makefile
+Documentation/French/Makefile
+src/Makefile
+Robots/Makefile
+Robots/seek_and_destroy/Makefile
+Robots/rotate_and_fire/Makefile
+Robots/empty/Makefile
+Robots/xt-bot/Makefile
+Robots/thomas2/Makefile
+Robots/joypad_robot/Makefile
+Robots/jBot/Makefile
+Robots/jBot/jBot.robot
+Robots/perl-Skeleton/perl-Skeleton.robot
+Robots/perl-Skeleton/Makefile
+Robots/perl/perl.robot
+Robots/perl/Makefile
+Robots/raziel/raziel.py.robot
+Robots/raziel/Makefile
+include/Makefile
+])
+

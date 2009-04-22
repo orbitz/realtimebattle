@@ -1,0 +1,17 @@
+2005-10-15 Johannes Nicolai <jonico@users.sourceforge.net>
+	* Release RealTimeBattle 1.0.8, see release notes on
+	sourceforge for further details
+
+2005-09-19 Volker Stroebel <volker@planetpenguin.de>
+	* configure.in include/Makefile.am include/BroadCast.h 
+	include/ClientInterface.h src/Makefile.am src/Broadcast.cpp
+	src/ClientInterface.cpp src/ArenaBase.cpp src/ArenaRealTime.cpp
+	src/RealTimeBattle.cpp
+	Added BroadCast class for new logging system
+	Added ClientInterface class for experimental network support
+	Changed ArenaRealTime to use BroadCast singleton for logfiles 
+
+2004-11-12 Johannes Nicolai <jonico@users.sourceforge.net>
+	* Created working autoconf / automake / autoheader structure
+	* Imported some configuration data out of older versions and modified
+	them so thatyou can install RealTime Battle on a modern system

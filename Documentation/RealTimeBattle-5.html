@@ -1,0 +1,318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle User Manual, version 1.0.8: Options</TITLE>
+ <LINK HREF="RealTimeBattle-6.html" REL=next>
+ <LINK HREF="RealTimeBattle-4.html" REL=previous>
+ <LINK HREF="RealTimeBattle.html#toc5" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="RealTimeBattle-6.html"><IMG SRC="next.png" ALT="Next"></A>
+<A HREF="RealTimeBattle-4.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc5"><IMG SRC="toc.png" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Options"></A> <A NAME="s5">5.</A> <A HREF="RealTimeBattle.html#toc5">Options</A></H2>
+
+<P>RealTimeBattle is configurable with a bunch of options, collected in
+different groups. The philosophy is to give you full freedom to set up
+the game in the way you like. This does mean, however, that some
+settings of the options may give bad combination, which can cause
+troubles for the program.</P>
+
+
+<H2><A NAME="Environmental options"></A> <A NAME="ss5.1">5.1</A> <A HREF="RealTimeBattle.html#toc5.1">Environmental options</A>
+</H2>
+
+<P>
+<DL>
+
+<DT><B>Gravitational Constant:</B><DD><P>The acceleration due to
+gravitation. It is about 9.8 on the earth. An increase will increase
+the friction, thereby slow down the robots.</P>
+<P>
+<A NAME="AirResistance"></A> </P>
+<DT><B>Air resistance:</B><DD><P>As it sounds. Increases with speed.</P>
+<P>
+<A NAME="RollFriction"></A> </P>
+<DT><B>Roll friction:</B><DD><P>The friction in the direction of the robot
+if not braking.</P>
+<P>
+<A NAME="SlideFriction"></A> </P>
+<DT><B>Slide friction:</B><DD><P>The friction orthogonal to the robot
+direction. Also the maximum friction if braking.</P>
+<P>
+<A NAME="SendCoordinates"></A> </P>
+<DT><B>Send robot coordinates:</B><DD><P>Determines how coordinates are send to
+the robots. The following options are available: 
+<UL>
+<LI> 0 - don't send any coordinates (default)</LI>
+<LI> 1 - send the coordinates relative the starting position</LI>
+<LI> 2 - send absolute coordinates</LI>
+</UL>
+</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Robot options"></A> <A NAME="ss5.2">5.2</A> <A HREF="RealTimeBattle.html#toc5.2">Robot options</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="RobotMaxAcceleration"></A> </P>
+<DT><B>Robot max acceleration:</B><DD><P>Robots are not allowed to
+accelerate faster than this and ...</P>
+
+<DT><B>Robot min acceleration:</B><DD><P>... slower than this.</P>
+<P>
+<A NAME="RobotRadius"></A> </P>
+<DT><B>Robot radius:</B><DD><P>Determines the size of the robot.</P>
+
+<DT><B>Robot mass:</B><DD><P>Large robot mass will increase the impact of
+collisions.</P>
+<P>
+<A NAME="BounceCoefficient"></A> </P>
+<DT><B>Robot bounce coefficient:</B><DD><P>Affects how well the robots will
+bounce. If zero the robots will cling together when colliding, if the value is one they will act
+like perfect billiard balls.</P>
+
+<DT><B>Robot hardness coefficient:</B><DD><P>Determines how seriously damaged  
+the robots will be when colliding. The lower the value, the softer the material.</P>
+
+<DT><B>Robot protection coefficient:</B><DD><P>Influences how well protected the robot is. This
+factor is to be multiplied with the damaging energy to get how much to reduce the robot's
+energy.</P>
+<P>
+<A NAME="RobotFront"></A> </P>
+<DT><B>Robot frontszie:</B><DD><P>The front of the robot is a section with
+different materials, usually harder and more protective, so robots can
+injure each other by ramming.</P>
+
+<DT><B>Robot front bounce coefficient:</B><DD><P>See previous four items.</P>
+
+<DT><B>Robot front hardness coefficient:</B><DD><P>See previous five items.</P>
+
+<DT><B>Robot front protection coefficient:</B><DD><P>See previous six items.</P>
+
+<DT><B>Robot start energy:</B><DD><P>The amount of energy the robots will
+have at the beginning of each game.</P>
+
+<DT><B>Robot max energy:</B><DD><P>By eating a cookie, the robot can increase
+its energy; not more than this, though.</P>
+<P>
+<A NAME="RobotMaxRotateSpeed"></A> </P>
+<DT><B>Robot max rotate speed:</B><DD><P>How fast the robot itself may
+rotate. Unit: radians/s .</P>
+
+<DT><B>Robot cannon max rotate speed:</B><DD><P>Maximum cannon rotate speed.
+Note that the cannon and the radar move relative to the robot, so the
+actual rotation speed may be higher.</P>
+
+<DT><B>Robot radar max rotate speed:</B><DD><P>Maximum radar rotate speed.
+See note above.</P>
+<P>
+<A NAME="EnergyLevels"></A> </P>
+<DT><B>Robot energy levels:</B><DD><P>The robot will only know its energy
+approximately. This will decide how many discretation levels will be
+used.</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Shot options"></A> <A NAME="ss5.3">5.3</A> <A HREF="RealTimeBattle.html#toc5.3">Shot options</A>
+</H2>
+
+<P>
+<DL>
+<DT><B>Shot radius:</B><DD><P>Size of shots. Should be less than 
+<A HREF="#RobotRadius">robot radius</A>.</P>
+<P>
+<A NAME="ShotSpeed"></A> </P>
+<DT><B>Shot speed:</B><DD><P>Shots are moving with this speed in the direction
+of the cannon plus the velocity of the robot.</P>
+<P>
+<A NAME="ShootingPenalty"></A> </P>
+<DT><B>Shooting penalty:</B><DD><P>When shooting the robot itself gets
+damaged. This is the factor, by which the shot energy is multiplied,
+to get the damaging energy. If the number of robots is large, this
+number is reduced, so that you never lose in average by shooting (if
+you hit).</P>
+<P>
+<A NAME="ShotMinEnergy"></A> </P>
+<DT><B>Shot min energy:</B><DD><P>The lowest shot energy allowed. A robot
+trying to shoot with less energy will fail to shoot.</P>
+<P>
+<A NAME="ShotMaxEnergy"></A> </P>
+<DT><B>Shot max potential energy:</B><DD><P>The robots have a shot energy, which
+increases with time, but will never exceed this value.</P>
+<P>
+<A NAME="ShotEnergyIncreaseSpeed"></A> </P>
+<DT><B>Shot potential energy increase speed:</B><DD><P>Determines how fast the robots
+shot energy noted above, will increase. Unit: energy/s .</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Cookie_and_mine_options"></A> <A NAME="ss5.4">5.4</A> <A HREF="RealTimeBattle.html#toc5.4">Extras options</A>
+</H2>
+
+<P>
+<DL>
+<DT><B>Cookie max energy:</B><DD><P>The cookie energy is a random number
+between cookie max energy and cookie min energy.</P>
+
+<DT><B>Cookie min energy:</B><DD><P>See above.</P>
+
+<DT><B>Cookie frequency:</B><DD><P>The number of cookie per second that will
+appear in average.</P>
+
+<DT><B>Cookie radius:</B><DD><P>Size of cookie.</P>
+
+<DT><B>Mine max energy:</B><DD><P>The mine energy is a random number between
+mine max energy and mine min energy.</P>
+
+<DT><B>Mine min energy:</B><DD><P>See above.</P>
+
+<DT><B>Mine frequency:</B><DD><P>The number of mine per second that will
+appear in average.</P>
+
+<DT><B>Mine radius:</B><DD><P>Size of mine.</P>
+
+<DT><B>Cookie colour:</B><DD><P>Cookie colour in hexadecimal red-green-blue
+form.</P>
+
+<DT><B>Mine colour:</B><DD><P>As above.</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Time options"></A> <A NAME="ss5.5">5.5</A> <A HREF="RealTimeBattle.html#toc5.5">Time options</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="Timeout"></A> </P>
+<DT><B>Timeout:</B><DD><P>This is the longest time a game will take. When
+the time is up all remaining robots are killed, without getting any
+more points.</P>
+<P>
+<A NAME="MaxTimestep"></A> </P>
+<DT><B>Max timestep:</B><DD><P>If the computer is temporarily slowed down,
+the time between updates can be to long. Setting this option will make
+the program artificially slow down the clock in those cases and
+therefore violate the realtimeness.</P>
+<P>
+<A NAME="TimeScale"></A> </P>
+<DT><B>Time scale:</B><DD><P>Increasing time scale to more than one means that the
+game clock will go faster than an ordinary clock. Changing this
+value can be usefull if you either want to give the robots more time
+or if you have a fast computer you may want to speed the game up.</P>
+<P>
+<A NAME="UpdateInterval"></A> </P>
+<DT><B>Update interval:</B><DD><P>This option determines the time between robot
+updates, i.e., how often the robot states are changed. It is not influenced
+by the 'Time Scale' and cannot be altered when the program is running. 
+The accuracy is 1/100 s (depending of the precision of the system that RealTimeBattle
+is running on).</P>
+<P>
+<A NAME="RobotStartupTime"></A> </P>
+<DT><B>Robot startup time:</B><DD><P>Determines the time between the robot processes are executed
+and the sequence begins. If robots are black and have no name, you may need to increase
+the startup time from the default of one second. This can happen if, for example, the
+robots are many, large or you are running on a slow or remote computer.</P>
+<P>
+<A NAME="CPUOptions"></A> </P>
+<DT><B>Start CPU time:</B><DD><P>In 
+<A HREF="RealTimeBattle-2.html#Command line options">competition-mode</A> a
+robot's CPU usage is limited. At the beginning of a sequence a robot will get this amount
+of CPU time to spend.</P>
+
+<DT><B>Extra CPU time:</B><DD><P>When the start CPU time is spent, the
+robot will get this amount of extra CPU time.</P>
+
+<DT><B>Extra CPU period:</B><DD><P>The extra CPU time must last an
+entire CPU period, otherwise the robot will die in the current game.</P>
+<P>
+<A NAME="CPUWarningPercentage"></A> </P>
+<DT><B>CPU warning percentage:</B><DD><P>When the robot has used up this
+amount of its CPU time it will receive a warning message.</P>
+
+<DT><B>Process check interval:</B><DD><P>In 
+<A HREF="RealTimeBattle-2.html#Command line options">competition-mode</A> this
+will decide how often the program will check for CPU usage.</P>
+<P>
+<A NAME="LoggingFrequency"></A> </P>
+<DT><B>Logging frequency:</B><DD><P>To reduce the size of
+<A HREF="RealTimeBattle-2.html#log_files">log files</A> you can increase this option. With this option,
+<A HREF="RealTimeBattle-2.html#RobotPositionInfo">robot position info</A> are only logged every n:th
+<A HREF="#UpdateInterval">update interval</A>.</P>
+
+</DL>
+</P>
+
+<H2><A NAME="Window sizes"></A> <A NAME="ss5.6">5.6</A> <A HREF="RealTimeBattle.html#toc5.6">Window sizes</A>
+</H2>
+
+<P>Here you can set the initial sizes for some windows, namely 
+the 
+<A HREF="RealTimeBattle-2.html#Arena_window">arena window</A>,
+the 
+<A HREF="RealTimeBattle-2.html#Message window">message window</A>,
+the 
+<A HREF="RealTimeBattle-2.html#Score window">score window</A> and
+the 
+<A HREF="RealTimeBattle-2.html#Statistics window">statistics window</A>. You can also set the position for the
+first three and the 
+<A HREF="RealTimeBattle-2.html#Control window">control window</A>.</P>
+
+<H2><A NAME="Miscellaneous options"></A> <A NAME="ss5.7">5.7</A> <A HREF="RealTimeBattle.html#toc5.7">Miscellaneous options</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="ArenaScale"></A> </P>
+<DT><B>Arena scale:</B><DD><P>Overall scale of the arena. A value of 2 gives
+double sidelength, i.e., a four times larger area.</P>
+<P>
+<A NAME="Fast forward factor"></A> </P>
+<DT><B>Fast forward factor:</B><DD><P>Determines, when 
+<A HREF="RealTimeBattle-2.html#replaying">replaying</A>, the speed when the fast forward
+button or the rewind button is pressed.</P>
+<P>
+<A NAME="Max robots allowed simultaneously"></A> </P>
+<DT><B>Max robots allowed simultaneously:</B><DD><P>Allows the user to change the
+maximum amount of robots allowed in a sequence. If there are too many, the
+system might complain (how many depends on the system).</P>
+
+<DT><B>Background colour:</B><DD><P>Background colour and ...</P>
+
+<DT><B>Foreground colour:</B><DD><P>... foreground colour for the arena.</P>
+<P>
+<A NAME="Colour for RTB messages"></A> </P>
+<DT><B>Colour for RTB messages:</B><DD><P>Colour for the text when RTB sends messages.</P>
+<P>
+<A NAME="Robot search path"></A> </P>
+<DT><B>Robot search path:</B><DD><P>This is a colon-separated list of directories which will be searched
+for robots when a 
+<A HREF="RealTimeBattle-2.html#Start new tournament window">new tournament</A> is started. The subdirectory <CODE>Robots</CODE> in the rtb install
+directory (default: <CODE>/usr/local/games/RealTimeBattle</CODE>) is always searched.</P>
+<P>
+<A NAME="Arena search path"></A> </P>
+<DT><B>Arena search path:</B><DD><P>Same as above, but for arena files instead
+of robots. Here the subdirectory is <CODE>Arenas</CODE>.</P>
+
+</DL>
+</P>
+
+
+
+<HR>
+<A HREF="RealTimeBattle-6.html"><IMG SRC="next.png" ALT="Next"></A>
+<A HREF="RealTimeBattle-4.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc5"><IMG SRC="toc.png" ALT="Contents"></A>
+</BODY>
+</HTML>

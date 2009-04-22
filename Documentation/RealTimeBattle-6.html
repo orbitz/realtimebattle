@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle User Manual, version 1.0.8: Arena construction</TITLE>
+ <LINK HREF="RealTimeBattle-5.html" REL=previous>
+ <LINK HREF="RealTimeBattle.html#toc6" REL=contents>
+</HEAD>
+<BODY>
+<IMG SRC="next.png" ALT="Next">
+<A HREF="RealTimeBattle-5.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc6"><IMG SRC="toc.png" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Arena construction"></A> <A NAME="s6">6.</A> <A HREF="RealTimeBattle.html#toc6">Arena construction</A></H2>
+
+<P>In RealTimeBattle, it is very simple to construct your own arenas. The
+language consists of only eleven commands, and there are essentially
+four building blocks: line, circle, inner_circle and arc. This is mainly
+because of speed reason, for circles and lines it is very easy to
+check if a collision has occured. Circle and inner_circle prevents
+robots from entering into a circle or getting out of a circle
+respectively. The line and the arc stop the robots from entering through
+the long side ( the curved for the arc ), but no check is made on the
+short side, so you have to put
+circles at each end of the line to make it a solid object. The
+commands <CODE>polygon</CODE>, <CODE>closed_polygon</CODE> and
+<CODE>poly_curve</CODE> are intended to
+simplify this procedure, always giving a proper object.</P>
+<P>All angles are by default in radians but can be changed to degrees by the
+command <CODE>angle_unit degrees</CODE>.</P>
+<P>Note that RealTimeBattle does not check whether the arena file gives
+a correct arena, it is entirely up to you. However, it will complain
+if there are violations to the language rules.</P>
+<P>Arena files should be given the postfix <CODE>.arena</CODE> and be stored
+in the arena directory for RealTimeBattle to find them.</P>
+<P>The <CODE>bounce coefficient</CODE> and <CODE>hardness</CODE> argument given to
+all wall creating commands, determines the material of the wall. They
+are both values between 0 and 1. Harder walls will injure colliding
+robots more and higher bounce coefficient make them bounce better.</P>
+<P>You are also encouraged to study the arenas included and learn from
+the examples.</P>
+
+
+
+<H2><A NAME="Arena_commands"></A> <A NAME="ss6.1">6.1</A> <A HREF="RealTimeBattle.html#toc6.1">Arena commands</A>
+</H2>
+
+<P>A command consists of the command name and the arguments separated by
+whitespace. Be sure to give the right number of arguments!</P>
+<P>In the command list, the arguments are given in square brackets.</P>
+<P>
+<DL>
+<DT><B>scale [value]</B><DD><P>This value times the 
+<A HREF="RealTimeBattle-5.html#ArenaScale">arena scale</A>
+will give the scale factor, by which all coordinates are multiplied. This command must be,
+if it exists, the very first in the file, default is 1.0.</P>
+
+<DT><B>angle_unit [unit]</B><DD><P>Switches to the selected angle unit, which
+can be either of <CODE>degrees</CODE> or <CODE>radians</CODE>. Default is radians.</P>
+
+<DT><B>boundary [left] [up] [right] [down]</B><DD><P>The boundary encloses the area, in which robot,
+cookies and mines are placed. It also determines the visible area in the 
+<A HREF="RealTimeBattle-2.html#Arena_window">arena window</A>. This command is required and may only be preceded by
+<CODE>scale</CODE>.</P>
+
+<DT><B>inner_circle [bounce] [hardness] [center_x] [center_y] [radius]</B><DD><P>Robots are limited to the inside of this circle.</P>
+
+<DT><B>circle [bounce] [hardness] [center_x] [center_y] [radius]</B><DD><P>Circle shaped wall.</P>
+
+<DT><B>line [bounce] [hardness] [thickness] [start_x]
+[start_y] [end_x] [end_y]</B><DD><P>Creates a line. It only prevents the robot from passing through to long
+side, so remember to put circles at the short ends.</P>
+
+<DT><B>arc [bnc] [hardn] [thickn] [center_x] [ctr_y]
+[inner_radius] [outer_rds] [angle1] [angle2]</B><DD><P>An arc is a sector of a ring within two angles. Like the line, it needs
+circles at both the ends.</P>
+
+
+<DT><B>polygon [bounce] [hardn] [thickn] [number of vertices] ([center_x] [center_y])...</B><DD><P>This will create a number of circles, connected by lines.</P>
+
+
+<DT><B>closed_polygon [bounce] [hardn] [thickn] [number of vertices]
+([center_x] [center_y])...</B><DD><P>As a <CODE>polygon</CODE>, but the first and the last vertices are also
+connected by a line.</P>
+
+<DT><B>poly_curve [bnc] [hardn] [thickn] [start_x]
+[start_y] [dir_x] [dir_y] 
+([command args ...]) ...</B><DD><P>The <CODE>poly_curve</CODE> is the most powerful of the arena commands. It is
+used to build walls with lines and arcs. At each step you have a current
+position and direction, which are affected by the subcommands. The last
+subcommand must be <CODE>C</CODE> or <CODE>Q</CODE>.</P>
+<P>
+<DL>
+<DT><B>L [length]</B><DD><P>Draw a line with given length in the current
+direction.</P>
+<DT><B>T [angle]</B><DD><P>Turn the current dircetion.</P>
+<DT><B>A [angle] [radius]</B><DD><P>Draw an arc.</P>
+<DT><B>C</B><DD><P>Finish by connecting with the starting point.</P>
+<DT><B>Q</B><DD><P>Quit.</P>
+</DL>
+</P>
+
+
+
+
+
+<DT><B>exclusion_point [position_x] [position_y]</B><DD><P>When the arena
+inside the boundary consists of several separated areas, you should
+exclude all but one by inserting exclusion points. All points from
+which you can draw a straight line to an exclusion point without
+crossing a wall, are considered to be outside the arena.</P>
+
+</DL>
+</P>
+<HR>
+<IMG SRC="next.png" ALT="Next">
+<A HREF="RealTimeBattle-5.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc6"><IMG SRC="toc.png" ALT="Contents"></A>
+</BODY>
+</HTML>

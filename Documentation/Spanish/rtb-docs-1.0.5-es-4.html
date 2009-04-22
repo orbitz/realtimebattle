@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Manual de Usuario de Real Time Battle, version 1.0.5 rev 1: Construccion de Robots (Robot construction)</TITLE>
+ <LINK HREF="rtb-docs-1.0.5-es-5.html" REL=next>
+ <LINK HREF="rtb-docs-1.0.5-es-3.html" REL=previous>
+ <LINK HREF="rtb-docs-1.0.5-es.html#toc4" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="rtb-docs-1.0.5-es-5.html"><IMG SRC="next.gif" ALT="Next"></A>
+<A HREF="rtb-docs-1.0.5-es-3.html"><IMG SRC="prev.gif" ALT="Previous"></A>
+<A HREF="rtb-docs-1.0.5-es.html#toc4"><IMG SRC="toc.gif" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Robot construction"></A> <A NAME="s4">4. Construccion de Robots (Robot construction)</A></H2>
+
+<P>Este capitulo explica lo que se necesita saber para construir tus propios robots. Lo mas importante es conocer el lenguaje de mensajes, formado aproximadamente por  35 comandos usados para comunicarse con el programa servidor. Es tambi&eacute;n muy &uacute;til estudiarse los robots de ejemplo del directorio <CODE>Robots/</CODE>.
+<P>
+<H2><A NAME="Reading messages"></A> <A NAME="ss4.1">4.1 Leer Mensajes (Reading messages)</A>
+</H2>
+
+<P>Al comienzo de cada secuencia el proceso robot es lanzado por el servidor y asigna dos pipes (tuberias), una para la entrada y otra para la salida. Estas estan conectadas a  <CODE>stdin</CODE> y a <CODE>stdout</CODE>, por lo que desde el punto de vista del robot, este se comunica con el servidor mediante la salida estandar y mediante la entrada estandar. 
+<P>Esto significa que los robots pueden ser escritos en casi cualquier lenguaje de programaci&oacute;n. De todas formas, el robot ha de ser capaz de saber cuando recibe un mensaje. Para ello hay al menos tres m&eacute;todos, que son:
+<P>
+<DL>
+<DT><B>Standard in blocks:</B><DD><P>Este es el m&eacute;todo mas simple. Es como si siempre hubiera un mensaje esperando. Lo malo es que con este m&eacute;todo no puedes hacer ningun c&aacute;lculo mientras esperas nuevos mensajes.
+<P>Para elegir este metodo, manda la siguiente opcion <EM>en cuanto el programa comience.</EM>:
+<P>
+<PRE>
+"cout &lt;&lt; "RobotOption " &lt;&lt; USE_NON_BLOCKING &lt;&lt; " " &lt;&lt; 0 &lt;&lt; endl;"
+</PRE>
+
+Ten en cuenta que esto es codigo c++. Si no usas c++ simplemente imprime en la salida estandar al mensaje mostrado. endl es lo mismo que 'end of line'.
+<P>
+<DT><B>Select:</B><DD><P>Usar la funcion <CODE>select</CODE> hace posible que el robot tenga un mejor control a la hora de recibir nuevos mensajes. Te permite, por ejemplo, leer nuevos mensajes disponibles, hacer algunos calculos, mandar comandos y esperar mensajes. Para aprender mas sobre <CODE>select</CODE>, lee la documentacion de Unix (las paginas man o la informacion del emacs).
+<P>Para seleccionar el metodo select, envia la siguiente opcion <EM>en cuanto el programa comience</EM>
+<PRE>
+cout &lt;&lt; "RobotOption " &lt;&lt; USE_NON_BLOCKING &lt;&lt; " " &lt;&lt; 1 &lt;&lt; endl;
+</PRE>
+
+Ten en cuenta que esto es codigo c++.
+<P>
+<DT><B>Signals:</B><DD><P>Si quieres, puedes indicarle a RealTimeBattle que envie una se&ntilde;al al robot en cuanto este disponible un nuevo mensaje. Este metodo permite al robot estar continuamente informado por el servidor incluso cuando el robot esta ocupado calculando algo. Si no estas seguro de como usar las se&ntilde;ales, mira en la documetnacion de unix o estudia los otros robots para aprender mas. 
+<P>Para seleccionar este metodo, envia la siguiente opcion <EM>en cuanto se inice el programa</EM>:
+<PRE>
+cout &lt;&lt; "RobotOption " &lt;&lt; USE_NON_BLOCKING &lt;&lt; " " &lt;&lt; 1 &lt;&lt; endl;
+cout &lt;&lt; "RobotOption " &lt;&lt; SIGNAL &lt;&lt; " " &lt;&lt; SIGUSR1 &lt;&lt; endl;
+</PRE>
+
+Se trata de codigo c++.
+<P>Puedes seleccionar cualquier se&ntilde;al en lugar de <CODE>SIGUSR1</CODE>
+<P>
+<P>
+</DL>
+<P>Como apoyo para la implementacion de estos tres metodos, el robot <CODE>rotate_and_fire</CODE> ha sido escrito en tres versiones diferentes. Tomate la libertad de estudiar y coger c&oacute;digo de este robot, si quieres.
+<P>No es recomendable estar continuamente mirando si hay mensajes nuevos, ya que esto ralentiza los procesos de una forma considerable, y en una 
+<A HREF="rtb-docs-1.0.5-es-2.html#Command line options">competition-mode</A> el robot moriri&iacute;a por salirse del tiempo de CPU.
+<P>
+<H2><A NAME="Messagetypes.h"></A> <A NAME="ss4.2">4.2 Messagetypes.h</A>
+</H2>
+
+<P>El fichero <CODE>Messagetypes.h</CODE> es una buena fuente de informacion sobre el lenguaje de mensajes. Es un fichero c/c++ (un include, vamos), pero se puede reescribir facilmente para usarlo con otros lenguajes. Aqu&iacute; encontrar&aacute;s un listado de los mensajes, los avisos (los warning), objetos, opciones de juego y opciones de los robots. 
+<P>
+<H2><A NAME="Cheating"></A> <A NAME="ss4.3">4.3 Cheating</A>
+</H2>
+
+<P>Desde el momento en que el prograso de la batalla es en tiempo real con procesos reales, es posible escribir programas que 'hagan trampas' de una manera u otra. Por ejemplo examinando los otros robots o incluso al RealTimeBattle mismamente para obtener mas informacion, usando muchos recursos para 'ahogar' a los otros robots, etc... Esta no es la manera de vencer a los oponentes, por supuesto, asi que intentaremos erradicarlo al maximo posible.
+<P>En 
+<A HREF="rtb-docs-1.0.5-es-2.html#Command line options">el modo competicion (competition-mode)</A> los robots tienen un uso limitado de CPU, por lo que un robot no puede usar toda la CPU. Esta 'norma' podria ser saltada lanzando procesos hijos. Aunque ser&iacute;a f&aacute;cilmente detectable un robot con comportamiento sospechoso.
+<P>No es posible prevenir todas las maneras de 'hacer trampas' en RealTimeBattle. Por ejemplo esta permitido leer y escribir en ficheros, pero recuerda que los organizadores de las competiciones pueden prohibir esto si quieren. Poniendo permisos sobre los executables de los robots y sobre los directorios esto se puede hacer facilmente. 
+<P>Es posible que haya mas formas de hacer cosas 'ilegales' con los robots. Si detectas una de estas formas, por favor manda un 
+<A HREF="rtb-docs-1.0.5-es-1.html#BugReports">bug report</A>. De todas formas es responsabilidad del organizador del torneo asegurarse de que se cumplen todas las normas.
+<P>
+<P>
+<H2><A NAME="Messages to robots"></A> <A NAME="ss4.4">4.4 Mensajes a los Robots (Messages to robots)</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="Initialize"></A> <P>
+<DT><B>Initialize [first? (int)]</B><DD><P>Este es el primer mensaje que el robot recibir&aacute;. Si el argumento es uno, esta es la primera secuencia del torneo y se deber&aacute; mandar  
+<A HREF="#NameAndColour">el nombre y el color (Name and Colour)</A> al servidor, o de lo contrario el esperar&iacute;a los mensajes de nombre (YourName) y color (YourColor). Ver debajo.
+<P>
+<A NAME="YourName"></A> <DT><B>YourName [name (string)]</B><DD><P>El nombre actual del robot. 
+<P>
+<A NAME="YourColour"></A> <DT><B>YourColour [colour (hex)]</B><DD><P>Color actual del robot. Cambialo si no te gusta el actual.
+<P>
+<DT><B>GameOption [option (int)] [value (double)]</B><DD><P>Al comienzo de cada juego, se enviar&aacute;n a los robots un n&uacute;mero de par&aacute;metros, que pueden ser &uacute;tiles al robot. Para obtener una lista de ellos, mira en el fichero
+<A HREF="#Messagetypes.h">Messagetypes.h</A> la secci&oacute;n de <CODE>game_option_type</CODE>. En el capitulo de 
+<A HREF="rtb-docs-1.0.5-es-5.html#Options">opciones (options chapter)</A> encontraras informaci&oacute;n mas detallada de cada opci&oacute;n. 
+<P>
+<A HREF="rtb-docs-1.0.5-es-2.html#Debug level">debug level</A> es enviado al robot como una opcion de juego, aunque no se haya indicado en las opciones.
+<P>
+<DT><B>GameStarts</B><DD><P>Este mensaje es enviado cuando comienza el juego.
+<P>
+<A NAME="Radar"></A> <DT><B>Radar [distance (double)] [observed object type (int)] [radar angle (double)]</B><DD><P>Este mensaje ofrece informaci&oacute;n sobre el radar en cada turno. Recuerda que el angulo del radar es relativo al frontal del robot y viene dado en radianes. 
+<P>
+<DT><B>Info [time (double)] [speed (double)] [cannon angle (double)]</B><DD><P>El mensaje  <B>Info</B> siempre sigue al mensage <B>Radar</B>. Ofrece mayor informaci&oacute;n sobre el estado del Robot. 'Time' es el tiempo transcurrido desde el comienzo del juego. Esto no tiene porque ser igual que el tiempo real transcurrido, debido a la 
+<A HREF="rtb-docs-1.0.5-es-5.html#TimeScale">escala de tiempo (time scale)</A> y al 
+<A HREF="rtb-docs-1.0.5-es-5.html#MaxTimestep">max timestep</A>.
+<P>
+<A NAME="Coordinates"></A> <DT><B>Coordinates [x (double)] [y (double)] [angle (double)]</B><DD><P>Informa sobre la posici&oacute;n actual del robot. Este mensaje se envia solo si la opci&oacute;n 
+<A HREF="rtb-docs-1.0.5-es-5.html#SendCoordinates">Send robot coordinates</A> es 1 o 2. Si es 1 las coordenadas son enviadas relativas a las posicion de comienzo, aunque el robot no sabe exactamente donde empieza, pero si sabe si se ha movido de su punto de origen.
+<P>
+<DT><B>RobotInfo [energy level (double)] [teammate? (int)]</B><DD><P>Si detectas un robot con el radar, este mensaje ser&aacute; enviado a continuaci&oacute;n, dando informaci&oacute;n sobre el robot. Se dar&aacute; el nivel de energ&iacute;a del oponente asi como tu propia energia (ver abajo). El segundo argumento es solo interesante en el modo equipo (team-mate), que aun no esta implementado. 1 significa compa&ntilde;ero de equipo y 2 significa enemigo. 
+<P>
+<A NAME="RotationReached"></A> <DT><B>RotationReached [what has reached(int)]</B><DD><P>Cuando la opci&oacute;n 
+<A HREF="#RobotOption">SEND_ROTATION_REACHED</A> esta puesta adecuadamente, este mensaje es enviado cuando un giro (realizado mediante RotateTo o RotateAmount) ha finalizado o bien cuando se modifica la direcci&oacute;n (sweeping). El argumento corresponde a la opci&oacute;n 'what to rotate', como en 
+<A HREF="#Rotate">Rotate</A>. 
+<P>
+<DT><B>Energy [energy level(double)]</B><DD><P>Al final de cada turno el robot conocer&aacute; su nivel de energ&iacute;a. De todas formas, no sera un numero exacto, sino un numero limitado a 
+<A HREF="rtb-docs-1.0.5-es-5.html#EnergyLevels">los niveles de energia (energy levels)</A>.
+<P>
+<DT><B>RobotsLeft [number of robots (int)]</B><DD><P>Al principio de cada juego y cuando un robot muera, el n&uacute;mero restante de robots sera enviado a todos los robots que aun esten vivos.
+<P>
+<DT><B>Collision [colliding object type (int)] [angle relative robot (double)]</B><DD><P>Cuando un robot se golpea o es golpeado por algo recibe este mensaje. En el fichero 
+<A HREF="#Messagetypes.h">Messagetypes.h</A> puedes encontrar una lista de los tipos de objeto.
+Obtendr&aacute;s el &aacute;ngulo desde el cual la colisi&oacute;n ha ocurrido (angulo relativo al robot) y el tipo de objeto contra el que has chocado, aunque no recibira&aacute; la informaci&oacute;n de la gravedad del choque. Esto puede ser determinado, indirectamente, por el decremento de la energ&iacute;a. 
+<P>
+<A NAME="Warning"></A> <DT><B>Warning [warning type (int)] [message (string)]</B><DD><P>Un mensaje de aviso (warning) sera enviado al robot en caso de que ocurra algun problema. Actualmente hay siete mensajes de aviso que pueden ser enviados, que son:
+<P><CODE>UNKNOWN_MESSAGE:</CODE> El servidor ha recibido un mensaje que no puede reconocer.
+<P><CODE>PROCESS_TIME_LOW:</CODE> El uso de la CPU ha sobrepasado el 
+<A HREF="rtb-docs-1.0.5-es-5.html#CPUWarningPercentage">porcentaje de CPU (CPU warning percentage)</A>. Solo en 
+<A HREF="rtb-docs-1.0.5-es-2.html#Command line options">modo competicion (competition-mode)</A>.
+<P><CODE>MESSAGE_SENT_IN_ILLEGAL_STATE:</CODE> El mensaje que se ha recibido no se puede procesar en ese momento del juego. Por ejemplo cuando envia un mensaje 
+<A HREF="#Rotate">Rotate</A> antes de comenzar el juego.
+<P><CODE>UNKNOWN_OPTION:</CODE> Cuando el robot env&iacute;a una 
+<A HREF="#RobotOption">opci&oacute;n (robot option)</A>con un nombre inv&aacute;lido o con un argumento incorrecto para esa opcion. 
+<P><CODE>OBSOLETE_KEYWORD:</CODE> Ese 'keyword' (comando) esta obsoleto y no deber&iacute;a ser usado nunca mas. Para mas informacion mira en el fichero <CODE>ChangeLog</CODE>.
+<P><CODE>NAME_NOT_GIVEN:</CODE> El robot no ha enviado su nombre antes de que el juego comience. Esto sucede si 
+<A HREF="rtb-docs-1.0.5-es-5.html#RobotStartupTime">el tiempo de inicio (robot startup time)</A> es demasiado corto o bien el robot no ha enviado su nombre lo suficientemente pronto. 
+<P><CODE>COLOUR_NOT_GIVEN:</CODE> El robot no ha enviado su color antes de que el juego comience. 
+<P>
+<DT><B>Dead</B><DD><P>El robot ha muerto. No intentes enviar nuevos mensajes hasta el final del juego, ya que el servidor no los leer&aacute;. 
+<P>
+<DT><B>GameFinishes</B><DD><P>El juego actual ha finalizado. Preparate para el siguiente !!!
+<P>
+<A NAME="ExitRobot"></A> <DT><B>ExitRobot</B><DD><P>Sal del programa inmediatamente!!! Sino sera matado (killed) a la fuerza. 
+<P>
+</DL>
+<P>
+<P>
+<P>
+<H2><A NAME="Messages from robots"></A> <A NAME="ss4.5">4.5 Mensajes de los Robots (Messages from robots)</A>
+</H2>
+
+<P>
+<DL>
+<P>
+<A NAME="RobotOption"></A> <DT><B>RobotOption [option nr (int)] [value (int)]</B><DD><P>Actualmente solo hay dos opciones disponibles: 
+<P><CODE>SIGNAL:</CODE> Le comunica al servidor que envie una se&ntilde;al cuando haya un mensaje esperando. El argumento determinar&aacute; esa se&ntilde;al. Envia este mensage (con el argumento SIGUSR1, por ejemplo) tan pronto como estes listo para recibir la se&ntilde;al. Por defecto es 0, lo que significa que no se envie ninguna se&ntilde;al. 
+<P><CODE>SEND_SIGNAL:</CODE> Le indica al servidor que envie SIGUSR1 cuando haya un mensaje esperando. Envia este mensaje (con argumento 1 (=cierto)) tan pronto como estes preparado para recibir la se&ntilde;al. Por defecto es falso. 
+<P><CODE>SEND_ROTATION_REACHED:</CODE> Activa esta opcion si quieres que el servidor te envie un mensaje 
+<A HREF="#RotationReached">RotationReached</A> cuando finalize una rotacion. Con un valor de 1, el mensaje ser&aacute; enviado cuando finalice un RotateTo o bien un RotateAmount. Con un valor 2, los cambios en la direccion sweep (de barrido) seran tambi&eacute;n notificados. Por defecto esta opcion esta a 0, con lo que ningun mensaje sera enviado.
+<P><CODE>USE_NON_BLOCKING:</CODE> Selecciona como funciona la 
+<A HREF="#Reading messages">lectura de mensajes (reading messages)</A>. Esta opcion ser&aacute; enviada tan pronto como el programa comienza. Esta opcion debe ser activada siempre, ya que no hay disponbible ningun valor por defecto.
+<P>
+<A NAME="NameAndColour"></A> <DT><B>Name [name (string)]</B><DD><P>Cuando se recibe un mensaje de 
+<A HREF="#Initialize">inicializacion (Initialize)</A> con un argumento a 1, indicando que esa es la primera secuencia, debes enviar tanto el nombre como el color del robot. 
+<P>
+<DT><B>Colour [home colour (hex)] [away colour (hex)]</B><DD><P>Mirar arriba. Los colores son como las camisetas de f&uacute;tbol, el color propio es usado excepto que ya este ocupado por otro. Si no se pueden utilizar ninguno de los colores indicados, se escoger&aacute; uno aleatoriamente. 
+<P>
+<A NAME="Rotate"></A> <DT><B>Rotate [what to rotate (int)] [angular velocity (double)]</B><DD><P>Fija la velocidad angular del robot, del ca&ntilde;&oacute;n y/o del radar. 'what to rotate' 1 para el robot, 2 para el ca&ntilde;&oacute;n, 4 para el radar o una suma de cualquiera de los tres para fijar la velocidad de rotaci&oacute;n de mas de uno a la vez. La velocidad angular viene dada en radianes por segundo y esta limitada a 
+<A HREF="rtb-docs-1.0.5-es-5.html#RobotMaxRotateSpeed">maxima velocidad de rotacion (Robot (cannon/radar) max rotate speed)</A>.
+<P>
+<P>
+<DT><B>RotateTo [what to rotate (int)] [angular velocity (double)] [end angle (double)]</B><DD><P>Como <B>Rotate</B>, pero rotar&aacute; a un angulo dado. Ten en cuenta que los angulos del radar y del ca&ntilde;&oacute;n son relativos al &aacute;ngulo del robot. No podras usar este comando para rotar el robot, para ello utiliza <B>RotateAmount</B>.
+<P>
+<A NAME="RotateAmount"></A> <DT><B>RotateAmount [what to rotate (int)] [angular velocity (double)] [angle (double)]</B><DD><P>Como <B>Rotate</B>, pero rotar&aacute; de una forma relativa al angulo actual.
+<P>
+<P>
+<DT><B>Sweep [what to rotate (int)] [angular velocity (dbl)] [left angle (dbl)] 
+[right angle (dbl)]</B><DD><P>Como <B>rotate</B>, pero fija el radar y/o el ca&ntilde;&oacute;n en un modo de barrido (sweep). No sera v&aacute;lido para el robot. 
+<P>
+<A NAME="Accelerate"></A> <DT><B>Accelerate [value (double)]</B><DD><P>Fija la aceleracion del robot.
+El valor sera fijado entre los valores 
+<A HREF="rtb-docs-1.0.5-es-5.html#RobotMaxAcceleration">aceleracion maxima/minima (Robot max/min acceleration)</A>.
+<P>
+<A NAME="Brake"></A> <DT><B>Brake [portion (double)]</B><DD><P>Activa el freno. Freno total (portion= 1.0) significa que el rozamiento en la direccion del robot es igual al 
+<A HREF="rtb-docs-1.0.5-es-5.html#SlideFriction">Slide friction</A>.
+<P>
+<DT><B>Shoot [shot energy (double)]</B><DD><P>Dispara con la energia dada.
+<A HREF="rtb-docs-1.0.5-es-5.html#Shot options">Las opciones de disparo (The shot options)</A> te dar&aacute;n mas informaci&oacute;n.
+<P>
+<A NAME="Print"></A> <DT><B>Print [message (string)]</B><DD><P>Muestra un mensaje en 
+<A HREF="rtb-docs-1.0.5-es-2.html#Message window">la ventana de mensajes (message window)</A>.
+<P>
+<DT><B>Debug [message (string)]</B><DD><P>Muestra mensajes en 
+<A HREF="rtb-docs-1.0.5-es-2.html#Message window">la ventana de mensaje (message window)</A> si estamos en 
+<A HREF="rtb-docs-1.0.5-es-2.html#Command line options">modo debug (debug-mode)</A>.
+<P>
+<DT><B>DebugLine [angle1 (double)] [radius1 (double)] [angle2 (double)] [radius2 (double)]</B><DD><P>Dibuja una linea directamente sobre la arena. Solo esta disponible en el m&aacute;ximo nivel de debug (5), de lo contrario se enviara un 
+<A HREF="#Warning">aviso (warning message)</A> . Los argumentos son el punto inicial y el punto final de la linea dada en coordenadas polares relativas al robot. 
+<P>
+<DT><B>DebugCircle [center angle (double)] [center radius (double)] [circle radius (double)]</B><DD><P>Similar a la opcion anterior, pero dibuja un circulo. Los primeros dos argumentos indican el angulo y el radio del punto central relativo al robot. El tercer argumento indica el radio del circulo.
+<P>
+</DL>
+<P>
+<P>
+<P>
+<HR>
+<A HREF="rtb-docs-1.0.5-es-5.html"><IMG SRC="next.gif" ALT="Next"></A>
+<A HREF="rtb-docs-1.0.5-es-3.html"><IMG SRC="prev.gif" ALT="Previous"></A>
+<A HREF="rtb-docs-1.0.5-es.html#toc4"><IMG SRC="toc.gif" ALT="Contents"></A>
+</BODY>
+</HTML>

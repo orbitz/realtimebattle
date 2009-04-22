@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle User Manual, version 1.0.8: Structure</TITLE>
+ <LINK HREF="RealTimeBattle-4.html" REL=next>
+ <LINK HREF="RealTimeBattle-2.html" REL=previous>
+ <LINK HREF="RealTimeBattle.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="RealTimeBattle-4.html"><IMG SRC="next.png" ALT="Next"></A>
+<A HREF="RealTimeBattle-2.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc3"><IMG SRC="toc.png" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Structure"></A> <A NAME="s3">3.</A> <A HREF="RealTimeBattle.html#toc3">Structure</A></H2>
+
+<P>In this section we will describe the structure of the program, how the robots are moving, shooting
+and controlling the radar, when points are given and how a tournament is built up. </P>
+
+<H2><A NAME="Robot_motion"></A> <A NAME="ss3.1">3.1</A> <A HREF="RealTimeBattle.html#toc3.1">Robot motion</A>
+</H2>
+
+<P>The robot behaves like a vehicle with wheels, it rolls in the forward direction with a small
+<A HREF="RealTimeBattle-5.html#RollFriction">roll friction</A> and slides sideways with a much higher 
+<A HREF="RealTimeBattle-5.html#SlideFriction">sliding friction</A>. The third slowing down effect is
+<A HREF="RealTimeBattle-5.html#AirResistance">air resistance</A>, which is applied in the direction opposite to the
+robot velocity and is increasing with speed.</P>
+<P>There are three ways to affect the robot motion, 
+<A HREF="RealTimeBattle-4.html#Accelerate">acceleration</A>, 
+<A HREF="RealTimeBattle-4.html#Rotate">rotation</A> and 
+<A HREF="RealTimeBattle-4.html#Brake">braking</A>.</P>
+<P>The acceleration is used to increase the robots speed in the direction the robot faces;
+you cannot control the speed directly, acceleration is the only way to get the robot
+moving.</P>
+<P>By rotating the robot you can make it turn. Note that rotation does not directly affect the
+direction of motion, only the direction the robot is facing. The sliding friction, together with
+acceleration, will eventually carry out the actual turning of the robot.</P>
+<P>Braking will increase the roll friction up to a maximal value. This is when the wheel are locked
+and the robot is sliding instead of rolling. Don't forget to release the brake when you want to
+speed up again.</P>
+
+<H2><A NAME="Energy"></A> <A NAME="ss3.2">3.2</A> <A HREF="RealTimeBattle.html#toc3.2">Energy</A>
+</H2>
+
+<P>The robot health is measured by its energy. There are several ways for the robot to lose
+energy, it can
+<UL>
+<LI> be hit by a shot,</LI>
+<LI> collide with another robot or a wall,</LI>
+<LI> spring a mine or</LI>
+<LI> fire a shot.</LI>
+</UL>
+</P>
+<P>However, there is only one possibility to gain energy: to eat a cookie.</P>
+
+<H2><A NAME="The_radar"></A> <A NAME="ss3.3">3.3</A> <A HREF="RealTimeBattle.html#toc3.3">The radar</A>
+</H2>
+
+<P>The principal method to get information on the surroundings is via the radar. Every time the robot
+is updated it will get a 
+<A HREF="RealTimeBattle-4.html#Radar">radar message</A>, giving information on the closest
+object in the current radar direction, i.e. distance and type of object. If it is a robot, that
+robots energy level will be revealed as well.</P>
+<P>Since the radar information is almost all the robot will know about the environment, it is
+crucial to make use of it as well as possible. It is also important to 
+<A HREF="RealTimeBattle-4.html#Rotate">maneuver the radar</A> well, to make it collect useful data.</P>
+
+<H2><A NAME="Position"></A> <A NAME="ss3.4">3.4</A> <A HREF="RealTimeBattle.html#toc3.4">The robots position</A>
+</H2>
+
+<P> From v1.0.5 of RTB it is possible to get the robots position more
+directly. Instead of having to analyze the surroundings with the radar and
+find your position from that, you can configure RTB to send the 
+<A HREF="RealTimeBattle-4.html#Coordinates">robot coordinates</A>. The behavior is controlled by
+the option 
+<A HREF="RealTimeBattle-5.html#SendCoordinates">Send robot coordinates</A>.</P>
+
+<H2><A NAME="Shooting"></A> <A NAME="ss3.5">3.5</A> <A HREF="RealTimeBattle.html#toc3.5">Shooting</A>
+</H2>
+
+<P>Shooting is the number one method to eliminate other robots. In RealTimeBattle a shot is moving with
+constant velocity, calculated as the sum of the robot velocity and the 
+<A HREF="RealTimeBattle-5.html#ShotSpeed">shot speed</A> in the direction the cannon is pointing. It will move until
+it collides with an object. </P>
+<P>When the shot is fired it is given an energy, which determines the
+injuries robots will suffer when hit. The energy is, however, limited; 
+the 
+<A HREF="RealTimeBattle-5.html#ShotMinEnergy">minimal energy</A> forbids very low energy shots, e.g. you want to
+remove mines. The 
+<A HREF="RealTimeBattle-5.html#ShotMaxEnergy">maximal energy</A> is restricted by the amount of 
+the robot's current potential shot-energy, which increases with time.</P>
+<P>Shooting is, however, not without any risk, since a firing robot itself will lose energy, 
+<A HREF="RealTimeBattle-5.html#ShootingPenalty">proportional to the shot energy</A>. </P>
+<P>If a cookie or mine is hit, it is destroyed, regardless of the energy of the
+shot. Therefore you should use a minimal amount of energy to shoot mines.</P>
+<P>Shots colliding will not immediately be destroyed, instead their velocities and energies
+will be superposed, so that if two colliding shots are traveling in the same direction,
+their energies will be added and, in case of a head on collision, their energies will
+cancel.</P>
+
+<H2><A NAME="Collisions"></A> <A NAME="ss3.6">3.6</A> <A HREF="RealTimeBattle.html#toc3.6">Collisions</A>
+</H2>
+
+<P>Robots are fragile objects, which get damaged by colliding with walls and other robots. When
+colliding, the robots act like bouncing balls, with three factors that influences the behavior,
+<A HREF="RealTimeBattle-5.html#BounceCoefficient">the bounce coefficient, the hardness coefficient and the protection coefficient</A>. On the 
+<A HREF="RealTimeBattle-5.html#RobotFront">front</A>, the robots are made of different
+materials, usually harder and more protective. This can be used to ram other robots, giving much
+more damage than it receives. </P>
+
+<H2><A NAME="Cookies_and_mines"></A> <A NAME="ss3.7">3.7</A> <A HREF="RealTimeBattle.html#toc3.7">Cookies and Mines</A>
+</H2>
+
+<P>Cookies and mines are essentially equal objects, with the only difference that robots will gain
+energy by taking cookies and lose energy on mines. These objects are randomly placed in the arena
+during the game. Their energy and frequency can be controlled with the 
+<A HREF="RealTimeBattle-5.html#Cookie_and_mine_options">options</A>.</P>
+
+<H2><A NAME="Time"></A> <A NAME="ss3.8">3.8</A> <A HREF="RealTimeBattle.html#toc3.8">Time</A>
+</H2>
+
+<P>As the name of the program indicates, the time used is the real time. It is entirely up to the
+robots to respond quickly enough to the events in the game. The game progresses by calling the
+update function in regular intervals. Between these, the robots have to share the remaining CPU
+time. To prevent robots from using too much of the processor, their CPU time is limited in 
+<A HREF="RealTimeBattle-2.html#Command line options">competition-mode</A>. The 
+<A HREF="RealTimeBattle-5.html#CPUOptions">corresponding options</A> give more details.</P>
+<P>The real-timeness can, however, be
+violated under some circumstances. You can speed up or slow down the game speed by changing the 
+<A HREF="RealTimeBattle-5.html#TimeScale">timescale</A> option and there is a method to prevent disruption of
+the game , when the system load is too high. If the time between two updates is longer than
+the 
+<A HREF="RealTimeBattle-5.html#MaxTimestep">max timestep</A>, the game time will be slown down accordingly.</P>
+
+
+<H2><A NAME="A_game"></A> <A NAME="ss3.9">3.9</A> <A HREF="RealTimeBattle.html#toc3.9">A game</A>
+</H2>
+
+<P>At the beginning of a game, the robots are given a random position on the arena, with
+random orientation. The radar and the cannon are both pointing forward and the
+<A HREF="#Shooting">potential shot-energy</A> is set to zero. The goal for the robots
+is now to survive as long as possible and at the same time to destroy the other robots. A
+robot will get one point for each of the enemy robot it outlives. One extra point is,
+however, given to all the participating robots. Robots dying at the same time will share
+the points fairly (or in other words, they get half a point for each of the other dying at
+the same time).</P>
+<P>A game is finished if either the number of living robots is less than
+two or the 
+<A HREF="RealTimeBattle-5.html#Timeout">time is up</A>.</P>
+
+
+<H2><A NAME="A_sequence"></A> <A NAME="ss3.10">3.10</A> <A HREF="RealTimeBattle.html#toc3.10">A sequence</A>
+</H2>
+
+<P>A sequence is a series of games, where the same robots are fighting.
+At the beginning of a sequence the robot processes are started. The
+number of robots in a sequence is limited to 120, due to the limit of
+256 open file descriptors in Linux. For every robot two pipes are
+opened as communication channels to the robot.</P>
+<P>Thereafter a 
+<A HREF="RealTimeBattle-2.html#NumberOfGames">number of games</A> are played and finally the robot
+processes are killed.</P>
+
+
+<H2><A NAME="A_tournament"></A> <A NAME="ss3.11">3.11</A> <A HREF="RealTimeBattle.html#toc3.11">A tournament</A>
+</H2>
+
+<P>A tournament is a collection of sequences.</P>
+<P>The number of robots in a tournament is (theoretically) unlimited.</P>
+<P>Any number of sequences is allowed, but to make the tournament fair,
+you should choose a number of sequences, such that all robots will
+play the same number of games (i.e. #sequence = #robots per
+game / GCD( #robots per game, #robots in the tournament)).</P>
+
+
+
+<HR>
+<A HREF="RealTimeBattle-4.html"><IMG SRC="next.png" ALT="Next"></A>
+<A HREF="RealTimeBattle-2.html"><IMG SRC="prev.png" ALT="Previous"></A>
+<A HREF="RealTimeBattle.html#toc3"><IMG SRC="toc.png" ALT="Contents"></A>
+</BODY>
+</HTML>

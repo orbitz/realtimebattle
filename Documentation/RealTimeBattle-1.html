@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE>RealTimeBattle User Manual, version 1.0.8: Introduction</TITLE>
+ <LINK HREF="RealTimeBattle-2.html" REL=next>
+
+ <LINK HREF="RealTimeBattle.html#toc1" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="RealTimeBattle-2.html"><IMG SRC="next.png" ALT="Next"></A>
+<IMG SRC="prev.png" ALT="Previous">
+<A HREF="RealTimeBattle.html#toc1"><IMG SRC="toc.png" ALT="Contents"></A>
+<HR>
+<H2><A NAME="Introduction"></A> <A NAME="s1">1.</A> <A HREF="RealTimeBattle.html#toc1">Introduction</A></H2>
+
+<P>This is the user manual for RealTimeBattle. Here you should find how to run the program,
+how the program works, how to create your own robots and how to construct arenas.</P>
+<P>RealTimeBattle is a programming game for Unix, in which robots controlled by
+programs are fighting each other. The goal is to
+destroy the enemies, using the radar to examine the environment and
+the cannon to shoot.</P>
+<P>Even though the environment the robots are moving in is fairly simple, it is far from easy
+to construct an intelligent robot-program. RealTimeBattle is constructed to be easy to
+use, flexible and fast. The intention is that the program could be used as a test for
+intelligent algorithms, as well as just a game to play and enjoy.</P>
+<P>Features include:</P>
+<P>
+<UL>
+<LI> Game progresses in real time, with the robot programs running
+as child processes to RealTimeBattle.
+</LI>
+<LI>  The robots communicate with the main program using the standard
+input and output.
+</LI>
+<LI> Robots can be constructed in almost any programming language.
+</LI>
+<LI> Up to 120 robots can compete simultaneously.
+</LI>
+<LI> A simple messaging language is used for communication, which
+makes easy to start constructing robots.
+</LI>
+<LI> Robots behave like real physical object.
+</LI>
+<LI> You can create your own arenas.
+</LI>
+<LI> Highly configurable.
+</LI>
+<LI> Possibility to plug in external clients.
+</LI>
+<LI> Basic team support directly integrated in the game, sophisticated team play available due to team frameworks.
+</LI>
+</UL>
+</P>
+
+<H2><A NAME="More information"></A> <A NAME="ss1.1">1.1</A> <A HREF="RealTimeBattle.html#toc1.1">More information</A>
+</H2>
+
+<P>More information can be found in the <CODE>INSTALL</CODE>, <CODE>AUTHORS</CODE>, <CODE>BUGS</CODE>, <CODE>TODO</CODE>,
+<CODE>README</CODE>, <CODE>FAQ</CODE> and <CODE>ChangeLog</CODE> files in the 
+distribution. More updated information is available on the 
+<A HREF="http://realtimebattle.sf.net">RealTimeBattle homepage</A>, where 
+you can also find robots, news on tournaments as well as this manual in different formats.</P>
+
+<H2><A NAME="Requirements"></A> <A NAME="ss1.2">1.2</A> <A HREF="RealTimeBattle.html#toc1.2">Requirements</A>
+</H2>
+
+<P>The hardware requirements are very much dependent on what you do.  Running a few robots
+should be possible to do on any computer on which GNU/Linux or any other Unixes can be
+run. The demand on hardware will, however, grow with the number of robots you want on the
+battlefield simultaneously; running 120 advanced robots is certainly demanding for any
+personal computer.</P>
+<P>RealTimeBattle is only available on Unix.  It is developed on a Linux-machine, but it
+should compile on other Unix dialects too. Running in 
+<A HREF="RealTimeBattle-2.html#Command line options">competition-mode</A> is currently only possible on Linux with the '/proc'-directory
+enabled, because of the need to get the cpu usage of child processes.</P>
+<P>The only software requirement is 
+<A HREF="http://www.gtk.org">gtk+</A>, which is used for
+the graphical user interface.</P>
+
+
+<H2><A NAME="Background"></A> <A NAME="ss1.3">1.3</A> <A HREF="RealTimeBattle.html#toc1.3">Background</A>
+</H2>
+
+<P>The project started in August 1998. Inspiration came from 
+<A HREF="http://www.robotbattle.com/">RobotBattle</A>, a very
+interesting game we used to enjoy some years earlier. That version of
+RobotBattle, however, had some drawbacks: It was only available on
+Windows and the robots were written in an own language, which restricts the
+possibilities to write intelligent robots. RobotBattle has since then been
+under development, but it still lack support for other
+operative systems.</P>
+<P>We therefore decided to construct a Unix robot programming game, which
+makes use of features of a modern OS.</P>
+
+<H2><A NAME="License"></A> <A NAME="ss1.4">1.4</A> <A HREF="RealTimeBattle.html#toc1.4">License</A>
+</H2>
+
+<P>RealTimeBattle is distributed under the 
+<A HREF="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</A>, in
+the spirit of the Linux community. Official versions of
+RealTimeBattle will be released by the authors.</P>
+<P>Copyright (C) 1998-2000  Erik Ouchterlony and Ragnar Ouchterlony,
+see the <CODE>AUTHORS</CODE> file for further developers.</P>
+<P>This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.</P>
+<P>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</P>
+<P>You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</P>
+
+<H2><A NAME="BugReports"></A> <A NAME="ss1.5">1.5</A> <A HREF="RealTimeBattle.html#toc1.5">Bug reports</A>
+</H2>
+
+<P>If you find anything in this package which doesn't work, appears strange, is missing, is
+spellt wrong or is just confusing, don't hesitate to send in a bug report to the 
+<A HREF="http://sourceforge.net/tracker/?group_id=561=100561">Sourceforge Bug Tracker</A>. </P>
+
+
+
+<HR>
+<A HREF="RealTimeBattle-2.html"><IMG SRC="next.png" ALT="Next"></A>
+<IMG SRC="prev.png" ALT="Previous">
+<A HREF="RealTimeBattle.html#toc1"><IMG SRC="toc.png" ALT="Contents"></A>
+</BODY>
+</HTML>
